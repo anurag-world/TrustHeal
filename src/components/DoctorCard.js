@@ -14,8 +14,6 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
-// import Header from '../Components/Header';
-// import HeaderPatient from '../Components/HeaderPatient';
 import apiConfig from './API/apiConfig';
 import defaultDoctor from '../../assets/doctor3x.png';
 import CustomButton from './CustomButton';

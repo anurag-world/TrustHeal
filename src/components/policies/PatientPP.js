@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -77,11 +78,11 @@ export default function PatientPP({ setPpView }) {
               <View style={{ flex: 1 }}>
                 <Text style={[styles.parStyles, { marginTop: 10 }]}>
                   Thank you for the trust you (defined below) have placed in TrustHeal Tech Private
-                  Limited (‘TrustHeal’) having its registered office at B 59 LGF, Sarvodaya Enclave,
-                  New Delhi - 110017. That is why we (TrustHeal) insist upon the highest standards
-                  for secure transactions and customer information privacy. Please read the
-                  following statement to learn about our (defined below) information gathering and
-                  dissemination practices.
+                  Limited {`('TrustHeal')`} having its registered office at B 59 LGF, Sarvodaya
+                  Enclave, New Delhi - 110017. That is why we (TrustHeal) insist upon the highest
+                  standards for secure transactions and customer information privacy. Please read
+                  the following statement to learn about our (defined below) information gathering
+                  and dissemination practices.
                 </Text>
               </View>
               <View style={{ flex: 1 }}>
@@ -104,9 +105,9 @@ export default function PatientPP({ setPpView }) {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.parStyles}>
-                  The terms ‘You’ or ‘Your’ refer to you as the user (registered or unregistered) of
-                  the Website, Application or Services and the terms ‘We’, ‘Us” and ‘Our’ refer to
-                  TrustHeal.
+                  The terms {`'You'`} or {`'Your'`} refer to you as the user (registered or
+                  unregistered) of the Website, Application or Services and the terms {`'We'`},{' '}
+                  {`'Us'`} and {`'Our'`} refer to TrustHeal.
                 </Text>
               </View>
               {/* CONSENT */}
@@ -135,17 +136,17 @@ export default function PatientPP({ setPpView }) {
                   <Text style={styles.parStyles}>
                     2. You acknowledge that You are providing Your Personal Information out of Your
                     free will. If You use the Services on behalf of someone else (including but not
-                    limited to, Your child – minor or major or as a legal representative of an
+                    limited to, Your child - minor or major or as a legal representative of an
                     individual with mental illness) or an entity (such as Your employer), You
                     represent that You are authorized by such individual or entity to (i) accept
-                    this Privacy Policy on such individual’s or entity’s behalf, and (ii) consent on
-                    behalf of such individual or entity to Our collection, use and disclosure of
-                    such individual’s or entity’s Personal Information as described in this Privacy
-                    Policy. Further, You hereby acknowledge that the Utilization of Your Personal
-                    Information by TRUSTHEAL is necessary for the purposes identified hereunder. You
-                    hereby consent that the Utilization of any Personal Information in accordance
-                    with the provisions of this Privacy Policy shall not cause any wrongful loss to
-                    You.
+                    this Privacy Policy on such individual{`'`}s or entity{`'`}s behalf, and (ii)
+                    consent on behalf of such individual or entity to Our collection, use and
+                    disclosure of such individual{`'`}s or entity{`'`}s Personal Information as
+                    described in this Privacy Policy. Further, You hereby acknowledge that the
+                    Utilization of Your Personal Information by TRUSTHEAL is necessary for the
+                    purposes identified hereunder. You hereby consent that the Utilization of any
+                    Personal Information in accordance with the provisions of this Privacy Policy
+                    shall not cause any wrongful loss to You.
                   </Text>
                   <Text style={styles.parStyles}>
                     3. YOU HAVE THE OPTION NOT TO PROVIDE US THE PERSONAL INFORMATION SOUGHT TO BE
@@ -540,12 +541,12 @@ export default function PatientPP({ setPpView }) {
                     unique identifier. Cookies are sent to You on the Website and/or Application.
                   </Text>
                   <Text style={styles.parStyles}>
-                    2. We may store temporary or permanent ‘cookies’ on Your computer/device to
+                    2. We may store temporary or permanent {`'cookies'`} on Your computer/device to
                     store certain data (that is not Sensitive Personal Data or Information). You can
                     erase or choose to block these cookies from Your computer. You can configure
-                    Your computer’s browser to alert You when We attempt to send You a cookie with
-                    an option to accept or refuse the cookie. If You have turned cookies off, You
-                    may be prevented from using certain features of the Website or Application.
+                    Your computer{`'`}s browser to alert You when We attempt to send You a cookie
+                    with an option to accept or refuse the cookie. If You have turned cookies off,
+                    You may be prevented from using certain features of the Website or Application.
                   </Text>
                   <Text style={styles.parStyles}>
                     3. We do not control the use of Cookies by third parties.
@@ -572,7 +573,7 @@ export default function PatientPP({ setPpView }) {
                     communication, password protection, encryption, etc. to ensure that the Personal
                     Information collected is secure. You agree that such measures are secured and
                     adequate. We restrict access to Your Personal Information to Our and Our
-                    affiliates’ employees, agents, third party service providers, partners, and
+                    affiliates{`'`} employees, agents, third party service providers, partners, and
                     agencies who need to know such Personal Information in relation to the Purposes
                     as specified above in this Policy, provided that such entities agree to abide by
                     this Privacy Policy.

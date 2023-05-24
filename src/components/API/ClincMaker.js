@@ -1,4 +1,4 @@
-function clinicMaker(item) {
+export default function clinicMaker(item) {
   const clinc = [];
   let i = 0;
   while (i < item.length) {
@@ -11,5 +11,3 @@ function clinicMaker(item) {
   }
   return clinc;
 }
-
-export default clinicMaker;

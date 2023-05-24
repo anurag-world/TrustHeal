@@ -1,4 +1,4 @@
-function DayDateMaker(item) {
+export default function DayDateMaker(item) {
   const d = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const days = [];
   const cd = item.availableDates === undefined ? item : item.availableDates;
@@ -13,5 +13,3 @@ function DayDateMaker(item) {
   }
   return days;
 }
-
-export default DayDateMaker;
