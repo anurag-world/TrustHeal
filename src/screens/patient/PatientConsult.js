@@ -18,8 +18,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
-// TODO: Change Icon to react-native-vector-icons
-// import CheckBoxIcon from 'react-native-elements/dist/checkbox/CheckBoxIcon';
+import { Checkbox } from 'native-base';
 // import Header from '../../components/Header';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig from '../../components/API/apiConfig';
@@ -102,16 +101,15 @@ export default function PatientConsult() {
   ];
   const renderExperienceList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.min}>
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterExperienceValueMax == item.max}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterExperienceValueMin(item.min);
           setFilterExperienceValueMax(item.max);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterExperienceValueMax === item.max}
+        checkedColor="#2b8ada"
+      />
       {item.max !== 1200 ? (
         <Text style={styles.FilterValueText}>
           {Math.floor(item.min / 12)}
@@ -133,16 +131,15 @@ export default function PatientConsult() {
   ];
   const renderFeesList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.min}>
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterFeesValueMax == item.max}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterFeesValueMin(item.min);
           setFilterFeesValueMax(item.max);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterFeesValueMax === item.max}
+        checkedColor="#2b8ada"
+      />
       <Text style={styles.FilterValueText}>
         ₹ {item.min} - {item.max}
       </Text>
@@ -166,15 +163,14 @@ export default function PatientConsult() {
   ];
   const renderSpecialityList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterSplValue == item.value}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterSplValue(item.key);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterSplValue === item.value}
+        checkedColor="#2b8ada"
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
@@ -185,15 +181,14 @@ export default function PatientConsult() {
   ];
   const renderGenderList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterGenderValue == item.value}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterGenderValue(item.key);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterGenderValue === item.value}
+        checkedColor="#2b8ada"
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
@@ -204,15 +199,14 @@ export default function PatientConsult() {
   ];
   const renderModeList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterModeValue == item.value}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterModeValue(item.key);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterModeValue === item.value}
+        checkedColor="#2b8ada"
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
