@@ -72,7 +72,7 @@ export default function RenderSymptoms({
             </View>
           </TouchableOpacity>
           {/* List of Symptoms */}
-          {item.active ? (
+          {item.active && (
             <View
               style={{
                 flexDirection: 'row',
@@ -128,7 +128,7 @@ export default function RenderSymptoms({
                 </TouchableOpacity>
               ))}
             </View>
-          ) : null}
+          )}
         </View>
       ))}
     </View>
