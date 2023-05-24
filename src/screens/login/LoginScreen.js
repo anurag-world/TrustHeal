@@ -111,7 +111,7 @@ export default function LoginScreen() {
         if (y.profileComplete) {
           navigation.navigate('PatientHome', { patientObj: y });
         } else {
-          navigation.navigate('PatientRegistration1');
+          navigation.navigate('PatientRegistration');
         }
       }
     };

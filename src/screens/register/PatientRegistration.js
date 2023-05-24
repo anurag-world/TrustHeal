@@ -28,13 +28,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
 import { Button, Checkbox, HStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 import patientFemale from '../../../assets/patient_female.png';
 import patientImg from '../../../assets/patient.png';
 import apiConfig from '../../components/API/apiConfig';
 import logoutAction from '../../components/logoutAction';
 import theme from '../../styles/theme';
 
-export default function PatientRegistration({ navigation }) {
+export default function PatientRegistration() {
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [editName, seteditName] = useState(true);
@@ -67,6 +68,8 @@ export default function PatientRegistration({ navigation }) {
   const [Height, setHeight] = useState('');
 
   // const [zoom, setZoom] = useState(1);
+
+  const navigation = useNavigation();
 
   // const onZoomIn = () => {
   //   if (zoom < 2.5) setZoom(zoom + 0.25);

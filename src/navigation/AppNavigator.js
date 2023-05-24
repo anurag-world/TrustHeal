@@ -16,6 +16,10 @@ import PatientFav from '../screens/patient/PatientFav';
 import AllSpeciality from '../screens/patient/AllSpeciality';
 import AllSymptoms from '../screens/patient/AllSymptoms';
 import DoctorDetails from '../screens/patient/DoctorDetails';
+import SelectSlotsE from '../screens/patient/SelectSlotsE';
+import SelectSlotsP from '../screens/patient/SelectSlotsP';
+import ConfirmBooking from '../screens/patient/ConfirmBooking';
+import CallAgora from '../screens/patient/CallAgora';
 
 const Stack = createNativeStackNavigator();
 
@@ -119,6 +123,23 @@ export default function AppNavigator() {
           component={DoctorDetails}
           options={{ headerShown: false }}
         />
+        {/* TODO: Work below */}
+        <Stack.Screen
+          name="SelectSlotsE"
+          component={SelectSlotsE}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SelectSlotsP"
+          component={SelectSlotsP}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ConfirmBooking"
+          component={ConfirmBooking}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="CallAgora" component={CallAgora} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
