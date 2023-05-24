@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import { Platform } from 'react-native';
+import { theme } from 'native-base';
 import PatientHome from '../screens/patient/PatientHome';
 import MyAppointments from '../screens/patient/MyAppointments';
 import PatientConsult from '../screens/patient/PatientConsult';
@@ -33,12 +34,12 @@ export default function PatientTabNavigator() {
               name={iconName}
               size={20}
               solid={focused}
-              color={focused ? 'white' : '#53a7ed'}
+              color={focused ? theme.colors.light[100] : '#53a7ed'}
               style={{ alignSelf: 'center' }}
             />
           );
         },
-        tabBarActiveTintColor: 'white',
+        tabBarActiveTintColor: theme.colors.light[100],
         tabBarInactiveTintColor: '#53a7ed',
         tabBarStyle: {
           backgroundColor: '#2B8ADA',

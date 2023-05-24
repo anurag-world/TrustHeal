@@ -18,8 +18,7 @@ import {
 import axios from 'axios';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialIcons';
-// TODO: Uncomment below
-// import CheckBoxIcon from 'react-native-elements/dist/checkbox/CheckBoxIcon';
+import { Checkbox } from 'native-base';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig from '../../components/API/apiConfig';
 
@@ -97,15 +96,15 @@ export default function AllSpeciality() {
       onPress={() => {
         CheckBoxPressed(item);
       }}
+      activeOpacity={0.6}
     >
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
-        size={20}
-        iconType="font-awesome"
-        checked={selectedSpeciality.indexOf(item.value) != -1}
+      <Checkbox
+        onChange={() => CheckBoxPressed(item)}
+        size="sm"
+        isChecked={selectedSpeciality.indexOf(item.value) !== -1}
         checkedColor="#2b8ada"
-        uncheckedColor="gray"
-      /> */}
+        accessibilityLabel="Select Speciality"
+      />
       <Image
         style={{
           alignSelf: 'center',

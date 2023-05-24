@@ -19,8 +19,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
-// TODO: Uncomment below
-// import CheckBoxIcon from 'react-native-elements/dist/checkbox/CheckBoxIcon';
+import { Checkbox } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig from '../../components/API/apiConfig';
@@ -98,17 +97,15 @@ export default function PatientFav() {
   ];
   const renderExperienceList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.min}>
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterExperienceValueMax == item.max}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterExperienceValueMin(item.min);
           setFilterExperienceValueMax(item.max);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterExperienceValueMax === item.max}
+        checkedColor="#2b8ada"
+      />
       {item.max !== 1200 ? (
         <Text style={styles.FilterValueText}>
           {Math.floor(item.min / 12)}
@@ -130,17 +127,15 @@ export default function PatientFav() {
   ];
   const renderFeesList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.min}>
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
-        checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterFeesValueMax == item.max}
-        onIconPress={() => {
+      <Checkbox
+        onChange={() => {
           setFilterFeesValueMin(item.min);
           setFilterFeesValueMax(item.max);
         }}
-      /> */}
+        size="sm"
+        isChecked={FilterFeesValueMax === item.max}
+        checkedColor="#2b8ada"
+      />
       <Text style={styles.FilterValueText}>
         ₹ {item.min} - {item.max}
       </Text>
@@ -164,16 +159,12 @@ export default function PatientFav() {
   ];
   const renderSpecialityList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
+      <Checkbox
+        onChange={() => setFilterSplValue(item.key)}
+        size="sm"
+        isChecked={FilterSplValue === item.value}
         checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterSplValue == item.value}
-        onIconPress={() => {
-          setFilterSplValue(item.key);
-        }}
-      /> */}
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
@@ -184,16 +175,12 @@ export default function PatientFav() {
   ];
   const renderGenderList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
+      <Checkbox
+        onChange={() => setFilterGenderValue(item.key)}
+        size="sm"
+        isChecked={FilterGenderValue === item.value}
         checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterGenderValue == item.value}
-        onIconPress={() => {
-          setFilterGenderValue(item.key);
-        }}
-      /> */}
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
@@ -204,16 +191,12 @@ export default function PatientFav() {
   ];
   const renderModeList = ({ item }) => (
     <View style={styles.FilterValueView} key={item.key}>
-      {/* TODO: Uncomment below */}
-      {/* <CheckBoxIcon
+      <Checkbox
+        onChange={() => setFilterModeValue(item.key)}
+        size="sm"
+        isChecked={FilterModeValue === item.value}
         checkedColor="#2b8ada"
-        checkedIcon="dot-circle-o"
-        uncheckedIcon="circle-o"
-        checked={FilterModeValue == item.value}
-        onIconPress={() => {
-          setFilterModeValue(item.key);
-        }}
-      /> */}
+      />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
   );
@@ -517,56 +500,48 @@ export default function PatientFav() {
                   {/* Availability */}
                   <View style={[styles.SortOptionsView]}>
                     <Text style={{ color: 'black', flex: 1 }}>Earliest Availability</Text>
-                    {/* TODO: Uncomment below */}
-                    {/* <CheckBoxIcon
+                    <Checkbox
+                      onChange={() => setSortByAvailability((prev) => !prev)}
+                      size="sm"
+                      isChecked={SortByAvailability}
                       checkedColor="#2b8ada"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      checked={SortByAvailability}
-                      onIconPress={() => setSortByAvailability(!SortByAvailability)}
-                    /> */}
+                    />
                   </View>
                   {/* Experience */}
                   <View style={[styles.SortOptionsView]}>
                     <Text style={{ color: 'black', flex: 1 }}>Most Experience</Text>
-                    {/* TODO: Uncomment below */}
-                    {/* <CheckBoxIcon
+                    <Checkbox
+                      onChange={() => setSortByExperience((prev) => !prev)}
+                      size="sm"
+                      isChecked={SortByExperience}
                       checkedColor="#2b8ada"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      checked={SortByExperience}
-                      onIconPress={() => setSortByExperience(!SortByExperience)}
-                    /> */}
+                    />
                   </View>
                   {/* Low to High */}
                   <View style={[styles.SortOptionsView]}>
                     <Text style={{ color: 'black', flex: 1 }}>Doctor Fees ( Low to High )</Text>
-                    {/* TODO: Uncomment below */}
-                    {/* <CheckBoxIcon
-                      checkedColor="#2b8ada"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      checked={SortByPriceLH}
-                      onIconPress={() => {
-                        setSortByPriceLH(!SortByPriceLH);
+                    <Checkbox
+                      onChange={() => {
+                        setSortByPriceLH((prev) => !prev);
                         setSortByPriceHL(false);
                       }}
-                    /> */}
+                      size="sm"
+                      isChecked={SortByPriceLH}
+                      checkedColor="#2b8ada"
+                    />
                   </View>
                   {/* High to Low */}
                   <View style={[styles.SortOptionsView]}>
                     <Text style={{ color: 'black', flex: 1 }}>Doctor Fees ( High to Low )</Text>
-                    {/* TODO: Uncomment below */}
-                    {/* <CheckBoxIcon
-                      checkedColor="#2b8ada"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      checked={SortByPriceHL}
-                      onIconPress={() => {
+                    <Checkbox
+                      onChange={() => {
+                        setSortByPriceHL((prev) => !prev);
                         setSortByPriceLH(false);
-                        setSortByPriceHL(!SortByPriceHL);
                       }}
-                    /> */}
+                      size="sm"
+                      isChecked={SortByPriceHL}
+                      checkedColor="#2b8ada"
+                    />
                   </View>
                 </View>
 
