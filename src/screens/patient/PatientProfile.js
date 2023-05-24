@@ -24,6 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
 import HeaderPatient from '../../components/HeaderPatient';
 // icons
@@ -281,7 +282,7 @@ function ItemInvoice({ no, date, doc }) {
     </View>
   );
 }
-export default function PatientProfile({ navigation }) {
+export default function PatientProfile() {
   const [PatientDet, setPatientDet] = useState(null);
   // other details
   const [OtherDetailsModal, setOtherDetailsModal] = useState(false);
@@ -314,6 +315,8 @@ export default function PatientProfile({ navigation }) {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dob, setdob] = useState('');
+
+  const navigation = useNavigation();
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);

@@ -15,7 +15,7 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
@@ -34,7 +34,7 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 const { width } = Dimensions.get('window');
 const height = width * 0.5;
 
-function PatientHome({ navigation }) {
+function PatientHome() {
   const [BannerData, setBannerData] = useState([]);
   const [UpcomingData, setUpcomingData] = useState([]);
   const [SplData, setSplData] = useState([]);
@@ -46,6 +46,8 @@ function PatientHome({ navigation }) {
   const [patientDet, setpatientDet] = useState(null);
   const [CategoryList, setCategoryList] = useState(null);
   //   const [CategorySymptomsList, setCategorySymptomsList] = useState(null);
+
+  const navigation = useNavigation();
 
   //   const shouldShow = (item) => {
   //     if (dayjs(item.slotDate).diff(dayjs(), 'd') > 0) return true;

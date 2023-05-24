@@ -159,13 +159,13 @@ export default function OTPModal({
                 });
               } else {
                 Alert.alert('Important', 'Please complete your profile before continuing');
-                navigation.navigate('PatientRegistration1');
+                navigation.navigate('PatientRegistration');
               }
             } else if (response.status === 204) {
               setModalVisible(false);
               console.log(response.data);
               Alert.alert('New User!', 'Please register yourself before continuing.');
-              navigation.navigate('PatientRegistration1');
+              navigation.navigate('PatientRegistration');
             }
           })
           .catch((error) => {
