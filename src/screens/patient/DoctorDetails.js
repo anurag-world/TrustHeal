@@ -1655,8 +1655,6 @@ export default function DoctorDetails() {
                             doctorDet: DocDet,
                             mode,
                             slotDate: mode === 'E_CONSULTATION' ? selectedDate : selectedPDate,
-                            slotEndTime:
-                              mode === 'E_CONSULTATION' ? selectedSlotId : selectedPSlotId,
                             slotId: mode === 'E_CONSULTATION' ? selectedSlotId : selectedPSlotId,
                             slotStartTime:
                               mode === 'E_CONSULTATION' ? selectedSlotTime : selectedPSlotTime,
