@@ -24,6 +24,7 @@ import CallAgora from '../screens/patient/CallAgora';
 import MyDrawer from './MyDrawer';
 import OTPScreen from '../screens/login/OTPScreen';
 import RegisterDoctor from '../screens/register/RegisterDoctor';
+import DoctorRegistration2 from '../screens/register/DoctorRegistration2';
 
 const Stack = createNativeStackNavigator();
 
@@ -159,6 +160,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="RegisterDoctor"
           component={RegisterDoctor}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DoctorRegistrationStep2"
+          component={DoctorRegistration2}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
