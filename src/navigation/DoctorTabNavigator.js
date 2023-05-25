@@ -1,16 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import { Platform } from 'react-native';
-import { theme } from 'native-base';
-import PatientHome from '../screens/patient/PatientHome';
-import MyAppointments from '../screens/patient/MyAppointments';
-import PatientConsult from '../screens/patient/PatientConsult';
-import FaqPatient from '../screens/patient/FaqPatient';
-import PatientProfile from '../screens/patient/PatientProfile';
+import DoctorHome from '../screens/doctor/DoctorHome';
+import ManageSchedule from '../screens/doctor/ManageSchedule';
+import FaqDoctor from '../screens/doctor/FaqDoctor';
+import DoctorProfile from '../screens/doctor/DoctorProfile';
+import theme from '../styles/theme';
+import CheckEarnings from '../screens/doctor/CheckEarnings';
 
 const Tab = createBottomTabNavigator();
 
-export default function PatientTabNavigator() {
+export default function DoctorTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -19,15 +19,16 @@ export default function PatientTabNavigator() {
           let iconName;
           if (route.name === 'Home') {
             iconName = 'home';
-          } else if (route.name === 'Appointments') {
+          } else if (route.name === 'Schedule') {
             iconName = 'calendar-alt';
-          } else if (route.name === 'Consult') {
-            iconName = 'hand-holding-medical';
+          } else if (route.name === 'Earnings') {
+            iconName = 'money-check';
           } else if (route.name === 'FAQ') {
             iconName = 'question-circle';
           } else if (route.name === 'Profile') {
             iconName = 'user-circle';
           }
+
           return (
             <FAIcons
               name={iconName}
@@ -52,11 +53,17 @@ export default function PatientTabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={PatientHome} options={{ headerShown: false }} />
-      <Tab.Screen name="Appointments" component={MyAppointments} options={{ headerShown: false }} />
-      <Tab.Screen name="Consult" component={PatientConsult} options={{ headerShown: false }} />
-      <Tab.Screen name="FAQ" component={FaqPatient} options={{ headerShown: false }} />
-      <Tab.Screen name="Profile" component={PatientProfile} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="Home"
+        component={DoctorHome}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen name="Schedule" component={ManageSchedule} options={{ headerShown: false }} />
+      <Tab.Screen name="Earnings" component={CheckEarnings} options={{ headerShown: false }} />
+      <Tab.Screen name="FAQ" component={FaqDoctor} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={DoctorProfile} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }

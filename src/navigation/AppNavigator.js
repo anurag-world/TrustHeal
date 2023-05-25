@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../screens/login/LoginScreen';
 import PatientRegistration from '../screens/register/PatientRegistration';
 import PatientDrawer from './PatientDrawer';
@@ -20,22 +21,26 @@ import SelectSlotsE from '../screens/patient/SelectSlotsE';
 import SelectSlotsP from '../screens/patient/SelectSlotsP';
 import ConfirmBooking from '../screens/patient/ConfirmBooking';
 import CallAgora from '../screens/patient/CallAgora';
+import MyDrawer from './MyDrawer';
+import OTPScreen from '../screens/login/OTPScreen';
+import RegisterDoctor from '../screens/register/RegisterDoctor';
+import DoctorRegistration2 from '../screens/register/DoctorRegistration2';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
-  // const [doctorObj, setDoctorObj] = useState(null);
-  // useEffect(() => {
-  //   const getName = async () => {
-  //     const doctorStorageObj = JSON.parse(await AsyncStorage.getItem('UserDoctorProfile'));
-  //     setDoctorObj(doctorStorageObj);
-  //     // console.log(doctorObj.doctorName + "--------from app--------");
-  //   };
-  //   getName();
-  // }, []);
+  const [doctorObj, setDoctorObj] = useState();
+  useEffect(() => {
+    const getName = async () => {
+      const doctorStorageObj = JSON.parse(await AsyncStorage.getItem('UserDoctorProfile'));
+      setDoctorObj(doctorStorageObj);
+    };
+    getName();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="PatientHome">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -45,6 +50,11 @@ export default function AppNavigator() {
               backgroundColor: '#e8f0fe',
             },
           }}
+        />
+        <Stack.Screen
+          name="OTPScreen"
+          component={OTPScreen}
+          options={{ headerBackButtonMenuEnabled: false, headerShown: false }}
         />
         <Stack.Screen
           name="PatientRegistration"
@@ -123,7 +133,6 @@ export default function AppNavigator() {
           component={DoctorDetails}
           options={{ headerShown: false }}
         />
-        {/* TODO: Work below */}
         <Stack.Screen
           name="SelectSlotsE"
           component={SelectSlotsE}
@@ -140,6 +149,24 @@ export default function AppNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="CallAgora" component={CallAgora} options={{ headerShown: false }} />
+
+        {/* Doctor Navigation */}
+        <Stack.Screen
+          name="DoctorHome"
+          component={MyDrawer}
+          options={{ headerShown: false }}
+          initialParams={{ doctorObj }}
+        />
+        <Stack.Screen
+          name="RegisterDoctor"
+          component={RegisterDoctor}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DoctorRegistrationStep2"
+          component={DoctorRegistration2}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

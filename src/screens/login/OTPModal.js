@@ -79,11 +79,7 @@ export default function OTPModal({
             } else if (response.status === 200) {
               setModalVisible(false);
               reset();
-              // console.log(response.data);
               const y = response.data;
-              // if (x.doctorConfigurationDTO != null) {
-              //   x.isLastStepComplete = true;
-              // }
 
               await AsyncStorage.setItem('UserDoctorProfile', JSON.stringify(y));
 
