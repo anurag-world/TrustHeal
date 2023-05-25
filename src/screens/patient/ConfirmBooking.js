@@ -19,7 +19,7 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-// import { CheckBox } from 'react-native-elements';
+import { Checkbox, HStack } from 'native-base';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
@@ -604,33 +604,32 @@ export default function ConfirmBoking() {
             </View>
           ) : null}
 
-          {/* CheckBox */}
+          {/* Accept T&C and Privacy Policy */}
           {paymentDone && (
-            <View style={{ width: '95%', alignSelf: 'center' }}>
-              {/* TODO: Uncomment below */}
-              {/* <CheckBox
-                title={
-                  <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-                    I agree to TrustHeal{' '}
-                    <Text
-                      style={[styles.textLink]}
-                      onPress={async () => {
-                        // await downloadTerms();
-                        setTermsView(true);
-                      }}
-                    >
-                      Terms and Conditions
-                    </Text>
-                  </Text>
-                }
-                containerStyle={styles.containerStyle}
-                textStyle={{ width: '90%', fontSize: 11, alignSelf: 'center' }}
+            <HStack space={2} py={2} alignSelf="center" alignItems="center">
+              <Checkbox
+                shadow={1}
+                value="agree"
+                accessibilityLabel="I Agree to T&C"
+                isChecked={privatePolicy}
+                onChange={() => setprivatePolicy((prev) => !prev)}
+                borderRadius="xl"
                 checkedColor="#2b8ada"
-                checked={privatePolicy}
-                iconType=""
-                onPress={() => setprivatePolicy(!privatePolicy)}
-              /> */}
-            </View>
+                _text={{ color: 'text.primary', fontSize: 12 }}
+              />
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                I agree to TrustHeal{' '}
+                <Text
+                  style={[styles.textLink]}
+                  onPress={async () => {
+                    // await downloadTerms();
+                    setTermsView(true);
+                  }}
+                >
+                  Terms and Conditions
+                </Text>
+              </Text>
+            </HStack>
           )}
           {!paymentDone ? (
             <View style={{ width: '90%', alignSelf: 'center', marginTop: 10 }}>
