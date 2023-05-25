@@ -22,6 +22,8 @@ import SelectSlotsP from '../screens/patient/SelectSlotsP';
 import ConfirmBooking from '../screens/patient/ConfirmBooking';
 import CallAgora from '../screens/patient/CallAgora';
 import MyDrawer from './MyDrawer';
+import OTPScreen from '../screens/login/OTPScreen';
+import RegisterDoctor from '../screens/register/RegisterDoctor';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,7 +39,7 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DoctorHome">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -47,6 +49,11 @@ export default function AppNavigator() {
               backgroundColor: '#e8f0fe',
             },
           }}
+        />
+        <Stack.Screen
+          name="OTPScreen"
+          component={OTPScreen}
+          options={{ headerBackButtonMenuEnabled: false, headerShown: false }}
         />
         <Stack.Screen
           name="PatientRegistration"
@@ -148,6 +155,11 @@ export default function AppNavigator() {
           component={MyDrawer}
           options={{ headerShown: false }}
           initialParams={{ doctorObj }}
+        />
+        <Stack.Screen
+          name="RegisterDoctor"
+          component={RegisterDoctor}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
