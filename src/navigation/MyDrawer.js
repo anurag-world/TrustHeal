@@ -45,9 +45,6 @@ const onShare = async () => {
 };
 
 function CustomDrawerContent({ doctorObj }) {
-  // const {DoctorName,DoctorId} = route.params.DoctorName
-  // console.log("Drawer Log", route);
-  // console.log(props.doctorObj);
   const navigation = useNavigation();
 
   return (

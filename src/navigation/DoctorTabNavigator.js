@@ -3,10 +3,10 @@ import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import { Platform } from 'react-native';
 import DoctorHome from '../screens/doctor/DoctorHome';
 import ManageSchedule from '../screens/doctor/ManageSchedule';
-import AppointmentTransactionHistory from '../screens/doctor/AppointmentTransactionHistory';
 import FaqDoctor from '../screens/doctor/FaqDoctor';
 import DoctorProfile from '../screens/doctor/DoctorProfile';
 import theme from '../styles/theme';
+import CheckEarnings from '../screens/doctor/CheckEarnings';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,11 +61,7 @@ export default function DoctorTabNavigator() {
         }}
       />
       <Tab.Screen name="Schedule" component={ManageSchedule} options={{ headerShown: false }} />
-      <Tab.Screen
-        name="Earnings"
-        component={AppointmentTransactionHistory}
-        options={{ headerShown: false }}
-      />
+      <Tab.Screen name="Earnings" component={CheckEarnings} options={{ headerShown: false }} />
       <Tab.Screen name="FAQ" component={FaqDoctor} options={{ headerShown: false }} />
       <Tab.Screen name="Profile" component={DoctorProfile} options={{ headerShown: false }} />
     </Tab.Navigator>
