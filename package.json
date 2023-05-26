@@ -26,6 +26,7 @@
     "react-native-blob-util": "^0.17.3",
     "react-native-countdown-fix": "^1.0.3",
     "react-native-device-info": "^10.6.0",
+    "react-native-document-picker": "^9.0.1",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.10.0",

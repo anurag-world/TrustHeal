@@ -24,13 +24,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
 // TODO: Uncomment below
-// import DocumentPicker, {
-//   DirectoryPickerResponse,
-//   DocumentPickerResponse,
-//   isInProgress,
-//   types,
-// } from 'react-native-document-picker';
-// TODO: Uncomment below
 // import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'native-base';

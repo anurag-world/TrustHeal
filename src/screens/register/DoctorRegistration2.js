@@ -25,8 +25,7 @@ import Pdf from 'react-native-pdf';
 // icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-// TODO: Uncomment below
-// import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
+import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { Checkbox } from 'native-base';
@@ -456,15 +455,14 @@ export default function DoctorRegistration2() {
 
   // eslint-disable-next-line no-unused-vars
   const handleError = (err) => {
-    // TODO: Uncomment below
-    /* if (DocumentPicker.isCancel(err)) {
+    if (DocumentPicker.isCancel(err)) {
       console.warn('cancelled');
       // User cancelled the picker, exit any dialogs or menus and move on
     } else if (isInProgress(err)) {
       console.warn('multiple pickers were opened, only the last will be considered');
     } else {
       throw err;
-    } */
+    }
   };
 
   const download = async (fileToken, userId, fileName) => {
@@ -1207,8 +1205,7 @@ export default function DoctorRegistration2() {
   };
 
   // medical registration document upload
-  // TODO: Uncomment below
-  /* const selectDocsMedReg = async () => {
+  const selectDocsMedReg = async () => {
     try {
       // console.log('==============Inside select Docs==========');
 
@@ -1250,11 +1247,10 @@ export default function DoctorRegistration2() {
     } catch (e) {
       handleError(e);
     }
-  }; */
+  };
 
-  // TODO: Uncomment below
   // education document upload
-  /* const selectDocsEdu = async () => {
+  const selectDocsEdu = async () => {
     try {
       // console.log('==============Inside select Docs Education==========');
 
@@ -1284,18 +1280,17 @@ export default function DoctorRegistration2() {
         } else {
           // console.log('======response======');
           // console.log(response.fileToken);
-          if (response.fileToken != undefined) setdegreePath(response.fileToken);
-          else Alert.alert('Error', 'Please try again.');
+          if (response.fileToken !== undefined) setdegreePath(response.fileToken);
+          Alert.alert('Error', 'Please try again.');
         }
       }
     } catch (e) {
       handleError(e);
     }
-  }; */
+  };
 
-  // TODO: Uncomment below
   // identification document upload
-  /* const selectDocsIden = async () => {
+  const selectDocsIden = async () => {
     try {
       // console.log('==============Inside select Docs Identification==========');
 
@@ -1325,14 +1320,14 @@ export default function DoctorRegistration2() {
         } else {
           // console.log('======response======');
           // console.log(response.fileToken);
-          if (response.fileToken != undefined) setidentificationPath(response.fileToken);
-          else Alert.alert('Error', 'Please try again.');
+          if (response.fileToken !== undefined) setidentificationPath(response.fileToken);
+          Alert.alert('Error', 'Please try again.');
         }
       }
     } catch (e) {
       handleError(e);
     }
-  }; */
+  };
 
   // post medical registration
   const postMedReg = async () => {
@@ -2131,8 +2126,7 @@ export default function DoctorRegistration2() {
                                   'Please enter Registration Year'
                                 );
                               else {
-                                // TODO: Uncomment below
-                                // selectDocsMedReg();
+                                selectDocsMedReg();
                               }
                             }}
                           />
@@ -2463,8 +2457,7 @@ export default function DoctorRegistration2() {
                                 'Incomplete Details',
                                 'Before Uploading Document(s) please fill in details'
                               );
-                            // TODO: Uncomment below
-                            // else selectDocsEdu();
+                            else selectDocsEdu();
                           }}
                         />
 
@@ -3231,8 +3224,7 @@ export default function DoctorRegistration2() {
                                 'Incomplete Details!',
                                 'Please fill identification number'
                               );
-                            // TODO: Uncomment below
-                            // else selectDocsIden();
+                            else selectDocsIden();
                           }}
                         />
                         <CustomButton
