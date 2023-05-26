@@ -25,7 +25,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
-// import Pdf from 'react-native-pdf';
+import Pdf from 'react-native-pdf';
 // import DocumentPicker, {
 //   isInProgress,
 //   types,
@@ -1881,7 +1881,7 @@ export default function MyAppointments() {
                       borderColor: 'gray',
                     }}
                   >
-                    {/* <Pdf
+                    <Pdf
                       source={{
                         uri: prescriptionId,
                       }}
@@ -1892,7 +1892,7 @@ export default function MyAppointments() {
                       }}
                       // onLoadComplete={() => console.log('fully loaded')}
                       scale={zoom}
-                    /> */}
+                    />
                   </View>
                   <View style={{ alignSelf: 'center', flexDirection: 'column' }}>
                     <View

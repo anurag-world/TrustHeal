@@ -16,7 +16,6 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import Pdf from 'react-native-pdf';
 import { SelectList } from 'react-native-dropdown-select-list';
 import dayjs from 'dayjs';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';

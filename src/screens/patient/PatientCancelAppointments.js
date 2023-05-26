@@ -27,8 +27,7 @@ import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // TODO: Add below
 // import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
-// TODO: Add below
-// import Pdf from 'react-native-pdf';
+import Pdf from 'react-native-pdf';
 // TODO: Add below
 // import DocumentPicker, {
 //   DirectoryPickerResponse,
@@ -1348,8 +1347,7 @@ Best regards,\nTrustHeal Team
                       borderColor: 'gray',
                     }}
                   >
-                    {/* TODO: Uncomment below */}
-                    {/* <Pdf
+                    <Pdf
                       source={{
                         uri: prescriptionId,
                       }}
@@ -1360,7 +1358,7 @@ Best regards,\nTrustHeal Team
                       }}
                       // onLoadComplete={() => console.log('fully loaded')}
                       scale={zoom}
-                    /> */}
+                    />
                   </View>
                   <View style={{ alignSelf: 'center', flexDirection: 'column' }}>
                     <View

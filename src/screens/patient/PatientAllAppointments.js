@@ -28,8 +28,7 @@ import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
-// TODO: Add below
-// import Pdf from 'react-native-pdf';
+import Pdf from 'react-native-pdf';
 // TODO: Add below
 // import DocumentPicker, {
 //   DirectoryPickerResponse,
@@ -1427,8 +1426,7 @@ export default function PatientAllAppointments() {
                       borderColor: 'gray',
                     }}
                   >
-                    {/* TODO: Uncomment Below */}
-                    {/* <Pdf
+                    <Pdf
                       source={{
                         uri: prescriptionId,
                       }}
@@ -1439,7 +1437,7 @@ export default function PatientAllAppointments() {
                       }}
                       // onLoadComplete={() => console.log('fully loaded')}
                       scale={zoom}
-                    /> */}
+                    />
                   </View>
                   <View style={{ alignSelf: 'center', flexDirection: 'column' }}>
                     <View
