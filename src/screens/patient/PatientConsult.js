@@ -108,7 +108,7 @@ export default function PatientConsult() {
         }}
         size="sm"
         isChecked={FilterExperienceValueMax === item.max}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       {item.max !== 1200 ? (
         <Text style={styles.FilterValueText}>
@@ -138,7 +138,7 @@ export default function PatientConsult() {
         }}
         size="sm"
         isChecked={FilterFeesValueMax === item.max}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>
         ₹ {item.min} - {item.max}
@@ -169,7 +169,7 @@ export default function PatientConsult() {
         }}
         size="sm"
         isChecked={FilterSplValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
@@ -187,7 +187,7 @@ export default function PatientConsult() {
         }}
         size="sm"
         isChecked={FilterGenderValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
@@ -205,7 +205,7 @@ export default function PatientConsult() {
         }}
         size="sm"
         isChecked={FilterModeValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>

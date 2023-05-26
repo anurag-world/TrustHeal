@@ -18,8 +18,7 @@ import {
   Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// TODO: Uncomment below
-// import { CheckBox } from 'react-native-elements';
+import { Checkbox } from 'native-base';
 // TODO: Uncomment below
 // import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -1057,8 +1056,7 @@ export default function ManageSchedule() {
     </TouchableOpacity>
   );
 
-  // TODO: Uncomment below
-  /* const selectAllESlots = () => {
+  const selectAllESlots = () => {
     const temp = [...viewESlots];
     temp.forEach((e) => {
       if (e.slotStatus !== 'BOOKED' && e.slotStatus !== 'DELETED_BY_DOCTOR') {
@@ -1068,10 +1066,9 @@ export default function ManageSchedule() {
     });
     setviewESlots(temp);
     setselectAll(true);
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const deselectAllESlots = () => {
+  const deselectAllESlots = () => {
     const temp = [...viewESlots];
     temp.forEach((e) => {
       e.toDelete = false;
@@ -1079,7 +1076,7 @@ export default function ManageSchedule() {
     setviewESlots(temp);
     setDeleteSlotsList([]);
     setselectAll(false);
-  }; */
+  };
 
   const insertToDeleteE = (slotId, index) => {
     const temp = [...viewESlots];
@@ -1158,8 +1155,7 @@ export default function ManageSchedule() {
     </TouchableOpacity>
   );
 
-  // TODO: Uncomment below
-  /* const selectAllPSlots = () => {
+  const selectAllPSlots = () => {
     const temp = [...viewPSlots];
     temp.forEach((e) => {
       if (e.slotStatus !== 'BOOKED' && e.slotStatus !== 'DELETED_BY_DOCTOR') {
@@ -1169,10 +1165,9 @@ export default function ManageSchedule() {
     });
     setviewPSlots(temp);
     setselectAll(true);
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const deselectAllPSlots = () => {
+  const deselectAllPSlots = () => {
     const temp = [...viewPSlots];
     temp.forEach((e) => {
       e.toDelete = false;
@@ -1180,7 +1175,7 @@ export default function ManageSchedule() {
     setviewPSlots(temp);
     setDeleteSlotsList([]);
     setselectAll(false);
-  }; */
+  };
 
   const insertToDeleteP = (slotId, index) => {
     const temp = [...viewPSlots];
@@ -3286,26 +3281,15 @@ export default function ManageSchedule() {
                             }}
                           >
                             <Text style={[styles.inputLabel]}>Slots</Text>
-                            {/* TODO: Uncomment below */}
-                            {/* <CheckBox
-                              title={
-                                <Text style={[styles.inputLabel]}>
-                                  {!selectAll ? ' Select All' : 'Deselect All'}
-                                </Text>
-                              }
-                              containerStyle={{
-                                backgroundColor: 'white',
-                                borderWidth: 0,
-                                padding: 0,
-                                marginTop: 10,
-                                marginBottom: 2,
-                                alignSelf: 'center',
-                                justifyContent: 'center',
-                              }}
-                              size={15}
-                              checkedColor="#2b8ada"
-                              checked={selectAll}
-                              onPress={() => {
+                            <Checkbox
+                              shadow={1}
+                              borderWidth={0}
+                              marginTop={10}
+                              marginBottom={2}
+                              alignSelf="center"
+                              justifyContent="center"
+                              isChecked={selectAll}
+                              onChange={() => {
                                 if (selectedDate !== '') {
                                   if (!selectAll) selectAllPSlots();
                                   else deselectAllPSlots();
@@ -3315,8 +3299,14 @@ export default function ManageSchedule() {
                                     'Please select the date for which slots are to be deleted'
                                   );
                               }}
-                            /> */}
+                              _checked={{ bg: '#2b8ada' }}
+                            >
+                              <Text style={[styles.inputLabel]}>
+                                {!selectAll ? ' Select All' : 'Deselect All'}
+                              </Text>
+                            </Checkbox>
                           </View>
+
                           <View
                             style={{
                               flexDirection: 'row',
@@ -3435,26 +3425,15 @@ export default function ManageSchedule() {
                             }}
                           >
                             <Text style={[styles.inputLabel]}>Slots</Text>
-                            {/* TODO: Uncomment below */}
-                            {/* <CheckBox
-                              title={
-                                <Text style={[styles.inputLabel]}>
-                                  {!selectAll ? ' Select All' : 'Deselect All'}
-                                </Text>
-                              }
-                              containerStyle={{
-                                backgroundColor: 'white',
-                                borderWidth: 0,
-                                padding: 0,
-                                marginTop: 10,
-                                marginBottom: 2,
-                                alignSelf: 'center',
-                                justifyContent: 'center',
-                              }}
-                              size={15}
-                              checkedColor="#2b8ada"
-                              checked={selectAll}
-                              onPress={() => {
+                            <Checkbox
+                              shadow={1}
+                              borderWidth={0}
+                              marginTop={10}
+                              marginBottom={2}
+                              alignSelf="center"
+                              justifyContent="center"
+                              isChecked={selectAll}
+                              onChange={() => {
                                 if (selectedDate !== '') {
                                   if (!selectAll) selectAllESlots();
                                   else deselectAllESlots();
@@ -3464,7 +3443,12 @@ export default function ManageSchedule() {
                                     'Please select the date for which slots are to be deleted'
                                   );
                               }}
-                            /> */}
+                              _checked={{ bg: '#2b8ada' }}
+                            >
+                              <Text style={[styles.inputLabel]}>
+                                {!selectAll ? ' Select All' : 'Deselect All'}
+                              </Text>
+                            </Checkbox>
                           </View>
                           <View
                             style={{
