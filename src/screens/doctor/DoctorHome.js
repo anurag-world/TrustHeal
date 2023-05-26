@@ -25,8 +25,7 @@ import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SelectList } from 'react-native-dropdown-select-list';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// TODO: Uncomment below
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import dayjs from 'dayjs';
 // TODO: Uncomment below
 // import Pdf from 'react-native-pdf';
@@ -188,12 +187,7 @@ export default function DoctorHome() {
     // navigation.navigate('CheifComplaints');
   };
 
-  // TODO: Uncomment below
-  /* const downloadCache = async (fileToken, userId, fileName) => {
-    // let op = {};
-    // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-    // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-
+  const downloadCache = async (fileToken, userId, fileName) => {
     console.log('Downloading with user id ', userId);
 
     const filePath = `file://${RNFS.CachesDirectoryPath}/`;
@@ -204,20 +198,16 @@ export default function DoctorHome() {
     await RNFS.downloadFile(options)
       .promise.then((response) => {
         console.log(response);
-        if (response.statusCode == 200) {
-          //  Alert.alert(
-          //   'File Downloaded',
-          //   `The file is downloaded. File name is ${fileName}.`,
-          // );
+        if (response.statusCode === 200) {
           setprescriptionId(filePath + fileName);
           setPrescriptionModal(true);
-        } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
         else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
       })
       .catch((e) => {
         Alert.alert('Error', `${e}`);
       });
-  }; */
+  };
 
   const timeformatter = (time) => {
     const text = time;
@@ -1224,12 +1214,11 @@ export default function DoctorHome() {
             borderRadius: 5,
           }}
           onPress={async () => {
-            // TODO: Uncomment below
-            /* downloadCache(
+            downloadCache(
               item.prescriptionPath,
               doctorId,
               `${item.consultationId}_Prescription_${item.slotDate}.pdf`
-            ); */
+            );
           }}
         >
           <FAIcon name="prescription" size={15} style={{ marginHorizontal: 5 }} />
@@ -1487,12 +1476,11 @@ export default function DoctorHome() {
             borderRadius: 5,
           }}
           onPress={() => {
-            // TODO: Uncomment below
-            /* downloadCache(
+            downloadCache(
               item.prescriptionPath,
               doctorId,
               `${item.consultationId}_Prescription_${item.slotDate}.pdf`
-            ); */
+            );
           }}
         >
           <FAIcon name="prescription" size={15} style={{ marginHorizontal: 5 }} />
@@ -1604,8 +1592,7 @@ export default function DoctorHome() {
       }}
       onPress={async () => {
         // console.log(item.documentPath);
-        // TODO: Uncomment below
-        // await downloadCache(item.documentPath, patientId, `${item.documentName}.pdf`);
+        await downloadCache(item.documentPath, patientId, `${item.documentName}.pdf`);
       }}
     >
       <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
@@ -2754,11 +2741,10 @@ export default function DoctorHome() {
                           }}
                           onPress={async () => {
                             const fileName = prescriptionId.split('/').pop();
-                            // TODO: Uncomment below
-                            /* await RNFS.copyFile(
+                            await RNFS.copyFile(
                               prescriptionId,
                               `file://${RNFS.DownloadDirectoryPath}/${fileName}`
-                            ); */
+                            );
                             Alert.alert(
                               'Downloaded',
                               `Prescription has been downloaded under the name of:- ${fileName}`

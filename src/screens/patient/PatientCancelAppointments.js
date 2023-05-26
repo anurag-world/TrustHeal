@@ -21,8 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// TODO: Add below
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // TODO: Add below
@@ -113,84 +112,72 @@ export default function PatientCancelAppointments() {
     LoadData();
   }, []);
 
-  // TODO: uncomment
-  // const downloadDownloads = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         Alert.alert(
-  //           'Downloaded',
-  //           `Prescription has been downloaded under the name of:- ${fileName}`
-  //         );
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadDownloads = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          Alert.alert(
+            'Downloaded',
+            `Prescription has been downloaded under the name of:- ${getFileName}`
+          );
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
-  // TODO: uncomment
-  // const downloadCache = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.CachesDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         //  Alert.alert(
-  //         //   'File Downloaded',
-  //         //   `The file is downloaded. File name is ${fileName}.`,
-  //         // );
-  //         setprescriptionId(filePath + fileName);
-  //         setdocumentName(fileName);
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadCache = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.CachesDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          setprescriptionId(filePath + getFileName);
+          setdocumentName(getFileName);
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
   // TODO: Uncomment below
-  // const getFiles = async (id) => {
-  //   let Quesflag = 1;
-  //   let Docsflag = 1;
-  //   await axios
-  //     .get(`${apiConfig.baseUrl}/docs/current/uploaded?consultationId=${id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       if (response.status === 200) {
-  //         if (isEmpty(response.data.documents)) Docsflag = 0;
-  //         else setdocsList(response.data.documents);
+  const getFiles = async (id) => {
+    let Quesflag = 1;
+    let Docsflag = 1;
+    await axios
+      .get(`${apiConfig.baseUrl}/docs/current/uploaded?consultationId=${id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          if (isEmpty(response.data.documents)) Docsflag = 0;
+          else setdocsList(response.data.documents);
 
-  //         if (isEmpty(response.data.quesAns)) Quesflag = 0;
-  //         else setQuestionnaireList(response.data.quesAns);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert('Error', `Error in fetching docs and ques.\n${error}`);
-  //     });
-  //   const p = [];
-  //   p.push(Docsflag);
-  //   p.push(Quesflag);
-  //   return p;
-  // };
+          if (isEmpty(response.data.quesAns)) Quesflag = 0;
+          else setQuestionnaireList(response.data.quesAns);
+        }
+      })
+      .catch((error) => {
+        Alert.alert('Error', `Error in fetching docs and ques.\n${error}`);
+      });
+    const p = [];
+    p.push(Docsflag);
+    p.push(Quesflag);
+    return p;
+  };
 
   const getQuestions = async (id, getConsultationId) => {
     await axios
@@ -228,7 +215,6 @@ export default function PatientCancelAppointments() {
             Alert.alert('Done', 'Pre-Consultation Questionnaire submitted successfully!');
             seteditQuestions(false);
           }
-          // setanswersUploaded(true);
         })
         .catch((error) => {
           Alert.alert('Error', `${error}`);
@@ -264,8 +250,6 @@ export default function PatientCancelAppointments() {
         padding: 5,
         margin: 5,
         flexDirection: 'column',
-        // width: 290,
-        // height: 80,
       }}
     >
       {!isEmpty(item.familyMemberName) && (
@@ -343,9 +327,7 @@ export default function PatientCancelAppointments() {
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>
             {item.doctorName}
           </Text>
-          {/* <Text style={{fontSize: 12, color: 'gray'}}>
-          {item.specialization}
-        </Text> */}
+
           <Text style={{ fontSize: 12, color: 'gray', fontWeight: 'bold' }}>
             {item.specialization.map((index) =>
               item.specialization.indexOf(index) !== item.specialization.length - 1
@@ -414,6 +396,7 @@ export default function PatientCancelAppointments() {
           </View>
         </View>
       </View>
+
       {/* Buttons */}
       <View
         style={{
@@ -514,8 +497,7 @@ Best regards,\nTrustHeal Team
         setdownloadToken(item.documentPath);
         setdownloadId(patientDet.patientId);
         setdownloadFileName(item.documentName);
-        // TODO: uncomment below
-        // await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
+        await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
         setPrescriptionModal(true);
       }}
     >
@@ -689,10 +671,12 @@ Best regards,\nTrustHeal Team
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{index + 1}</Text>
           </View>
+
           {/* File Name */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{uploadDoc.name}</Text>
           </View>
+
           {/* Actions */}
           <TouchableOpacity
             style={[
@@ -925,7 +909,6 @@ Best regards,\nTrustHeal Team
                                 paddingHorizontal: 15,
                               }}
                               onPress={async () => {
-                                // await getQuestions(doctorId, consultationId);
                                 seteditDocs(true);
                               }}
                             />
@@ -1003,6 +986,7 @@ Best regards,\nTrustHeal Team
                             File Name
                           </Text>
                         </View>
+
                         {/* File Name Input */}
                         <View>
                           <TextInput
@@ -1016,6 +1000,7 @@ Best regards,\nTrustHeal Team
                             value={fileName}
                           />
                         </View>
+
                         {/* File Select Button */}
                         <TouchableOpacity
                           style={[
@@ -1088,7 +1073,6 @@ Best regards,\nTrustHeal Team
                               paddingHorizontal: 15,
                             }}
                             onPress={async () => {
-                              // await saveQuestions();
                               await initiateUploadDocs();
                               seteditDocs(false);
                             }}
@@ -1110,7 +1094,6 @@ Best regards,\nTrustHeal Team
                               marginTop: 10,
                             }}
                             onPress={async () => {
-                              // await saveQuestions();
                               seteditDocs(false);
                               setuploadDocsList([]);
                             }}
@@ -1124,6 +1107,7 @@ Best regards,\nTrustHeal Team
             </View>
           </Modal>
         )}
+
         {quesAnsModal && (
           <Modal
             animationType="slide"
@@ -1168,29 +1152,7 @@ Best regards,\nTrustHeal Team
                   >
                     Questionnaire
                   </Text>
-                  {/* {upcomingActive && editQuestions == false ? (
-                    <Text
-                      style={{
-                        textDecorationColor: '#2b8ada',
-                        textDecorationStyle: 'solid',
-                        alignSelf: 'center',
-                        position: 'absolute',
-                        right: 35,
-                        textDecorationLine: 'underline',
-                        color: '#2b8ada',
-                        fontSize: 13,
-                        fontWeight: 'bold',
-                      }}
-                      onPress={() => {
-                        Alert.alert(
-                          'Edit Questionnaire',
-                          'You can now edit your response',
-                        );
-                        seteditQuestions(true);
-                      }}>
-                      Edit
-                    </Text>
-                  ) : null} */}
+
                   <FAIcons
                     name="window-close"
                     color="black"
@@ -1439,8 +1401,7 @@ Best regards,\nTrustHeal Team
                         borderRadius: 10,
                       }}
                       onPress={async () => {
-                        // TODO: Uncomment below
-                        // await downloadDownloads(downloadToken, downloadId, downloadFileName);
+                        await downloadDownloads(downloadToken, downloadId, downloadFileName);
                       }}
                     />
                   </View>
@@ -1534,7 +1495,6 @@ Best regards,\nTrustHeal Team
                           padding: 5,
                           backgroundColor: '#e8f0fe',
                           paddingHorizontal: 15,
-                          // height: 100,
                           borderRadius: 10,
                           fontSize: 12,
                           textAlign: 'left',
@@ -1554,12 +1514,10 @@ Best regards,\nTrustHeal Team
                     }}
                     text="Proceed"
                     textstyle={{ color: 'white', fontSize: 15 }}
-                    // onPress={() => setCancelModal(false)}
                     onPress={async () => {
                       if (cancelReason !== '') {
                         const p = {
                           cancelationReason: cancelReason,
-                          // clinicId: 0,
                           consultationId: cancelItem.consultationId,
                           consultationType: cancelItem.consultationType,
                           doctorId: cancelItem.doctorId,
@@ -1609,6 +1567,7 @@ Best regards,\nTrustHeal Team
             </View>
           </Modal>
         )}
+
         {isLoading && (
           <View
             style={{
@@ -1639,7 +1598,6 @@ Best regards,\nTrustHeal Team
                   alignSelf: 'center',
                   width: 80,
                   height: 80,
-                  // borderRadius: 150,
                 }}
               />
               <Text
@@ -1650,7 +1608,6 @@ Best regards,\nTrustHeal Team
                   fontSize: 15,
                   fontWeight: 'bold',
                   width: '100%',
-                  // padding: 10,
                 }}
               >
                 Loading...

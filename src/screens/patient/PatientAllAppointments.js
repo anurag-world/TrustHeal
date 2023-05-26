@@ -21,8 +21,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// TODO: Add below
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // TODO: Add below
@@ -111,59 +110,51 @@ export default function PatientAllAppointments() {
     LoadData();
   }, []);
 
-  // TODO: uncomment
-  // const downloadDownloads = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         Alert.alert(
-  //           'Downloaded',
-  //           `Prescription has been downloaded under the name of:- ${fileName}`
-  //         );
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadDownloads = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          Alert.alert(
+            'Downloaded',
+            `Prescription has been downloaded under the name of:- ${getFileName}`
+          );
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
-  // TODO: uncomment
-  // const downloadCache = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.CachesDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         //  Alert.alert(
-  //         //   'File Downloaded',
-  //         //   `The file is downloaded. File name is ${fileName}.`,
-  //         // );
-  //         setprescriptionId(filePath + fileName);
-  //         setdocumentName(fileName);
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadCache = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.CachesDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          //  Alert.alert(
+          //   'File Downloaded',
+          //   `The file is downloaded. File name is ${getFileName}.`,
+          // );
+          setprescriptionId(filePath + getFileName);
+          setdocumentName(getFileName);
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
   const getFiles = async (id) => {
     let Quesflag = 1;
@@ -527,12 +518,11 @@ export default function PatientAllAppointments() {
                 setdownloadToken(item.prescriptionPath);
                 setdownloadId(item.doctorId);
                 setdownloadFileName(`${item.consultationId}_Prescription_${item.slotDate}.pdf`);
-                // TODO: uncomment
-                // await downloadCache(
-                //   item.prescriptionPath,
-                //   item.doctorId,
-                //   `${item.consultationId}_Prescription_${item.slotDate}.pdf`
-                // );
+                await downloadCache(
+                  item.prescriptionPath,
+                  item.doctorId,
+                  `${item.consultationId}_Prescription_${item.slotDate}.pdf`
+                );
                 setPrescriptionModal(true);
               }}
             >
@@ -560,8 +550,7 @@ export default function PatientAllAppointments() {
         setdownloadToken(item.documentPath);
         setdownloadId(patientDet.patientId);
         setdownloadFileName(item.documentName);
-        // TODO: uncomment
-        // await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
+        await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
         setPrescriptionModal(true);
       }}
     >
@@ -1491,14 +1480,7 @@ export default function PatientAllAppointments() {
                         borderRadius: 10,
                       }}
                       onPress={async () => {
-                        // let fileName = prescriptionId.split('/').pop();
-                        // //console.log(fileName);
-                        // await RNFS.copyFile(
-                        //   prescriptionId,
-                        //   `file://${RNFS.DownloadDirectoryPath}/` + fileName,
-                        // );
-                        // TODO: Uncomment Below
-                        // await downloadDownloads(downloadToken, downloadId, downloadFileName);
+                        await downloadDownloads(downloadToken, downloadId, downloadFileName);
                       }}
                     />
                   </View>
@@ -1538,7 +1520,6 @@ export default function PatientAllAppointments() {
                   alignSelf: 'center',
                   width: 80,
                   height: 80,
-                  // borderRadius: 150,
                 }}
               />
               <Text
@@ -1549,7 +1530,6 @@ export default function PatientAllAppointments() {
                   fontSize: 15,
                   fontWeight: 'bold',
                   width: '100%',
-                  // padding: 10,
                 }}
               >
                 Loading...

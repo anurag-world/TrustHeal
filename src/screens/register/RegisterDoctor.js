@@ -17,8 +17,6 @@ import {
   Platform,
 } from 'react-native';
 import { SelectList, MultipleSelectList } from 'react-native-dropdown-select-list';
-// TODO: Uncomment below
-// import RNFS from 'react-native-fs';
 
 // icons
 import { Checkbox } from 'native-base';

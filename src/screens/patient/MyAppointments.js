@@ -19,7 +19,7 @@ import {
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -101,11 +101,6 @@ export default function MyAppointments() {
     LoadData();
   }, []);
 
-  // useEffect(() => {
-  //   if (patientDet != null) {
-  //     getUpcoming();
-  //   }
-  // }, [patientDet]);
   const getUpcoming = async () => {
     setisLoading(true);
     await axios
@@ -118,7 +113,6 @@ export default function MyAppointments() {
         if (response.status === 200) {
           setisLoading(false);
           setUpcomingData(response.data);
-          // setUpcomingData(UpcomingServiceResponse);
         }
       })
       .catch((error) => {
@@ -127,11 +121,6 @@ export default function MyAppointments() {
     setisLoading(false);
   };
 
-  // useEffect(() => {
-  //   if (patientDet != null) {
-  //     getCompleted();
-  //   }
-  // }, [patientDet]);
   const getCompleted = async () => {
     setisLoading(true);
     await axios
@@ -146,7 +135,6 @@ export default function MyAppointments() {
         if (response.status === 200) {
           setisLoading(false);
           setCompletedData(response.data);
-          // setCompletedData(CompletedServiceResponse);
         }
       })
       .catch((error) => {
@@ -178,57 +166,47 @@ export default function MyAppointments() {
     });
   };
 
-  // const downloadDownloads = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         Alert.alert(
-  //           'Downloaded',
-  //           `Prescription has been downloaded under the name of:- ${fileName}`
-  //         );
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadDownloads = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.DownloadDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          Alert.alert(
+            'Downloaded',
+            `Prescription has been downloaded under the name of:- ${getFileName}`
+          );
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
-  // const downloadCache = async (fileToken, userId, fileName) => {
-  //   // let op = {};
-  //   // if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   // await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.CachesDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
-  //     toFile: filePath + fileName,
-  //   };
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         //  Alert.alert(
-  //         //   'File Downloaded',
-  //         //   `The file is downloaded. File name is ${fileName}.`,
-  //         // );
-  //         setprescriptionId(filePath + fileName);
-  //         setdocumentName(fileName);
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
+  const downloadCache = async (getFileToken, userId, getFileName) => {
+    const filePath = `file://${RNFS.CachesDirectoryPath}/`;
+    const options = {
+      fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${getFileToken}&userId=${userId}`,
+      toFile: filePath + getFileName,
+    };
+    await RNFS.downloadFile(options)
+      .promise.then((response) => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          setprescriptionId(filePath + getFileName);
+          setdocumentName(getFileName);
+        } else if (response.statusCode === 204) Alert.alert('Sorry', 'The file does not exist');
+        else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
+      })
+      .catch((e) => {
+        Alert.alert('Error', `${e}`);
+      });
+  };
 
   const getFiles = async (id) => {
     let Quesflag = 1;
@@ -291,7 +269,6 @@ export default function MyAppointments() {
             Alert.alert('Done', 'Pre-Consultation Questionnaire submitted successfully!');
             seteditQuestions(false);
           }
-          // setanswersUploaded(true);
         })
         .catch((error) => {
           Alert.alert('Error', `${error}`);
@@ -303,34 +280,12 @@ export default function MyAppointments() {
       );
   };
 
-  // const getHistory = async () => {
-  //   await axios
-  //     .get(
-  //       `${apiConfig.baseUrl}/docs/last/uploaded?patientId=${navigation.patientObj.patientId}`
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       if (response.status === 200) {
-  //         setdocsList(response.data.documents);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert('Error', `Error in fetching docs and ques.\n${error}`);
-  //     });
-  // };
-
   const hasStarted = (item) => {
     if (item.slotDate === dayjs().format('YYYY-MM-DD')) {
       const slotStrtArray = item.slotStartTime.split(':');
       const slotEndArray = item.slotEndTime.split(':');
       const now = dayjs().format('HH:mm');
       const nowArray = now.split(':');
-      // let start =
-      //   Number(slotStrtArray[0]) <= Number(dayjs().format('HH')) &&
-      //   Number(slotEndArray[0]) >= Number(dayjs().format('HH'));
-      // let end =
-      //   Number(slotStrtArray[1]) <= Number(dayjs().format('mm')) &&
-      //   Number(slotEndArray[1]) >= Number(dayjs().format('mm'));
 
       const start = Number(slotStrtArray[0]) * 60 * 60 + Number(slotStrtArray[1]) * 60 - 300;
       const end = Number(slotEndArray[0]) * 60 * 60 + Number(slotEndArray[1]) * 60;
@@ -345,37 +300,6 @@ export default function MyAppointments() {
     }
     return false;
   };
-
-  // const shouldShow = (item) => {
-  //   if (dayjs(item.slotDate).diff(dayjs(), 'd') > 0) return true;
-  //   if (dayjs(item.slotDate).diff(dayjs(), 'd') == 0) {
-  //     if (item.slotDate != dayjs().format('YYYY-MM-DD')) return true;
-
-  //     const slotEndArray = item.slotEndTime.split(':');
-  //     if (Number(dayjs().format('HH')) < slotEndArray[0]) return true;
-  //     if (Number(dayjs().format('HH')) == slotEndArray[0]) {
-  //       if (Number(dayjs().format('mm')) <= slotEndArray[1]) return true;
-  //       return false;
-  //     }
-  //   }
-  // };
-
-  // const shouldShowCancel = (item) => {
-  //   if (dayjs(item.slotDate).diff(dayjs(), 'd') > 0) return true;
-  //   if (dayjs(item.slotDate).diff(dayjs(), 'd') === 0) {
-  //     if (item.slotDate !== dayjs().format('YYYY-MM-DD')) return true;
-
-  //     const slotStrtArray = item.slotStartTime.split(':');
-  //     const slotEndArray = item.slotEndTime.split(':');
-  //     const now = dayjs().format('HH:mm');
-  //     const nowArray = now.split(':');
-  //     const start = Number(slotStrtArray[0]) * 60 * 60 + Number(slotStrtArray[1]) * 60 - 300;
-  //     const end = Number(slotEndArray[0]) * 60 * 60 + Number(slotEndArray[1]) * 60;
-  //     const current = Number(nowArray[0]) * 60 * 60 + Number(nowArray[1]) * 60;
-  //     console.log('Cancle show', current <= start);
-  //     return current <= start;
-  //   }
-  // };
 
   const validForRefund = (item) => {
     console.log(dayjs(item.slotDate).diff(dayjs().format('YYYY-MM-DD'), 'd'));
@@ -396,8 +320,6 @@ export default function MyAppointments() {
         padding: 5,
         margin: 5,
         flexDirection: 'column',
-        // width: 290,
-        // height: 80,
       }}
     >
       {!isEmpty(item.familyMemberName) && (
@@ -475,9 +397,7 @@ export default function MyAppointments() {
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>
             {item.doctorName}
           </Text>
-          {/* <Text style={{fontSize: 12, color: 'gray'}}>
-          {item.specialization}
-        </Text> */}
+
           <Text style={{ fontSize: 12, color: 'gray', fontWeight: 'bold' }}>
             {item.specialization.map((index) =>
               item.specialization.indexOf(index) !== item.specialization.length - 1
@@ -544,21 +464,6 @@ export default function MyAppointments() {
               {dayjs(item.slotDate).format('DD MMM, YYYY')}
             </Text>
           </View>
-          {/* <View style={{flexDirection: 'row', marginVertical: 3}}>
-              {item.slotStartTime == dayjs().format('HH:mm') ? (
-                <TouchableOpacity
-                  style={{
-                    padding: 5,
-                    backgroundColor: '#2B8ADA',
-                    borderRadius: 5,
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={{fontSize: 12, marginLeft: 5, color: 'white'}}>
-                    Consult Now
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-            </View> */}
         </View>
       </View>
       {/* Buttons */}
@@ -618,7 +523,6 @@ export default function MyAppointments() {
               setconsultationId(item.consultationId);
               const p = await getFiles(item.consultationId);
               if (p[1] === 0) {
-                // await getQuestions(item.doctorId, item.consultationId);
                 setconsultationId(item.consultationId);
                 setdoctorId(item.doctorId);
                 seteditQuestions(false);
@@ -626,7 +530,6 @@ export default function MyAppointments() {
               } else {
                 setquesAnsModal(true);
               }
-              // setdocsModal(true);
             }}
           >
             <MIcons
@@ -659,8 +562,6 @@ export default function MyAppointments() {
                   paddingHorizontal: 5,
                   alignSelf: 'center',
                   borderWidth: 1,
-                  // borderColor: '#2b8ada',
-
                   borderRadius: 5,
                 },
                 hasStarted(item)
@@ -721,161 +622,7 @@ export default function MyAppointments() {
               <Text style={{ fontSize: 12, color: 'white' }}>Consult</Text>
             </TouchableOpacity>
           ) : null}
-
-          {/* Reschedule */}
-          {/* <TouchableOpacity
-                style={{
-                  flex: 0.45,
-                  justifyContent: 'center',
-                  flexDirection: 'row',
-                  padding: 3,
-                  paddingHorizontal: 5,
-                  alignSelf: 'center',
-                  borderWidth: 1,
-                  borderColor: '#17CC9C',
-                  backgroundColor: '#17CC9C',
-                  borderRadius: 5,
-                }}
-                onPress={() => {
-                  //item.consultationType == 'PHONE_CALL' ? 'phone-alt' : 'video';
-                  setDoctorItem(item);
-                  Alert.alert(
-                    'Reschedule',
-                    `Are you sure you want to reschedule your consultation with ${item.doctorName}`,
-                    [
-                      {
-                        text: 'Yes',
-                        onPress: async () => {
-                          let temp = item;
-                          temp.isReschedule = true;
-                          console.log(
-                            '============GOING FOR RESCHEDULE=============\n',
-                            temp,
-                          );
-                          await AsyncStorage.setItem(
-                            'bookSlot',
-                            JSON.stringify(temp),
-                          );
-                          navigation.navigate('SelectSlotsE');
-                        },
-                      },
-                      {
-                        text: 'No',
-                        style: 'cancel',
-                      },
-                    ],
-                  );
-                  //setrescheduleModal(true);
-                }}>
-                <FAIcons
-                  name="calendar-alt"
-                  color={'white'}
-                  size={15}
-                  style={{marginRight: 5}}
-                />
-                <Text style={{fontSize: 12, color: 'white'}}>Re-Schedule</Text>
-              </TouchableOpacity> */}
-
-          {/* {shouldShowCancel(item) ? (
-              <TouchableOpacity
-                style={[
-                  {
-                    flex: 0.45,
-                    alignSelf: 'center',
-                    flexDirection: 'row',
-                    padding: 3,
-                    paddingHorizontal: 5,
-                    alignSelf: 'center',
-                    borderWidth: 1,
-                    borderColor: 'red',
-                    //backgroundColor: 'red',
-                    borderRadius: 5,
-                    justifyContent: 'center',
-                  },
-                  item.consultationType == 'PHYSICAL' ? {flex: 0.95} : null,
-                ]}
-                onPress={async () => {
-                  if (shouldShowCancel(item)) {
-                    Alert.alert(
-                      'Cancel Booking',
-                      `Are you sure you want to cancel your appointment with ${item.doctorName}`,
-                      [
-                        {
-                          text: 'ok',
-                          onPress: async () => {
-                            setCancelItem(item);
-                            setCancelModal(true);
-                          },
-                        },
-                        {
-                          text: 'cancel',
-                        },
-                      ],
-                    );
-                  } else {
-                    Alert.alert(
-                      'Sorry!',
-                      'You can not cancel the booking now.',
-                      [
-                        {
-                          text: 'ok',
-                          onPress: async () => {
-                            await getUpcoming();
-                          },
-                        },
-                      ],
-                    );
-                  }
-                }}>
-                <MIcons
-                  name="close"
-                  color={'red'}
-                  size={15}
-                  style={{alignSelf: 'center', marginRight: 5}}
-                />
-                <Text style={{fontSize: 12, color: 'red'}}>Cancel Booking</Text>
-              </TouchableOpacity>
-            ) : null} */}
         </View>
-
-        {/* <TouchableOpacity
-            style={[
-              {
-                width: '95%',
-                alignSelf: 'center',
-                flexDirection: 'row',
-                padding: 3,
-                paddingHorizontal: 5,
-                borderWidth: 1,
-                borderColor: 'red',
-                // backgroundColor: 'red',
-                borderRadius: 5,
-                justifyContent: 'center',
-                marginTop: 8,
-              },
-            ]}
-            onPress={async () => {
-              Alert.alert(
-                'Cancel Booking',
-                `Are you sure you want to cancel your appointment with ${item.doctorName}`,
-                [
-                  {
-                    text: 'ok',
-                  },
-                  {
-                    text: 'cancel',
-                  },
-                ],
-              );
-            }}>
-            <MIcons
-              name="close"
-              color={'red'}
-              size={15}
-              style={{alignSelf: 'center', marginRight: 5}}
-            />
-            <Text style={{fontSize: 12, color: 'red'}}>Cancel Booking</Text>
-          </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -888,8 +635,6 @@ export default function MyAppointments() {
         padding: 5,
         margin: 5,
         flexDirection: 'column',
-        // width: 290,
-        // height: 80,
       }}
       key={item.consultationId}
     >
@@ -1049,33 +794,6 @@ export default function MyAppointments() {
             alignSelf: 'center',
           }}
         >
-          {/* Invoice */}
-          {/* <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              padding: 3,
-              paddingHorizontal: 5,
-              alignSelf: 'center',
-              borderWidth: 1,
-              borderColor: '#17CC9C',
-              backgroundColor: '#17CC9C',
-              borderRadius: 5,
-            }}
-            onPress={() => {
-              // sethistoryId(
-              //   item.familyId != null ? item.familyId : item.patientId,
-              // );
-              // setHistoryModal(true);
-            }}>
-            <FAIcons
-              name="file-invoice"
-              color={'white'}
-              size={15}
-              style={{marginRight: 5}}
-            />
-            <Text style={{fontSize: 13, color: 'white'}}>Invoices</Text>
-          </TouchableOpacity> */}
-
           {/* History */}
           <TouchableOpacity
             style={{
@@ -1098,6 +816,7 @@ export default function MyAppointments() {
             <FAIcons name="file-pdf" color="#000080" size={15} style={{ marginRight: 5 }} />
             <Text style={{ fontSize: 13, color: '#000080' }}>Docs</Text>
           </TouchableOpacity>
+
           {/* Questionnaire */}
           <TouchableOpacity
             style={{
@@ -1160,12 +879,11 @@ export default function MyAppointments() {
                 setdownloadToken(item.prescriptionPath);
                 setdownloadId(item.doctorId);
                 setdownloadFileName(`${item.consultationId}_Prescription_${item.slotDate}.pdf`);
-                // TODO: uncomment
-                // await downloadCache(
-                //   item.prescriptionPath,
-                //   item.doctorId,
-                //   `${item.consultationId}_Prescription_${item.slotDate}.pdf`
-                // );
+                await downloadCache(
+                  item.prescriptionPath,
+                  item.doctorId,
+                  `${item.consultationId}_Prescription_${item.slotDate}.pdf`
+                );
                 setPrescriptionModal(true);
               } else {
                 Alert.alert(
@@ -1200,8 +918,7 @@ export default function MyAppointments() {
         setdownloadToken(item.documentPath);
         setdownloadId(patientDet.patientId);
         setdownloadFileName(item.documentName);
-        // TODO: Uncomment
-        // await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
+        await downloadCache(item.documentPath, patientDet.patientId, item.documentName);
         setPrescriptionModal(true);
       }}
     >
@@ -1291,66 +1008,65 @@ export default function MyAppointments() {
   //   }
   // };
 
-  // TODO: Uncomment
-  // const initiateUploadDocs = async () => {
-  //   const p = [];
+  const initiateUploadDocs = async () => {
+    const p = [];
 
-  //   if (uploadDocsList.length > 0) {
-  //     // generating token for each file
-  //     for (let i = 0; i < uploadDocsList.length; ++i) {
-  //       const formData = new FormData();
-  //       formData.append('directoryNames', 'PATIENT_DOCUMENT');
-  //       formData.append('file', uploadDocsList[i]);
-  //       formData.append('userId', patientDet.patientId);
-  //       const { error, response } = await fileUpload(formData);
-  //       if (error != null) {
-  //         console.log('======error======');
-  //         console.log(error);
-  //         Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
-  //       } else {
-  //         console.log('======response======');
-  //         console.log(response.fileToken);
-  //         if (response.fileToken != null) {
-  //           // console.log(response.fileToken);
-  //           const x = {
-  //             consultationId,
-  //             documentName: uploadDocsList[i].name,
-  //             documentPath: response.fileToken,
-  //           };
-  //           p.push(x);
-  //           console.log(p);
-  //         } else Alert.alert('Error', 'Please try again.');
-  //       }
-  //     }
+    if (uploadDocsList.length > 0) {
+      // generating token for each file
+      for (let i = 0; i < uploadDocsList.length; i += 1) {
+        const formData = new FormData();
+        formData.append('directoryNames', 'PATIENT_DOCUMENT');
+        formData.append('file', uploadDocsList[i]);
+        formData.append('userId', patientDet.patientId);
+        const { error, response } = fileUpload(formData);
+        if (error != null) {
+          console.log('======error======');
+          console.log(error);
+          Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
+        } else {
+          console.log('======response======');
+          console.log(response.fileToken);
+          if (response.fileToken != null) {
+            // console.log(response.fileToken);
+            const x = {
+              consultationId,
+              documentName: uploadDocsList[i].name,
+              documentPath: response.fileToken,
+            };
+            p.push(x);
+            console.log(p);
+          } else Alert.alert('Error', 'Please try again.');
+        }
+      }
 
-  //     console.log('File to be uploaded\n\n', p);
+      console.log('File to be uploaded\n\n', p);
 
-  //     // uploading files
-  //     if (p.length > 0) await uploadDocs(p);
-  //   } else Alert.alert('Warning', 'Please select a file before uploading');
-  // };
+      // uploading files
+      if (p.length > 0) await uploadDocs(p);
+    } else Alert.alert('Warning', 'Please select a file before uploading');
+  };
 
-  // const uploadDocs = async (p) => {
-  //   console.log('inside uploading docs with\n\n', p);
-  //   await axios
-  //     .post(`${apiConfig.baseUrl}/patient/consultation/document/save`, p)
-  //     .then((response) => {
-  //       if (response.status == 200) {
-  //         Alert.alert('Done', 'Selected files have been uploaded successfully', [
-  //           {
-  //             text: 'ok',
-  //             onPress: async () => {
-  //               const gar = await getFiles(consultationId);
-  //               seteditDocs(false);
-  //             },
-  //           },
-  //         ]);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert('Error', `${error}`);
-  //     });
-  // };
+  const uploadDocs = async (p) => {
+    console.log('inside uploading docs with\n\n', p);
+    await axios
+      .post(`${apiConfig.baseUrl}/patient/consultation/document/save`, p)
+      .then((response) => {
+        if (response.status === 200) {
+          Alert.alert('Done', 'Selected files have been uploaded successfully', [
+            {
+              text: 'ok',
+              onPress: async () => {
+                const gar = await getFiles(consultationId);
+                seteditDocs(false);
+              },
+            },
+          ]);
+        }
+      })
+      .catch((error) => {
+        Alert.alert('Error', `${error}`);
+      });
+  };
 
   const ViewUploadList = () =>
     uploadDocsList.map((uploadDoc, index) => (
@@ -1540,6 +1256,7 @@ export default function MyAppointments() {
                 />
                 <Text style={{ color: '#2b8ada', fontSize: 12 }}>Refresh</Text>
               </TouchableOpacity>
+
               {CompletedData !== '' ? (
                 <FlatList
                   data={CompletedData}
@@ -1619,6 +1336,7 @@ export default function MyAppointments() {
             </View>
           </Modal>
         ) : null}
+
         {docsModal ? (
           <Modal
             animationType="slide"
@@ -1816,6 +1534,7 @@ export default function MyAppointments() {
                             value={fileName}
                           />
                         </View>
+
                         {/* File Select Button */}
                         <TouchableOpacity
                           style={[
@@ -1888,10 +1607,8 @@ export default function MyAppointments() {
                               paddingHorizontal: 15,
                             }}
                             onPress={async () => {
-                              // await saveQuestions();
-                              // TODO: Uncomment below
-                              // await initiateUploadDocs();
-                              // seteditDocs(false);
+                              await initiateUploadDocs();
+                              seteditDocs(false);
                             }}
                           />
                           <CustomButton
@@ -1911,7 +1628,6 @@ export default function MyAppointments() {
                               marginTop: 10,
                             }}
                             onPress={async () => {
-                              // await saveQuestions();
                               seteditDocs(false);
                               setuploadDocsList([]);
                             }}
@@ -1925,6 +1641,7 @@ export default function MyAppointments() {
             </View>
           </Modal>
         ) : null}
+
         {quesAnsModal ? (
           <Modal
             animationType="slide"
@@ -1969,29 +1686,7 @@ export default function MyAppointments() {
                   >
                     Questionnaire
                   </Text>
-                  {/* {upcomingActive && editQuestions == false ? (
-                    <Text
-                      style={{
-                        textDecorationColor: '#2b8ada',
-                        textDecorationStyle: 'solid',
-                        alignSelf: 'center',
-                        position: 'absolute',
-                        right: 35,
-                        textDecorationLine: 'underline',
-                        color: '#2b8ada',
-                        fontSize: 13,
-                        fontWeight: 'bold',
-                      }}
-                      onPress={() => {
-                        Alert.alert(
-                          'Edit Questionnaire',
-                          'You can now edit your response',
-                        );
-                        seteditQuestions(true);
-                      }}>
-                      Edit
-                    </Text>
-                  ) : null} */}
+
                   <FAIcons
                     name="window-close"
                     color="black"
@@ -2111,6 +1806,7 @@ export default function MyAppointments() {
             </View>
           </Modal>
         ) : null}
+
         {PrescriptionModal ? (
           <Modal
             animationType="slide"
@@ -2237,14 +1933,7 @@ export default function MyAppointments() {
                         borderRadius: 10,
                       }}
                       onPress={async () => {
-                        // let fileName = prescriptionId.split('/').pop();
-                        // //console.log(fileName);
-                        // await RNFS.copyFile(
-                        //   prescriptionId,
-                        //   `file://${RNFS.DownloadDirectoryPath}/` + fileName,
-                        // );
-                        // TODO: Uncomment below
-                        // await downloadDownloads(downloadToken, downloadId, downloadFileName);
+                        await downloadDownloads(downloadToken, downloadId, downloadFileName);
                       }}
                     />
                   </View>
@@ -2428,12 +2117,10 @@ export default function MyAppointments() {
                     }}
                     text="Proceed"
                     textstyle={{ color: 'white', fontSize: 15 }}
-                    // onPress={() => setCancelModal(false)}
                     onPress={async () => {
                       if (cancelReason !== '') {
                         const p = {
                           cancelationReason: cancelReason,
-                          // clinicId: 0,
                           consultationId: cancelItem.consultationId,
                           consultationType: cancelItem.consultationType,
                           doctorId: cancelItem.doctorId,
@@ -2482,6 +2169,7 @@ export default function MyAppointments() {
             </View>
           </Modal>
         ) : null}
+
         {isLoading && (
           <View
             style={{
