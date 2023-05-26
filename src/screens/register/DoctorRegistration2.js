@@ -18,8 +18,7 @@ import {
 } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// TODO: Uncomment below
-// import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import { SelectList } from 'react-native-dropdown-select-list';
 // TODO: Uncomment below
 // import Pdf from 'react-native-pdf';
@@ -469,18 +468,17 @@ export default function DoctorRegistration2() {
     } */
   };
 
-  // TODO: Uncomment below
-  /* const download = async (fileToken, userId, fileName) => {
+  const download = async (fileToken, userId, fileName) => {
     setisLoading(true);
     const filePath = `file://${RNFS.CachesDirectoryPath}/`;
     const options = {
       fromUrl: `${apiConfig.baseUrl}/file/download?fileToken=${fileToken}&userId=${userId}`,
       toFile: filePath + fileName,
     };
-    
+
     await RNFS.downloadFile(options)
       .promise.then((response) => {
-        if (response.statusCode == 200) {
+        if (response.statusCode === 200) {
           setdocPath(filePath + fileName);
           setdocsModal(true);
           setisLoading(false);
@@ -493,7 +491,7 @@ export default function DoctorRegistration2() {
         setisLoading(false);
         Alert.alert('Error', `${e}`);
       });
-  }; */
+  };
 
   const dataShowQues = [
     { key: 'Yes', value: 'Yes' },
@@ -885,10 +883,12 @@ export default function DoctorRegistration2() {
               {doc.identificationType}
             </Text>
           </View>
+
           {/* Identification Number */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{doc.identificationNumber}</Text>
           </View>
+
           {/* Actions */}
           <TouchableOpacity
             style={[
@@ -904,12 +904,11 @@ export default function DoctorRegistration2() {
               size={15}
               color="#2b8ada"
               onPress={() => {
-                // TODO: uncomment below
-                /* download(
+                download(
                   doc.identificationPath,
                   doctorId,
                   `${doctorId}_DoctorIdentification_${doc.identificationType}.pdf`
-                ); */
+                );
               }}
             />
             <FAIcon
@@ -957,14 +956,17 @@ export default function DoctorRegistration2() {
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{education.degree}</Text>
           </View>
+
           {/* Passing Year */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{education.passingYear}</Text>
           </View>
+
           {/* Specialization */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{education.specialization}</Text>
           </View>
+
           {/* University */}
           <View style={styles.cellStyle}>
             <Text
@@ -984,12 +986,11 @@ export default function DoctorRegistration2() {
               size={15}
               color="#2b8ada"
               onPress={() => {
-                // TODO: uncomment below
-                /* download(
+                download(
                   education.degreePath,
                   doctorId,
                   `${doctorId}_DoctorEducation_${education.degree}_${education.passingYear}.pdf`
-                ); */
+                );
               }}
             />
             <FAIcon
@@ -1033,6 +1034,7 @@ export default function DoctorRegistration2() {
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{experience.practiceAt}</Text>
           </View>
+
           {/* Start Date */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>
@@ -1041,6 +1043,7 @@ export default function DoctorRegistration2() {
                 : 'DD-MM-YYYY'}
             </Text>
           </View>
+
           {/* End Date */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>
@@ -1049,6 +1052,7 @@ export default function DoctorRegistration2() {
                 : ''}
             </Text>
           </View>
+
           {/* Total Experience */}
           <View style={styles.cellStyle}>
             {Math.floor(experience.experienceInMonths / 12) > 0 ? (
@@ -1121,12 +1125,7 @@ export default function DoctorRegistration2() {
           <View style={[styles.cellStyle, { flex: 0.3 }]}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{index + 1}</Text>
           </View>
-          {/* Speciality */}
-          {/* <View style={styles.cellStyle}>
-              <Text style={{textAlign: 'center', fontSize: 10}}>
-                {ques.specialization}
-              </Text>
-            </View> */}
+
           {/* Question */}
           <View style={styles.cellStyle}>
             <Text style={{ textAlign: 'center', fontSize: 10 }}>{ques.questions}</Text>
@@ -1790,43 +1789,12 @@ export default function DoctorRegistration2() {
                 </TouchableOpacity>
               </View>
             </View>
+
             {/* General Info Body */}
             {showGenInfo ? (
               <View>
                 <View style={styles.whiteBodyView}>
                   <View style={{ flexDirection: 'column', marginVertical: 10 }}>
-                    {/* <View
-                      style={{
-                        flexDirection: "row",
-                        alignSelf: "center",
-                        backgroundColor: "#E8F0FE",
-                        width: "90%",
-                        height: 52,
-                        borderRadius: 5,
-                      }}
-                    >
-                      <View
-                        style={{
-                          flexDirection: "column",
-                          flex: 1,
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignSelf: "center",
-                            alignItems: "center",
-                            flex: 1,
-                          }}
-                        >
-                          <Image
-                            source={upload}
-                            style={{ marginRight: "5%" }}
-                          ></Image>
-                          <Text style={{ fontSize: 12 }}>Upload Image</Text>
-                        </View>
-                      </View>
-                    </View> */}
                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
                       <View style={{ flex: 0.45, marginRight: '5%' }}>
                         <Text style={styles.inputLabel}>Title</Text>
@@ -2210,8 +2178,6 @@ export default function DoctorRegistration2() {
                         text="Save"
                         textstyle={{ fontSize: 12, color: 'white' }}
                         style={{
-                          // marginRight: '5%',
-                          // flex: 0.5,
                           flex: 1,
                           backgroundColor: '#2b8ada',
                           padding: 5,
@@ -2229,8 +2195,6 @@ export default function DoctorRegistration2() {
                               'Incomplete Details!',
                               'Please Upload Medical Registration Certificate'
                             );
-                          // else if (certificatePath == '')
-                          //   Alert.alert('Incomplete Details!', 'Please Select Document');
                           else if (!checkAlphanumicOnly(RegNo)) {
                             Alert.alert(
                               'Invalid Input',
@@ -2608,8 +2572,6 @@ export default function DoctorRegistration2() {
                         text="Save"
                         textstyle={{ color: 'white', fontSize: 12 }}
                         style={{
-                          // marginRight: '5%',
-                          // flex: 0.5,
                           flex: 1,
                           backgroundColor: '#2b8ada',
                           padding: 5,
@@ -2629,6 +2591,7 @@ export default function DoctorRegistration2() {
                 </View>
               </View>
             ) : null}
+
             {/* Experience Label */}
             <View
               style={{
@@ -2693,6 +2656,7 @@ export default function DoctorRegistration2() {
                 </TouchableOpacity>
               </View>
             </View>
+
             {/* Experience Body */}
             {showExpDet ? (
               <View style={{ flex: 1 }}>
@@ -2979,11 +2943,6 @@ export default function DoctorRegistration2() {
                               );
                             else if (endExpDate === '' && checkPresent === false)
                               Alert.alert('Incomplete Details!', 'Please select practice end date');
-                            // else if (expPhotoPath == 0)
-                            //   Alert.alert(
-                            //     'Incomplete Details!',
-                            //     'Please upload experience certificate.',
-                            //   );
                             else {
                               const p = {
                                 currentlyThere: checkPresent,
@@ -3312,8 +3271,6 @@ export default function DoctorRegistration2() {
                                   setidentificationNumber('');
                                   setidentificationType('');
                                 }
-                                // else
-                                // uploadIdenDoc();
                               }
 
                               if (flag === 1) {
@@ -3397,8 +3354,6 @@ export default function DoctorRegistration2() {
                         text="Save"
                         textstyle={{ color: 'white', fontSize: 12 }}
                         style={{
-                          // marginRight: '5%',
-                          // flex: 0.5,
                           flex: 1,
                           backgroundColor: '#2b8ada',
                           padding: 5,
@@ -3472,7 +3427,6 @@ export default function DoctorRegistration2() {
                         ? 'check-circle'
                         : 'chevron-right'
                     }
-                    // color={dataSavedAddInfo ? '#2B8ADA' : 'gray'}
                     style={[
                       styles.label,
                       { width: '10%', fontSize: 20 },
@@ -3756,8 +3710,6 @@ export default function DoctorRegistration2() {
                           text="Save"
                           textstyle={{ color: 'white', fontSize: 12 }}
                           style={{
-                            // marginRight: '5%',
-                            // flex: 0.5,
                             flex: 1,
                             backgroundColor: '#2b8ada',
                             padding: 5,
@@ -3838,7 +3790,6 @@ export default function DoctorRegistration2() {
                         ? 'check-circle'
                         : 'chevron-right'
                     }
-                    // color={dataSavedPreConsultationQuestionaire ? '#2B8ADA' : 'gray'}
                     style={[
                       styles.label,
                       { width: '10%', fontSize: 20 },
@@ -4134,7 +4085,6 @@ export default function DoctorRegistration2() {
                         ? 'check-circle'
                         : 'chevron-right'
                     }
-                    // color={dataSavedConsultFees ? '#2B8ADA' : 'gray'}
                     style={[
                       styles.label,
                       { width: '10%', fontSize: 20 },
@@ -4278,7 +4228,6 @@ export default function DoctorRegistration2() {
                       text="Save"
                       textstyle={{ color: 'white', fontSize: 12 }}
                       style={{
-                        // marginRight: '5%',
                         flex: 1,
                         backgroundColor: '#2b8ada',
                         padding: 5,
@@ -4495,11 +4444,10 @@ export default function DoctorRegistration2() {
                       onPress={async () => {
                         const fileName = docPath.split('/').pop();
                         // console.log(fileName);
-                        // TODO: Uncomment below
-                        /* await RNFS.copyFile(
+                        await RNFS.copyFile(
                           docPath,
                           `file://${RNFS.DownloadDirectoryPath}/${fileName}`
-                        ); */
+                        );
                         Alert.alert(
                           'Downloaded',
                           `Document has been downloaded under the name of:- ${fileName}`
@@ -4643,7 +4591,6 @@ export default function DoctorRegistration2() {
                   alignSelf: 'center',
                   width: 80,
                   height: 80,
-                  // borderRadius: 150,
                 }}
               />
               <Text
@@ -4654,7 +4601,6 @@ export default function DoctorRegistration2() {
                   fontSize: 15,
                   fontWeight: 'bold',
                   width: '100%',
-                  // padding: 10,
                 }}
               >
                 Please Wait...
@@ -4692,7 +4638,6 @@ export default function DoctorRegistration2() {
                   alignSelf: 'center',
                   width: 80,
                   height: 80,
-                  // borderRadius: 150,
                 }}
               />
               <Text
@@ -4704,7 +4649,6 @@ export default function DoctorRegistration2() {
                   fontWeight: 'bold',
                   width: '100%',
                   marginVertical: 5,
-                  // padding: 10,
                 }}
               >
                 {'Please wait '}
@@ -4755,7 +4699,6 @@ export default function DoctorRegistration2() {
                   alignSelf: 'center',
                   width: 80,
                   height: 80,
-                  // borderRadius: 150,
                 }}
               />
               <Text
@@ -4767,7 +4710,6 @@ export default function DoctorRegistration2() {
                   fontWeight: 'bold',
                   width: '100%',
                   marginVertical: 5,
-                  // padding: 10,
                 }}
               >
                 {'Uploading '}
@@ -5017,13 +4959,10 @@ export default function DoctorRegistration2() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#2B8ADA',
   },
   textInput: {
-    // flex: 0.45,
     padding: 5,
     color: 'black',
     backgroundColor: '#E8F0FE',

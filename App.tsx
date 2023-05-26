@@ -1,10 +1,13 @@
 import React from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { LogBox, StatusBar, useColorScheme } from 'react-native';
 import { NativeBaseProvider } from 'native-base';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppNavigator from './src/navigation/AppNavigator';
 import theme from './src/styles/theme';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); // Ignore all log notifications
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

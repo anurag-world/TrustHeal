@@ -20,7 +20,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SelectList } from 'react-native-dropdown-select-list';
 import dayjs from 'dayjs';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-// import RNFS from 'react-native-fs';
 
 // icons
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -49,7 +48,6 @@ export default function PatientRegistration() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [complete, setcomplete] = useState(0);
-  // const [File, setFile] = useState(null);
   const [patientId, setpatientId] = useState(null);
 
   const [checkTerms, setCheckTerms] = useState(false);
@@ -67,42 +65,7 @@ export default function PatientRegistration() {
   const [Weight, setWeight] = useState('');
   const [Height, setHeight] = useState('');
 
-  // const [zoom, setZoom] = useState(1);
-
   const navigation = useNavigation();
-
-  // const onZoomIn = () => {
-  //   if (zoom < 2.5) setZoom(zoom + 0.25);
-  // };
-  // const onZoomOut = () => {
-  //   if (zoom > 1) setZoom(zoom - 0.25);
-  // };
-  // const downloadTerms = async () => {
-  //   let op = {};
-  //   if (Platform.OS == 'ios') op = {NSURLIsExcludedFromBackupKey: true};
-  //   await RNFS.mkdir(`file://${RNFS.DownloadDirectoryPath}/Arogya`, op);
-  //   const filePath = `file://${RNFS.CachesDirectoryPath}/`;
-  //   const options = {
-  //     fromUrl: `http://trustheal.in/TrusHeal_Agreement_with_Patient.pdf`,
-  //     toFile: `${filePath}TermsPatient.pdf`,
-  //   };
-
-  //   await RNFS.downloadFile(options)
-  //     .promise.then((response) => {
-  //       console.log(response);
-  //       if (response.statusCode == 200) {
-  //         //  Alert.alert(
-  //         //   'File Downloaded',
-  //         //   `The file is downloaded. File name is ${fileName}.`,
-  //         // );
-  //         setFile(`${filePath}TermsPatient.pdf`);
-  //       } else if (response.statusCode == 204) Alert.alert('Sorry', 'The file does not exist');
-  //       else Alert.alert('Download Fail', `Unable to download file. ${response.statusCode}`);
-  //     })
-  //     .catch((e) => {
-  //       Alert.alert('Error', `${e}`);
-  //     });
-  // };
 
   const dataGender = [
     { key: 'Male', value: 'Male' },
@@ -167,22 +130,7 @@ export default function PatientRegistration() {
 
     hideDatePicker();
   };
-  /*
-  const openURL = useCallback(async (url) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
-  }, []);
-  const viewTermsConditions = () => {
-    openURL('https://www.google.com');
-  };
-  const viewPrivacyPolicy = () => {
-    openURL('https://www.google.com');
-  };
-  */
+
   const postData = async () => {
     setisLoading(true);
 
@@ -191,21 +139,16 @@ export default function PatientRegistration() {
     const p = {
       age,
       allowWhatsAppNotification: false,
-      // bloodGroup: BloodGroup,
       city,
       dob: dayjs(dob).format('YYYY-MM-DD'),
-      // email: email,
       firebaseToken: token,
       gender,
-      // height: Height,
       locationPermissions: 'DONT_ALLOW',
       mobileNumber: mobno,
-      // occupation: Occupation,
       patientPhoto: 0,
       patientName: `${title} ${name}`,
       pincode,
       termsAndConditions: true,
-      // weight: Weight,
       whatsAppNumber: mobno,
     };
     DeviceInfo.getIpAddress().then((ip) => {
@@ -287,11 +230,6 @@ export default function PatientRegistration() {
     } else if (title === '')
       Alert.alert('Incomplete Details', 'Please select title before continuing.');
     else if (name === '') Alert.alert('Incomplete Details', 'Please enter name before continuing.');
-    // else if (email == '')
-    //   Alert.alert(
-    //     'Incomplete Details',
-    //     'Please enter email before continuing.',
-    //   );
     else if (gender === '')
       Alert.alert('Incomplete Details', 'Please select gender before continuing.');
     else if (city === '')
@@ -301,9 +239,6 @@ export default function PatientRegistration() {
   };
 
   const onLogout = async () => {
-    // const fcmToken = await AsyncStorage.getItem('fcmToken');
-    // await AsyncStorage.multiRemove(await AsyncStorage.getAllKeys());
-    // await AsyncStorage.setItem('fcmToken', fcmToken);
     await logoutAction(navigation);
   };
 
@@ -362,6 +297,7 @@ export default function PatientRegistration() {
               </Text>
             </View>
           </View>
+
           {/* Image */}
           <View>
             <View
@@ -388,6 +324,7 @@ export default function PatientRegistration() {
               />
             </View>
           </View>
+
           {/* General Info Label */}
           <View
             style={{
@@ -442,6 +379,7 @@ export default function PatientRegistration() {
               </TouchableOpacity>
             </View>
           </View>
+
           {/* General Info Body */}
           {showGenInfo && (
             <View>
@@ -493,6 +431,7 @@ export default function PatientRegistration() {
                         badgeStyles={{ backgroundColor: '#2b8ada' }}
                       />
                     </View>
+
                     {/* Full Name Sub-Label */}
                     <View style={{ flex: 0.6 }}>
                       <View style={{ flexDirection: 'row', marginBottom: 5 }}>
@@ -526,7 +465,6 @@ export default function PatientRegistration() {
                     <View style={{ flex: 0.9, justifyContent: 'center' }}>
                       <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                         <Text style={styles.inputLabel}>Email</Text>
-                        {/* <Text style={{color: 'red'}}>*</Text> */}
                       </View>
                       <TextInput
                         style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
@@ -538,6 +476,7 @@ export default function PatientRegistration() {
                       />
                     </View>
                   </View>
+
                   {/* DOB and Gender */}
                   <View
                     style={{
@@ -582,20 +521,7 @@ export default function PatientRegistration() {
                         />
                       </View>
                     </View>
-                    {/* <View style={{flex: 0.45}}>
-                      <Text style={styles.inputLabel}>Age</Text>
-                      <Text
-                        style={[
-                          styles.textInput,
-                          {
-                            backgroundColor: '#E8F0FE',
-                            paddingVertical: 8,
-                            color: 'black',
-                          },
-                        ]}>
-                        {age}
-                      </Text>
-                    </View> */}
+
                     <View style={{ flex: 0.45 }}>
                       <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                         <Text style={styles.inputLabel}>Gender</Text>
@@ -664,6 +590,7 @@ export default function PatientRegistration() {
               </View>
             </View>
           )}
+
           {/* Other Information Label */}
           <View
             style={{
@@ -891,6 +818,7 @@ export default function PatientRegistration() {
             </Button>
           </View>
         </ScrollView>
+
         {termsView && (
           <Modal
             animationType="slide"
