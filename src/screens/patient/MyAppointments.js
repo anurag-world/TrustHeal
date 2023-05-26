@@ -22,8 +22,6 @@ import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// TODO: Uncomment
-// import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import Pdf from 'react-native-pdf';
 import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';

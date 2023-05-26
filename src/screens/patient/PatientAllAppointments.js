@@ -23,8 +23,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// TODO: Add below
-// import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import Pdf from 'react-native-pdf';
