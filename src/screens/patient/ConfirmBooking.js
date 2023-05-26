@@ -614,7 +614,7 @@ export default function ConfirmBoking() {
                 isChecked={privatePolicy}
                 onChange={() => setprivatePolicy((prev) => !prev)}
                 borderRadius="xl"
-                checkedColor="#2b8ada"
+                _checked={{ bg: '#2b8ada' }}
                 _text={{ color: 'text.primary', fontSize: 12 }}
               />
               <Text style={{ fontSize: 12, fontWeight: 'bold' }}>

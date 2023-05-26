@@ -31,8 +31,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 // import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import dayjs from 'dayjs';
 import axios from 'axios';
-// TODO: Uncomment below
-// import { CheckBox } from 'react-native-elements';
+import { Checkbox } from 'native-base';
 // TODO: Uncomment below
 // import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -2876,23 +2875,19 @@ export default function DoctorRegistration2() {
                                 setEndExpDatePickerVisible(false);
                               }}
                             />
-                            {/* TODO: Uncomment below */}
-                            {/* <CheckBox
-                              title={<Text style={{ fontSize: 10 }}>Present (Current)</Text>}
-                              containerStyle={{
-                                marginTop: 3,
-                                width: '100%',
-                                borderWidth: 0,
-                                padding: 0,
-                                backgroundColor: 'white',
-                              }}
-                              checkedColor="#2b8ada"
-                              checked={checkPresent}
-                              onPress={async () => {
-                                setcheckPresent(!checkPresent);
+                            <Checkbox
+                              shadow={1}
+                              isChecked={checkPresent}
+                              onChange={async () => {
+                                setcheckPresent((prev) => !prev);
                                 await calculateExpPresent();
                               }}
-                            /> */}
+                              marginTop={4}
+                              borderWidth={0}
+                              _checked={{ bg: '#2b8ada' }}
+                            >
+                              <Text style={{ fontSize: 12 }}>Present (Current)</Text>
+                            </Checkbox>
                           </View>
                         </View>
                         <Text style={styles.inputLabel}>Experience Certificate</Text>

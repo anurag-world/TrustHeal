@@ -21,8 +21,7 @@ import { SelectList, MultipleSelectList } from 'react-native-dropdown-select-lis
 // import RNFS from 'react-native-fs';
 
 // icons
-// TODO: Uncomment below
-// import { CheckBox } from 'react-native-elements';
+import { Checkbox } from 'native-base';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -617,37 +616,32 @@ export default function RegisterDoctor() {
                   marginTop: 5,
                 }}
               >
-                {/* TODO: Uncomment below */}
-                {/* <CheckBox
-                  title={
-                    <Text>
-                      I agree to the{' '}
-                      <Text
-                        style={[styles.textLink]}
-                        onPress={async () => {
-                          setTermsView(true);
-                        }}
-                      >
-                        Terms and Conditions
-                      </Text>
-                    </Text>
-                  }
-                  containerStyle={{
-                    width: '100%',
-                    backgroundColor: '#e8f0fe',
-                    borderWidth: 0,
-                    padding: 0,
-                    margin: 0,
-                  }}
-                  textStyle={{
+                <Checkbox
+                  shadow={1}
+                  isChecked={checkTerms}
+                  onChange={() => setCheckTerms((prev) => !prev)}
+                  my={2}
+                  borderWidth={0}
+                  marginLeft={2}
+                  _checked={{ bg: '#2b8ada' }}
+                  _text={{
                     fontSize: 10,
                     textAlign: 'center',
                     fontWeight: 'bold',
                   }}
-                  checkedColor="#2b8ada"
-                  checked={checkTerms}
-                  onPress={() => setCheckTerms(!checkTerms)}
-                /> */}
+                >
+                  <Text>
+                    I agree to the{' '}
+                    <Text
+                      style={[styles.textLink]}
+                      onPress={async () => {
+                        setTermsView(true);
+                      }}
+                    >
+                      Terms and Conditions
+                    </Text>
+                  </Text>
+                </Checkbox>
               </View>
             </View>
 

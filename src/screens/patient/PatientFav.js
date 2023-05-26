@@ -104,7 +104,7 @@ export default function PatientFav() {
         }}
         size="sm"
         isChecked={FilterExperienceValueMax === item.max}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       {item.max !== 1200 ? (
         <Text style={styles.FilterValueText}>
@@ -134,7 +134,7 @@ export default function PatientFav() {
         }}
         size="sm"
         isChecked={FilterFeesValueMax === item.max}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>
         ₹ {item.min} - {item.max}
@@ -163,7 +163,7 @@ export default function PatientFav() {
         onChange={() => setFilterSplValue(item.key)}
         size="sm"
         isChecked={FilterSplValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
@@ -179,7 +179,7 @@ export default function PatientFav() {
         onChange={() => setFilterGenderValue(item.key)}
         size="sm"
         isChecked={FilterGenderValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
@@ -195,7 +195,7 @@ export default function PatientFav() {
         onChange={() => setFilterModeValue(item.key)}
         size="sm"
         isChecked={FilterModeValue === item.value}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
       />
       <Text style={styles.FilterValueText}>{item.key}</Text>
     </View>
@@ -504,7 +504,7 @@ export default function PatientFav() {
                       onChange={() => setSortByAvailability((prev) => !prev)}
                       size="sm"
                       isChecked={SortByAvailability}
-                      checkedColor="#2b8ada"
+                      _checked={{ bg: '#2b8ada' }}
                     />
                   </View>
                   {/* Experience */}
@@ -514,7 +514,7 @@ export default function PatientFav() {
                       onChange={() => setSortByExperience((prev) => !prev)}
                       size="sm"
                       isChecked={SortByExperience}
-                      checkedColor="#2b8ada"
+                      _checked={{ bg: '#2b8ada' }}
                     />
                   </View>
                   {/* Low to High */}
@@ -527,7 +527,7 @@ export default function PatientFav() {
                       }}
                       size="sm"
                       isChecked={SortByPriceLH}
-                      checkedColor="#2b8ada"
+                      _checked={{ bg: '#2b8ada' }}
                     />
                   </View>
                   {/* High to Low */}
@@ -540,7 +540,7 @@ export default function PatientFav() {
                       }}
                       size="sm"
                       isChecked={SortByPriceHL}
-                      checkedColor="#2b8ada"
+                      _checked={{ bg: '#2b8ada' }}
                     />
                   </View>
                 </View>

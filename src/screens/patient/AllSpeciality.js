@@ -102,7 +102,7 @@ export default function AllSpeciality() {
         onChange={() => CheckBoxPressed(item)}
         size="sm"
         isChecked={selectedSpeciality.indexOf(item.value) !== -1}
-        checkedColor="#2b8ada"
+        _checked={{ bg: '#2b8ada' }}
         accessibilityLabel="Select Speciality"
       />
       <Image
