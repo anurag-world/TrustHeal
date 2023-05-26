@@ -27,8 +27,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import dayjs from 'dayjs';
-// TODO: Uncomment below
-// import Pdf from 'react-native-pdf';
+import Pdf from 'react-native-pdf';
 import CustomButton from '../../components/CustomButton';
 
 // images
@@ -2685,8 +2684,7 @@ export default function DoctorHome() {
                           borderColor: 'gray',
                         }}
                       >
-                        {/* TODO: Uncomment below */}
-                        {/* <Pdf
+                        <Pdf
                           source={{
                             uri: prescriptionId,
                           }}
@@ -2695,9 +2693,8 @@ export default function DoctorHome() {
                             height: 275,
                             alignSelf: 'center',
                           }}
-                          // onLoadComplete={() => console.log('fully loaded')}
                           scale={zoom}
-                        /> */}
+                        />
                       </View>
 
                       <View style={{ alignSelf: 'center', flexDirection: 'column' }}>

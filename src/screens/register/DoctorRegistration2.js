@@ -20,8 +20,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNFS from 'react-native-fs';
 import { SelectList } from 'react-native-dropdown-select-list';
-// TODO: Uncomment below
-// import Pdf from 'react-native-pdf';
+import Pdf from 'react-native-pdf';
 
 // icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -4364,8 +4363,7 @@ export default function DoctorRegistration2() {
                       borderColor: 'gray',
                     }}
                   >
-                    {/* TODO: Uncomment below */}
-                    {/* <Pdf
+                    <Pdf
                       source={{
                         uri: docPath,
                       }}
@@ -4376,7 +4374,7 @@ export default function DoctorRegistration2() {
                       }}
                       // onLoadComplete={() => console.log('fully loaded')}
                       scale={zoom}
-                    /> */}
+                    />
                   </View>
                   <View style={{ alignSelf: 'center', flexDirection: 'column' }}>
                     {/* Zoom Controls */}
