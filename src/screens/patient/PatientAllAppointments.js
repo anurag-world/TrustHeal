@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 // TODO: Merge common functions
 import React, { useState, useEffect } from 'react';
 import {
@@ -24,18 +23,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// TODO: Add below
-// import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import Pdf from 'react-native-pdf';
-// TODO: Add below
-// import DocumentPicker, {
-//   DirectoryPickerResponse,
-//   DocumentPickerResponse,
-//   isInProgress,
-//   types,
-// } from 'react-native-document-picker';
+import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig, { fileUpload } from '../../components/API/apiConfig';
 
@@ -47,7 +38,6 @@ import waiting from '../../../assets/animations/waiting1.gif';
 
 export default function PatientAllAppointments() {
   const [isLoading, setisLoading] = useState(false);
-  const [upcomingActive, setupcomingActive] = useState(true);
   const [CompletedData, setCompletedData] = useState([]);
   const [rescheduleModal, setrescheduleModal] = useState(false);
   const [patientDet, setpatientDet] = useState(null);
@@ -62,7 +52,6 @@ export default function PatientAllAppointments() {
   const [doctorId, setdoctorId] = useState(null);
   const [documentName, setdocumentName] = useState(null);
   const [fileName, setfileName] = useState('');
-  const [fileToken, setfileToken] = useState(null);
   const [uploadDocsList, setuploadDocsList] = useState([]);
 
   const [downloadToken, setdownloadToken] = useState(null);
@@ -72,6 +61,9 @@ export default function PatientAllAppointments() {
   const [PrescriptionModal, setPrescriptionModal] = useState(false);
   const [prescriptionId, setprescriptionId] = useState(false);
   const [zoom, setZoom] = useState(1);
+
+  const upcomingActive = true;
+  const fileToken = null;
 
   const navigation = useNavigation();
 
@@ -155,7 +147,7 @@ export default function PatientAllAppointments() {
       });
   };
 
-  const getFiles = async (id) => {
+  /* const getFiles = async (id) => {
     let Quesflag = 1;
     let Docsflag = 1;
     await axios
@@ -177,7 +169,8 @@ export default function PatientAllAppointments() {
     p.push(Docsflag);
     p.push(Quesflag);
     return p;
-  };
+  }; */
+
   const getQuestions = async (id, getConsultationId) => {
     await axios
       .get(`${apiConfig.baseUrl}/patient/doctor/questions?doctorId=${id}`)
@@ -234,8 +227,6 @@ export default function PatientAllAppointments() {
         padding: 5,
         margin: 5,
         flexDirection: 'column',
-        // width: 290,
-        // height: 80,
       }}
       key={item.consultationId}
     >
@@ -450,7 +441,7 @@ export default function PatientAllAppointments() {
             }}
             onPress={async () => {
               setconsultationId(item.consultationId);
-              const p = await getFiles(item.consultationId);
+              // const p = await getFiles(item.consultationId);
               setdocsModal(true);
             }}
           >
@@ -473,7 +464,7 @@ export default function PatientAllAppointments() {
             onPress={async () => {
               setconsultationId(item.consultationId);
               // await getFiles(item.consultationId);
-              const p = await getFiles(item.consultationId);
+              // const p = await getFiles(item.consultationId);
               seteditQuestions(false);
               setquesAnsModal(true);
               // setdocsModal(true);
@@ -604,43 +595,39 @@ export default function PatientAllAppointments() {
     setQuestionnaireList(temp);
   };
 
-  // TODO: uncomment
-  // const selectDocs = async () => {
-  //   try {
-  //     console.log('==============Inside select Docs==========');
+  const selectDocs = async () => {
+    try {
+      console.log('==============Inside select Docs==========');
 
-  //     const pickerResult = await DocumentPicker.pickSingle({
-  //       presentationStyle: 'fullScreen',
-  //       copyTo: 'cachesDirectory',
-  //       type: types.pdf,
-  //     });
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: 'fullScreen',
+        copyTo: 'cachesDirectory',
+        type: types.pdf,
+      });
 
-  //     if (pickerResult.size > 2097152)
-  //       Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
-  //     else {
-  //       pickerResult.name = `${fileName}.pdf`;
-  //       console.log(pickerResult.name);
-  //       uploadDocsList.push(pickerResult);
-  //       setfileName('');
-  //     }
-  //   } catch (e) {
-  //     handleError(e);
-  //   }
-  // };
+      if (pickerResult.size > 2097152)
+        Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
+      else {
+        pickerResult.name = `${fileName}.pdf`;
+        console.log(pickerResult.name);
+        uploadDocsList.push(pickerResult);
+        setfileName('');
+      }
+    } catch (e) {
+      handleError(e);
+    }
+  };
 
-  // TODO: uncomment below
-  // const handleError = err => {
-  //   if (DocumentPicker.isCancel(err)) {
-  //     console.warn('cancelled');
-  //     // User cancelled the picker, exit any dialogs or menus and move on
-  //   } else if (isInProgress(err)) {
-  //     console.warn(
-  //       'multiple pickers were opened, only the last will be considered',
-  //     );
-  //   } else {
-  //     throw err;
-  //   }
-  // };
+  const handleError = (err) => {
+    if (DocumentPicker.isCancel(err)) {
+      console.warn('cancelled');
+      // User cancelled the picker, exit any dialogs or menus and move on
+    } else if (isInProgress(err)) {
+      console.warn('multiple pickers were opened, only the last will be considered');
+    } else {
+      throw err;
+    }
+  };
 
   const initiateUploadDocs = async () => {
     const p = [];
@@ -689,7 +676,7 @@ export default function PatientAllAppointments() {
             {
               text: 'ok',
               onPress: async () => {
-                const gar = await getFiles(consultationId);
+                // const gar = await getFiles(consultationId);
                 seteditDocs(false);
               },
             },
@@ -1073,13 +1060,12 @@ export default function PatientAllAppointments() {
                               : { borderColor: '#21c47f' },
                           ]}
                           onPress={async () => {
-                            // TODO: Uncomment
-                            // if (!isEmpty(fileName) ) await selectDocs();
-                            // else
-                            //   Alert.alert(
-                            //     'Incomplete Details!',
-                            //     'Please enter file name before selecting file'
-                            //   );
+                            if (!isEmpty(fileName)) await selectDocs();
+                            else
+                              Alert.alert(
+                                'Incomplete Details!',
+                                'Please enter file name before selecting file'
+                              );
                           }}
                         >
                           <FAIcons

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
@@ -24,17 +23,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// TODO: Add below
-// import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import Pdf from 'react-native-pdf';
-// TODO: Add below
-// import DocumentPicker, {
-//   DirectoryPickerResponse,
-//   DocumentPickerResponse,
-//   isInProgress,
-//   types,
-// } from 'react-native-document-picker';
+import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig, { fileUpload } from '../../components/API/apiConfig';
 
@@ -46,36 +37,36 @@ import waiting from '../../../assets/animations/waiting1.gif';
 
 export default function PatientCancelAppointments() {
   const [isLoading, setisLoading] = useState(false);
-  const [upcomingActive, setupcomingActive] = useState(true);
   const [CompletedData, setCompletedData] = useState([]);
   const [rescheduleModal, setrescheduleModal] = useState(false);
-  const [patientDet, setpatientDet] = useState(null);
+  const [patientDet, setpatientDet] = useState();
   const [cancelModal, setCancelModal] = useState(false);
   const [cancelReason, setcancelReason] = useState('');
-  const [cancelItem, setCancelItem] = useState(null);
+  const [cancelItem, setCancelItem] = useState();
 
   const [docsModal, setdocsModal] = useState(false);
-  const [docsList, setdocsList] = useState(null);
+  const [docsList, setdocsList] = useState();
   const [quesAnsModal, setquesAnsModal] = useState(false);
-  const [QuestionnaireList, setQuestionnaireList] = useState(null);
+  const [QuestionnaireList, setQuestionnaireList] = useState();
   const [editQuestions, seteditQuestions] = useState(false);
   const [editDocs, seteditDocs] = useState(false);
-  const [consultationId, setconsultationId] = useState(null);
-  const [doctorId, setdoctorId] = useState(null);
-  const [documentName, setdocumentName] = useState(null);
+  const [consultationId, setconsultationId] = useState();
+  const [doctorId, setdoctorId] = useState();
+  const [documentName, setdocumentName] = useState();
   const [fileName, setfileName] = useState('');
-  const [fileToken, setfileToken] = useState(null);
   const [uploadDocsList, setuploadDocsList] = useState([]);
 
-  const [downloadToken, setdownloadToken] = useState(null);
-  const [downloadId, setdownloadId] = useState(null);
-  const [downloadFileName, setdownloadFileName] = useState(null);
+  const [downloadToken, setdownloadToken] = useState();
+  const [downloadId, setdownloadId] = useState();
+  const [downloadFileName, setdownloadFileName] = useState();
 
   const [PrescriptionModal, setPrescriptionModal] = useState(false);
   const [prescriptionId, setprescriptionId] = useState(false);
   const [zoom, setZoom] = useState(1);
 
   const navigation = useNavigation();
+  const upcomingActive = true;
+  const fileToken = null;
 
   const onZoomIn = () => {
     if (zoom < 2.5) setZoom(zoom + 0.25);
@@ -153,8 +144,7 @@ export default function PatientCancelAppointments() {
       });
   };
 
-  // TODO: Uncomment below
-  const getFiles = async (id) => {
+  /* const getFiles = async (id) => {
     let Quesflag = 1;
     let Docsflag = 1;
     await axios
@@ -176,7 +166,7 @@ export default function PatientCancelAppointments() {
     p.push(Docsflag);
     p.push(Quesflag);
     return p;
-  };
+  }; */
 
   const getQuestions = async (id, getConsultationId) => {
     await axios
@@ -551,41 +541,39 @@ Best regards,\nTrustHeal Team
     setQuestionnaireList(temp);
   };
 
-  // TODO: uncomment below
-  // const selectDocs = async () => {
-  //   try {
-  //     console.log('==============Inside select Docs==========');
+  const selectDocs = async () => {
+    try {
+      console.log('==============Inside select Docs==========');
 
-  //     const pickerResult = await DocumentPicker.pickSingle({
-  //       presentationStyle: 'fullScreen',
-  //       copyTo: 'cachesDirectory',
-  //       type: types.pdf,
-  //     });
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: 'fullScreen',
+        copyTo: 'cachesDirectory',
+        type: types.pdf,
+      });
 
-  //     if (pickerResult.size > 2097152)
-  //       Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
-  //     else {
-  //       pickerResult.name = `${fileName}.pdf`;
-  //       console.log(pickerResult.name);
-  //       uploadDocsList.push(pickerResult);
-  //       setfileName('');
-  //     }
-  //   } catch (e) {
-  //     handleError(e);
-  //   }
-  // };
+      if (pickerResult.size > 2097152)
+        Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
+      else {
+        pickerResult.name = `${fileName}.pdf`;
+        console.log(pickerResult.name);
+        uploadDocsList.push(pickerResult);
+        setfileName('');
+      }
+    } catch (e) {
+      handleError(e);
+    }
+  };
 
-  // TODO: uncomment below
-  // const handleError = (err) => {
-  //   if (DocumentPicker.isCancel(err)) {
-  //     console.warn('cancelled');
-  //     // User cancelled the picker, exit any dialogs or menus and move on
-  //   } else if (isInProgress(err)) {
-  //     console.warn('multiple pickers were opened, only the last will be considered');
-  //   } else {
-  //     throw err;
-  //   }
-  // };
+  const handleError = (err) => {
+    if (DocumentPicker.isCancel(err)) {
+      console.warn('cancelled');
+      // User cancelled the picker, exit any dialogs or menus and move on
+    } else if (isInProgress(err)) {
+      console.warn('multiple pickers were opened, only the last will be considered');
+    } else {
+      throw err;
+    }
+  };
 
   const initiateUploadDocs = async () => {
     const p = [];
@@ -1020,13 +1008,12 @@ Best regards,\nTrustHeal Team
                               : { borderColor: '#21c47f' },
                           ]}
                           onPress={async () => {
-                            // TODO: Uncomment
-                            // if (!isEmpty(fileName) ) await selectDocs();
-                            // else
-                            //   Alert.alert(
-                            //     'Incomplete Details!',
-                            //     'Please enter file name before selecting file'
-                            //   );
+                            if (!isEmpty(fileName)) await selectDocs();
+                            else
+                              Alert.alert(
+                                'Incomplete Details!',
+                                'Please enter file name before selecting file'
+                              );
                           }}
                         >
                           <FAIcons

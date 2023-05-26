@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
   Alert,
@@ -23,13 +22,9 @@ import RNFS from 'react-native-fs';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import OptionsMenu from 'react-native-option-menu';
 import dayjs from 'dayjs';
 import Pdf from 'react-native-pdf';
-// import DocumentPicker, {
-//   isInProgress,
-//   types,
-// } from 'react-native-document-picker';
+import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import { isEmpty } from 'lodash';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig, { fileUpload } from '../../components/API/apiConfig';
@@ -47,31 +42,32 @@ export default function MyAppointments() {
   const [UpcomingData, setUpcomingData] = useState([]);
   const [CompletedData, setCompletedData] = useState([]);
   const [rescheduleModal, setrescheduleModal] = useState(false);
-  const [patientDet, setpatientDet] = useState(null);
+  const [patientDet, setpatientDet] = useState();
   const [cancelModal, setCancelModal] = useState(false);
   const [cancelReason, setcancelReason] = useState('');
-  const [cancelItem, setCancelItem] = useState(null);
+  const [cancelItem, setCancelItem] = useState();
 
   const [docsModal, setdocsModal] = useState(false);
-  const [docsList, setdocsList] = useState(null);
+  const [docsList, setdocsList] = useState();
   const [quesAnsModal, setquesAnsModal] = useState(false);
-  const [QuestionnaireList, setQuestionnaireList] = useState(null);
+  const [QuestionnaireList, setQuestionnaireList] = useState();
   const [editQuestions, seteditQuestions] = useState(false);
   const [editDocs, seteditDocs] = useState(false);
-  const [consultationId, setconsultationId] = useState(null);
-  const [doctorId, setdoctorId] = useState(null);
-  const [documentName, setdocumentName] = useState(null);
+  const [consultationId, setconsultationId] = useState();
+  const [doctorId, setdoctorId] = useState();
+  const [documentName, setdocumentName] = useState();
   const [fileName, setfileName] = useState('');
-  const [fileToken, setfileToken] = useState(null);
   const [uploadDocsList, setuploadDocsList] = useState([]);
 
-  const [downloadToken, setdownloadToken] = useState(null);
-  const [downloadId, setdownloadId] = useState(null);
-  const [downloadFileName, setdownloadFileName] = useState(null);
+  const [downloadToken, setdownloadToken] = useState();
+  const [downloadId, setdownloadId] = useState();
+  const [downloadFileName, setdownloadFileName] = useState();
 
   const [PrescriptionModal, setPrescriptionModal] = useState(false);
   const [prescriptionId, setprescriptionId] = useState(false);
   const [zoom, setZoom] = useState(1);
+
+  const fileToken = null;
 
   const onZoomIn = () => {
     if (zoom < 2.5) setZoom(zoom + 0.25);
@@ -492,7 +488,7 @@ export default function MyAppointments() {
             ]}
             onPress={async () => {
               setconsultationId(item.consultationId);
-              const p = await getFiles(item.consultationId);
+              // const p = await getFiles(item.consultationId);
               setdocsModal(true);
             }}
           >
@@ -809,7 +805,7 @@ export default function MyAppointments() {
             }}
             onPress={async () => {
               setconsultationId(item.consultationId);
-              const p = await getFiles(item.consultationId);
+              // const p = await getFiles(item.consultationId);
               setdocsModal(true);
             }}
           >
@@ -833,7 +829,7 @@ export default function MyAppointments() {
             onPress={async () => {
               setconsultationId(item.consultationId);
               // await getFiles(item.consultationId);
-              const p = await getFiles(item.consultationId);
+              // const p = await getFiles(item.consultationId);
               seteditQuestions(false);
               setquesAnsModal(true);
               // setdocsModal(true);
@@ -973,40 +969,39 @@ export default function MyAppointments() {
     setQuestionnaireList(temp);
   };
 
-  // TODO: Uncomment
-  // const selectDocs = async () => {
-  //   try {
-  //     console.log('==============Inside select Docs==========');
+  const selectDocs = async () => {
+    try {
+      console.log('==============Inside select Docs==========');
 
-  //     const pickerResult = await DocumentPicker.pickSingle({
-  //       presentationStyle: 'fullScreen',
-  //       copyTo: 'cachesDirectory',
-  //       type: types.pdf,
-  //     });
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: 'fullScreen',
+        copyTo: 'cachesDirectory',
+        type: types.pdf,
+      });
 
-  //     if (pickerResult.size > 2097152)
-  //       Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
-  //     else {
-  //       pickerResult.name = `${fileName}.pdf`;
-  //       console.log(pickerResult.name);
-  //       uploadDocsList.push(pickerResult);
-  //       setfileName('');
-  //     }
-  //   } catch (e) {
-  //     handleError(e);
-  //   }
-  // };
+      if (pickerResult.size > 2097152)
+        Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
+      else {
+        pickerResult.name = `${fileName}.pdf`;
+        console.log(pickerResult.name);
+        uploadDocsList.push(pickerResult);
+        setfileName('');
+      }
+    } catch (e) {
+      handleError(e);
+    }
+  };
 
-  // const handleError = (err) => {
-  //   if (DocumentPicker.isCancel(err)) {
-  //     console.warn('cancelled');
-  //     // User cancelled the picker, exit any dialogs or menus and move on
-  //   } else if (isInProgress(err)) {
-  //     console.warn('multiple pickers were opened, only the last will be considered');
-  //   } else {
-  //     throw err;
-  //   }
-  // };
+  const handleError = (err) => {
+    if (DocumentPicker.isCancel(err)) {
+      console.warn('cancelled');
+      // User cancelled the picker, exit any dialogs or menus and move on
+    } else if (isInProgress(err)) {
+      console.warn('multiple pickers were opened, only the last will be considered');
+    } else {
+      throw err;
+    }
+  };
 
   const initiateUploadDocs = async () => {
     const p = [];
@@ -1056,7 +1051,7 @@ export default function MyAppointments() {
             {
               text: 'ok',
               onPress: async () => {
-                const gar = await getFiles(consultationId);
+                // const gar = await getFiles(consultationId);
                 seteditDocs(false);
               },
             },
@@ -1555,13 +1550,12 @@ export default function MyAppointments() {
                               : { borderColor: '#21c47f' },
                           ]}
                           onPress={async () => {
-                            // TODO: Uncomment
-                            // if (fileName !== '') await selectDocs();
-                            // else
-                            //   Alert.alert(
-                            //     'Incomplete Details!',
-                            //     'Please enter file name before selecting file'
-                            //   );
+                            if (fileName !== '') await selectDocs();
+                            else
+                              Alert.alert(
+                                'Incomplete Details!',
+                                'Please enter file name before selecting file'
+                              );
                           }}
                         >
                           <FAIcons

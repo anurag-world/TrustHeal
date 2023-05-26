@@ -24,8 +24,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import dayjs from 'dayjs';
-// TODO: Uncomment Below
-// import RazorpayCheckout from 'react-native-razorpay';
+import RazorpayCheckout from 'react-native-razorpay';
 import { useNavigation } from '@react-navigation/native';
 import HeaderPatient from '../../components/HeaderPatient';
 import apiConfig from '../../components/API/apiConfig';
@@ -45,7 +44,7 @@ export default function ConfirmBoking() {
   const [PrevPageData, setPrevPageData] = useState();
   const [DocDet, setDocDet] = useState();
   const [patientDet, setpatientDet] = useState();
-  // const [Order, setOrder] = useState();
+  const [Order, setOrder] = useState();
   const [paymentDone, setpaymentDone] = useState(false);
   const [SpecialUser, setSpecialUser] = useState(false);
   const [FamilyList, setFamilyList] = useState([]);
@@ -226,8 +225,7 @@ export default function ConfirmBoking() {
     );
   }
 
-  // TODO: Uncomment Below
-  /* const paymentOrderCreate = async () => {
+  const paymentOrderCreate = async () => {
     const createOrder = {
       amount: fees,
       currency: 'INR',
@@ -292,10 +290,9 @@ export default function ConfirmBoking() {
         console.log('Erron in create order');
         Alert.alert('Error', `${error}`);
       });
-  }; */
+  };
 
-  // TODO: Uncomment Below
-  /* const paymentStatusUpdate = async (item) => {
+  const paymentStatusUpdate = async (item) => {
     const getOrder = JSON.parse(await AsyncStorage.getItem('Order'));
 
     const p = {
@@ -313,7 +310,7 @@ export default function ConfirmBoking() {
       Alert.alert('Error in Update', `${error}`);
     });
     await AsyncStorage.removeItem('Order');
-  }; */
+  };
 
   const window = useWindowDimensions();
   const bookConsultation = async () => {
@@ -641,16 +638,13 @@ export default function ConfirmBoking() {
 
                   borderRadius: 10,
                 }}
-                // TODO: Uncomment below
                 onPress={async () => {
-                  /* 
                   if (AppointmentFor != null) await paymentOrderCreate();
                   else
                     Alert.alert(
                       'Incomplete Details',
                       'Please select for whom are you booking appointment for.'
                     );
-                 */
                 }}
               />
             </View>

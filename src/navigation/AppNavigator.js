@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../screens/login/LoginScreen';
 import PatientRegistration from '../screens/register/PatientRegistration';
@@ -25,6 +26,9 @@ import MyDrawer from './MyDrawer';
 import OTPScreen from '../screens/login/OTPScreen';
 import RegisterDoctor from '../screens/register/RegisterDoctor';
 import DoctorRegistration2 from '../screens/register/DoctorRegistration2';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); // Ignore all log notifications
 
 const Stack = createNativeStackNavigator();
 
