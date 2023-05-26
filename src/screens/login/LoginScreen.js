@@ -133,7 +133,8 @@ export default function LoginScreen() {
         setIsLoading(false);
         if (response.status === 200) {
           setModalVisible(true);
-          setResend(true);
+          // TODO: fix
+          // setResend(true);
         }
       })
       .catch((err) => {
