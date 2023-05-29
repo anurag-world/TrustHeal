@@ -900,7 +900,7 @@ export default function PatientProfile() {
               <TouchableOpacity
                 style={styles.whiteBoxRow}
                 onPress={() => {
-                  navigation.navigate('FaqPatient');
+                  navigation.navigate('FAQ');
                 }}
               >
                 <View style={{ flex: 0.3 }}>

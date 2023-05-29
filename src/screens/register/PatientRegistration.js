@@ -206,6 +206,7 @@ export default function PatientRegistration() {
             patient.profileComplete = true;
             await AsyncStorage.setItem('UserPatientProfile', JSON.stringify(patient));
             Alert.alert('Welcome to TrustHeal', 'Your details have been saved successfully.');
+            // TODO: Remove stringify
             navigation.navigate('PatientHome', {
               patientObj: JSON.stringify(patient),
             });
