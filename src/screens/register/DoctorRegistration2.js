@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
@@ -29,8 +30,7 @@ import DocumentPicker, { isInProgress, types } from 'react-native-document-picke
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { Checkbox } from 'native-base';
-// TODO: Uncomment below
-// import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import doctor from '../../../assets/doctor.png';
 import doctorFemale from '../../../assets/doctor_female.png';
@@ -196,8 +196,7 @@ export default function DoctorRegistration2() {
       {
         text: 'Open Library',
         onPress: () => {
-          // TODO: Uncomment below
-          /* launchImageLibrary({ mediaType: 'photo' }, async (response) => {
+          launchImageLibrary({ mediaType: 'photo' }, async (response) => {
             console.log(response);
             if (response.didCancel) console.log('Cancel');
             else if (response.errorCode) {
@@ -205,7 +204,7 @@ export default function DoctorRegistration2() {
             } else if (response.assets[0].fileSize <= 5242880) {
               await postpfp(response.assets[0]);
             } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 5MB.');
-          }); */
+          });
         },
       },
       {
@@ -241,8 +240,7 @@ export default function DoctorRegistration2() {
   };
 
   const launchcamera = async () => {
-    // TODO: Uncomment below
-    /* launchCamera(
+    launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
         console.log(response);
@@ -253,11 +251,10 @@ export default function DoctorRegistration2() {
           await postpfp(response.assets[0]);
         } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 5MB.');
       }
-    ); */
+    );
   };
 
-  // TODO: Uncomment below
-  /* const postpfp = async (pickerResult) => {
+  const postpfp = async (pickerResult) => {
     try {
       console.log('==============Inside post pfp==========');
 
@@ -275,7 +272,7 @@ export default function DoctorRegistration2() {
       formData.append('directoryNames', 'DOCTOR_PHOTO');
       formData.append('file', pickerResult);
       formData.append('userId', doctorId);
-      if (photoPath != null && photoPath != 0) formData.append('fileToken', photoPath);
+      if (photoPath != null && photoPath !== 0) formData.append('fileToken', photoPath);
       const { error, response } = await fileUpload(formData);
 
       if (error != null) {
@@ -294,10 +291,9 @@ export default function DoctorRegistration2() {
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const updateGenInfo = async (phototoken) => {
+  const updateGenInfo = async (phototoken) => {
     setisUploading(true);
 
     const x = JSON.parse(await AsyncStorage.getItem('UserDoctorProfile'));
@@ -322,7 +318,7 @@ export default function DoctorRegistration2() {
       .post(`${apiConfig.baseUrl}/doctor/generalinfo/update`, req)
       .then(async (response) => {
         setisUploading(false);
-        if (response.status == 200) {
+        if (response.status === 200) {
           // store the changes made in details to UserDoctorProfile
 
           x.profilePhotoPath = phototoken;
@@ -337,7 +333,7 @@ export default function DoctorRegistration2() {
         setisUploading(false);
         Alert.alert('Error', `An error has occured please try again. ${error}`);
       });
-  }; */
+  };
 
   // post photo exp/clinic
   const choosePhoto = async (forField) => {
@@ -345,8 +341,7 @@ export default function DoctorRegistration2() {
       {
         text: 'Open Library',
         onPress: () => {
-          // TODO: Uncomment below
-          /* launchImageLibrary({ mediaType: 'photo' }, async (response) => {
+          launchImageLibrary({ mediaType: 'photo' }, async (response) => {
             console.log(response);
             if (response.didCancel) console.log('Cancel');
             else if (response.errorCode) {
@@ -354,7 +349,7 @@ export default function DoctorRegistration2() {
             } else if (response.assets[0].fileSize <= 2097152) {
               await postPhoto(response.assets[0], forField);
             } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 2MB.');
-          }); */
+          });
         },
       },
       {
@@ -381,8 +376,7 @@ export default function DoctorRegistration2() {
         buttonPositive: 'OK',
       });
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // TODO: Uncomment below
-        // await launchcameraPhoto(forField);
+        await launchcameraPhoto(forField);
       } else {
         // console.log('Camera permission denied');
       }
@@ -391,8 +385,7 @@ export default function DoctorRegistration2() {
     }
   };
 
-  // TODO: Uncomment below
-  /* const launchcameraPhoto = async (forField) => {
+  const launchcameraPhoto = async (forField) => {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
@@ -405,21 +398,21 @@ export default function DoctorRegistration2() {
         } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 2MB.');
       }
     );
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const postPhoto = async (pickerResult, forField) => {
+  const postPhoto = async (pickerResult, forField) => {
     try {
       console.log(`==============Inside post photo for ${forField}==========`);
 
       const ext = `.${pickerResult.fileName.split('.').pop()}`;
 
+      // TODO: Check code
       delete pickerResult.fileName;
       pickerResult.size = pickerResult.fileSize;
       delete pickerResult.fileSize;
-      if (forField == 'Clinic') pickerResult.name = `${doctorId}_ClinicPhoto${ext}`;
+      if (forField === 'Clinic') pickerResult.name = `${doctorId}_ClinicPhoto${ext}`;
 
-      if (forField == 'Experience') pickerResult.name = `${doctorId}_ExpPhoto${ext}`;
+      if (forField === 'Experience') pickerResult.name = `${doctorId}_ExpPhoto${ext}`;
 
       console.log(pickerResult.name);
       console.log(pickerResult);
@@ -427,14 +420,15 @@ export default function DoctorRegistration2() {
       const formData = new FormData();
       formData.append(
         'directoryNames',
-        forField == 'Clinic' ? ' DOCTOR_CLINIC' : ' DOCTOR_EXPERIENCE'
+        forField === 'Clinic' ? ' DOCTOR_CLINIC' : ' DOCTOR_EXPERIENCE'
       );
       formData.append('file', pickerResult);
       formData.append('userId', doctorId);
 
-      if (forField == 'Experience' && expPhotoPath != 0) formData.append('fileToken', expPhotoPath);
+      if (forField === 'Experience' && expPhotoPath !== 0)
+        formData.append('fileToken', expPhotoPath);
 
-      if (forField == 'Clinic' && clinicPhoto != null) formData.append('fileToken', clinicPhoto);
+      if (forField === 'Clinic' && clinicPhoto != null) formData.append('fileToken', clinicPhoto);
 
       const { error, response } = await fileUpload(formData);
 
@@ -445,13 +439,13 @@ export default function DoctorRegistration2() {
       } else {
         console.log('======response======');
         console.log(response.fileToken);
-        if (forField == 'Clinic') setClinicPhoto(response.fileToken);
-        if (forField == 'Experience') setexpPhotoPath(response.fileToken);
+        if (forField === 'Clinic') setClinicPhoto(response.fileToken);
+        if (forField === 'Experience') setexpPhotoPath(response.fileToken);
       }
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
   // eslint-disable-next-line no-unused-vars
   const handleError = (err) => {

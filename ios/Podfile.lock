@@ -334,6 +334,8 @@ PODS:
     - React-Core
   - react-native-document-picker (9.0.1):
     - React-Core
+  - react-native-image-picker (5.4.0):
+    - React-Core
   - react-native-pdf (6.6.2):
     - React-Core
   - react-native-razorpay (2.3.0):
@@ -522,6 +524,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-razorpay (from `../node_modules/react-native-razorpay`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -613,6 +616,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blob-util"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-pdf:
     :path: "../node_modules/react-native-pdf"
   react-native-razorpay:
@@ -703,6 +708,7 @@ SPEC CHECKSUMS:
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
   react-native-blob-util: 99f4d79189252f597fe0d810c57a3733b1b1dea6
   react-native-document-picker: 2b8f18667caee73a96708a82b284a4f40b30a156
+  react-native-image-picker: 709d04e7df67bd3a90f376c3eedb2e8b8334dd04
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-razorpay: 0272dd684bc9148828c54a72e05059e3e2e8b813
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
