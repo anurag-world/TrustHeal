@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
 import {
   Text,
@@ -11,8 +12,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
-  // PermissionsAndroid,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import dayjs from 'dayjs';
@@ -23,8 +24,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
-// TODO: Uncomment below
-// import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'native-base';
 import apiConfig, { fileUpload } from '../../components/API/apiConfig';
@@ -32,7 +32,6 @@ import waiting from '../../../assets/animations/waiting1.gif';
 import patientFemale from '../../../assets/patient_female.png';
 import patient from '../../../assets/patient.png';
 import HeaderPatient from '../../components/HeaderPatient';
-import CustomButton from '../../components/CustomButton';
 
 export default function PatientProfileEdit() {
   const [patientDto, setpatientDto] = useState(null);
@@ -128,8 +127,7 @@ export default function PatientProfileEdit() {
     hideDatePicker();
   };
 
-  // TODO: Uncomment Below
-  /* const chooseProfileImage = async () => {
+  const chooseProfileImage = async () => {
     Alert.alert('Upload Profile Picture', 'Select option for uploading profile picture', [
       {
         text: 'Open Library',
@@ -157,10 +155,9 @@ export default function PatientProfileEdit() {
         style: 'cancel',
       },
     ]);
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const requestCameraPermission = async () => {
+  const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
         title: 'App Camera Permission',
@@ -177,10 +174,9 @@ export default function PatientProfileEdit() {
     } catch (err) {
       console.warn(err);
     }
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const launchcamera = async () => {
+  const launchcamera = async () => {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
@@ -193,15 +189,15 @@ export default function PatientProfileEdit() {
         } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 5MB.');
       }
     );
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const postpfp = async (pickerResult) => {
+  const postpfp = async (pickerResult) => {
     try {
       console.log('==============Inside post pfp==========');
 
       const ext = `.${pickerResult.fileName.split('.').pop()}`;
 
+      // TODO: Check code
       delete pickerResult.fileName;
       pickerResult.size = pickerResult.fileSize;
       delete pickerResult.fileSize;
@@ -231,7 +227,7 @@ export default function PatientProfileEdit() {
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
   const postData = async () => {
     setisLoading(true);
@@ -366,7 +362,6 @@ export default function PatientProfileEdit() {
                   }}
                 />
               )}
-              {/* TODO: Add onPress={chooseProfileImage} */}
               <TouchableOpacity
                 style={{
                   top: -25,
@@ -376,7 +371,7 @@ export default function PatientProfileEdit() {
                   borderRadius: 100,
                   alignSelf: 'center',
                 }}
-                onPress={null}
+                onPress={chooseProfileImage}
               >
                 <FAIcon name="camera" size={20} color="white" />
               </TouchableOpacity>

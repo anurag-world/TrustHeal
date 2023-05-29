@@ -12,15 +12,13 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   StatusBar,
-  // PermissionsAndroid,
   LogBox,
   StyleSheet,
   Platform,
 } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import { SelectList } from 'react-native-dropdown-select-list';
-// TODO: Uncomment below
-// import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
@@ -100,8 +98,7 @@ export default function SupportPatient() {
     console.log(docList);
   }, [docList]);
 
-  // TODO: Uncomment below
-  /* const chooseProfileImage = async () => {
+  const chooseProfileImage = async () => {
     Alert.alert('Select Files', 'Select option for uploading files', [
       {
         text: 'Open Library',
@@ -131,9 +128,8 @@ export default function SupportPatient() {
         style: 'cancel',
       },
     ]);
-  }; */
+  };
 
-  // TODO: Uncomment below
   /* const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
@@ -153,7 +149,6 @@ export default function SupportPatient() {
     }
   }; */
 
-  // TODO: Uncomment below
   /* const launchcamera = async () => {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
@@ -706,9 +701,8 @@ export default function SupportPatient() {
                         docList.length === 0 ? { flex: 1 } : { flex: 0.3, alignSelf: 'flex-end' },
                       ]}
                       onPress={() => {
-                        // TODO: Uncomment below
-                        // if (docList.length < 2) chooseProfileImage();
-                        // else Alert.alert('File Limit', 'Maximum 2 images can be uploaded.');
+                        if (docList.length < 2) chooseProfileImage();
+                        else Alert.alert('File Limit', 'Maximum 2 images can be uploaded.');
                       }}
                     />
                   </View>

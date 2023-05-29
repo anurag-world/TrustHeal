@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
@@ -19,8 +20,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'native-base';
-// TODO: Uncomment below
-// import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
@@ -75,6 +75,7 @@ export default function ManageSchedule() {
   const [isChecking, setisChecking] = useState(false);
   const [MsgHeading, setMsgHeading] = useState('');
   const [MsgUnderText, setMsgUnderText] = useState('');
+  const [expPhotoPath, setExpPhotoPath] = useState();
 
   const [manageSlotsLabel, setmanageSlotsLabel] = useState(false);
   const [manageClinicsLabel, setmanageClinicsLabel] = useState(false);
@@ -701,8 +702,7 @@ export default function ManageSchedule() {
       {
         text: 'Open Library',
         onPress: () => {
-          // TODO: Uncomment below
-          /* launchImageLibrary({ mediaType: 'photo' }, async (response) => {
+          launchImageLibrary({ mediaType: 'photo' }, async (response) => {
             console.log(response);
             if (response.didCancel) console.log('Cancel');
             else if (response.errorCode) {
@@ -710,7 +710,7 @@ export default function ManageSchedule() {
             } else if (response.assets[0].fileSize <= 2097152) {
               await postPhoto(response.assets[0], forField);
             } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 2MB.');
-          }); */
+          });
         },
       },
       {
@@ -736,8 +736,7 @@ export default function ManageSchedule() {
         buttonPositive: 'OK',
       });
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // TODO: Uncomment below
-        // await launchcameraPhoto(forField);
+        await launchcameraPhoto(forField);
       } else {
         console.log('Camera permission denied');
       }
@@ -746,8 +745,7 @@ export default function ManageSchedule() {
     }
   };
 
-  // TODO: Uncomment below
-  /* const launchcameraPhoto = async (forField) => {
+  const launchcameraPhoto = async (forField) => {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
@@ -760,21 +758,21 @@ export default function ManageSchedule() {
         } else Alert.alert('Max Size', 'The file exceeds the maximum limit of 2MB.');
       }
     );
-  }; */
+  };
 
-  // TODO: Uncomment below
-  /* const postPhoto = async (pickerResult, forField) => {
+  const postPhoto = async (pickerResult, forField) => {
     try {
       console.log(`==============Inside post photo for ${forField}==========`);
 
       const ext = `.${pickerResult.fileName.split('.').pop()}`;
 
+      // Check code
       delete pickerResult.fileName;
       pickerResult.size = pickerResult.fileSize;
       delete pickerResult.fileSize;
-      if (forField == 'Clinic') pickerResult.name = `${doctorId}_ClinicPhoto${ext}`;
+      if (forField === 'Clinic') pickerResult.name = `${doctorId}_ClinicPhoto${ext}`;
 
-      if (forField == 'Experience') pickerResult.name = `${doctorId}_ExpPhoto${ext}`;
+      if (forField === 'Experience') pickerResult.name = `${doctorId}_ExpPhoto${ext}`;
 
       console.log(pickerResult.name);
       console.log(pickerResult);
@@ -782,14 +780,15 @@ export default function ManageSchedule() {
       const formData = new FormData();
       formData.append(
         'directoryNames',
-        forField == 'Clinic' ? ' DOCTOR_CLINIC' : ' DOCTOR_EXPERIENCE'
+        forField === 'Clinic' ? ' DOCTOR_CLINIC' : ' DOCTOR_EXPERIENCE'
       );
       formData.append('file', pickerResult);
       formData.append('userId', doctorId);
 
-      if (forField == 'Experience' && expPhotoPath != 0) formData.append('fileToken', expPhotoPath);
+      if (forField === 'Experience' && expPhotoPath !== 0)
+        formData.append('fileToken', expPhotoPath);
 
-      if (forField == 'Clinic' && clinicPhoto != null) formData.append('fileToken', clinicPhoto);
+      if (forField === 'Clinic' && clinicPhoto != null) formData.append('fileToken', clinicPhoto);
 
       const { error, response } = await fileUpload(formData);
 
@@ -800,13 +799,13 @@ export default function ManageSchedule() {
       } else {
         console.log('======response======');
         console.log(response.fileToken);
-        if (forField == 'Clinic') setclinicPhoto(response.fileToken);
-        if (forField == 'Experience') setexpPhotoPath(response.fileToken);
+        if (forField === 'Clinic') setclinicPhoto(response.fileToken);
+        if (forField === 'Experience') setExpPhotoPath(response.fileToken);
       }
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
   // render slots and dates
   const renderDaysSlot = ({ item, index }) => (
