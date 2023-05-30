@@ -806,7 +806,7 @@ export default function PatientProfile() {
                 <View style={[styles.whiteInnerBox, { borderRightWidth: 1, borderColor: 'gray' }]}>
                   <Text style={styles.grayHeading}>Age</Text>
                   <Text style={styles.blueUnderText}>
-                    {PatientDet != null ? dayjs().diff(dayjs(PatientDet.dob), 'y') : 'Age'}
+                    {PatientDet != null ? `${dayjs().diff(dayjs(PatientDet.dob), 'y')} ` : 'Age'}
                     Years
                   </Text>
                 </View>

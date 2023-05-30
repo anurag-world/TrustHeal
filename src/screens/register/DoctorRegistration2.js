@@ -22,6 +22,7 @@ import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNFS from 'react-native-fs';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Pdf from 'react-native-pdf';
+import { isEmpty } from 'lodash';
 
 // icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -197,7 +198,7 @@ export default function DoctorRegistration2() {
         text: 'Open Library',
         onPress: () => {
           launchImageLibrary({ mediaType: 'photo' }, async (response) => {
-            console.log(response);
+            // console.log(response);
             if (response.didCancel) console.log('Cancel');
             else if (response.errorCode) {
               Alert.alert('Error', response.errorMessage);
@@ -243,7 +244,7 @@ export default function DoctorRegistration2() {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.didCancel) console.log('Cancel');
         else if (response.errorCode) {
           Alert.alert('Error', response.errorMessage);
@@ -256,7 +257,7 @@ export default function DoctorRegistration2() {
 
   const postpfp = async (pickerResult) => {
     try {
-      console.log('==============Inside post pfp==========');
+      // console.log('==============Inside post pfp==========');
 
       const ext = `.${pickerResult.fileName.split('.').pop()}`;
 
@@ -265,8 +266,8 @@ export default function DoctorRegistration2() {
       delete pickerResult.fileSize;
 
       pickerResult.name = `${doctorId}_ProfilePhoto${ext}`;
-      console.log(pickerResult.name);
-      console.log(pickerResult);
+      // console.log(pickerResult.name);
+      // console.log(pickerResult);
 
       const formData = new FormData();
       formData.append('directoryNames', 'DOCTOR_PHOTO');
@@ -280,8 +281,8 @@ export default function DoctorRegistration2() {
         console.log(error);
         Alert.alert('Error', 'There was a problem in uploading profile picture. Please try again.');
       } else {
-        console.log('======response======');
-        console.log(response.fileToken);
+        // console.log('======response======');
+        // console.log(response.fileToken);
         // setphotoPath(response.fileToken);
         // let x = await AsyncStorage.getItem('UserDoctorProfile');
         // x.photoPath = response.fileToken;
@@ -342,7 +343,7 @@ export default function DoctorRegistration2() {
         text: 'Open Library',
         onPress: () => {
           launchImageLibrary({ mediaType: 'photo' }, async (response) => {
-            console.log(response);
+            // console.log(response);
             if (response.didCancel) console.log('Cancel');
             else if (response.errorCode) {
               Alert.alert('Error', response.errorMessage);
@@ -389,7 +390,7 @@ export default function DoctorRegistration2() {
     launchCamera(
       { mediaType: 'photo', cameraType: 'front', saveToPhotos: true },
       async (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.didCancel) console.log('Cancel');
         else if (response.errorCode) {
           Alert.alert('Error', response.errorMessage);
@@ -402,7 +403,7 @@ export default function DoctorRegistration2() {
 
   const postPhoto = async (pickerResult, forField) => {
     try {
-      console.log(`==============Inside post photo for ${forField}==========`);
+      // console.log(`==============Inside post photo for ${forField}==========`);
 
       const ext = `.${pickerResult.fileName.split('.').pop()}`;
 
@@ -414,8 +415,8 @@ export default function DoctorRegistration2() {
 
       if (forField === 'Experience') pickerResult.name = `${doctorId}_ExpPhoto${ext}`;
 
-      console.log(pickerResult.name);
-      console.log(pickerResult);
+      // console.log(pickerResult.name);
+      // console.log(pickerResult);
 
       const formData = new FormData();
       formData.append(
@@ -437,8 +438,8 @@ export default function DoctorRegistration2() {
         console.log(error);
         Alert.alert('Error', 'There was a problem in uploading profile picture. Please try again.');
       } else {
-        console.log('======response======');
-        console.log(response.fileToken);
+        // console.log('======response======');
+        // console.log(response.fileToken);
         if (forField === 'Clinic') setClinicPhoto(response.fileToken);
         if (forField === 'Experience') setexpPhotoPath(response.fileToken);
       }
@@ -654,7 +655,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/medicalregistrations?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedMedReg(true);
           } else setdataSavedMedReg(false);
         })
@@ -667,7 +668,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/educations?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedEduDet(true);
             // qwerty
             for (let i = 0; i < response.data.length; i += 1) {
@@ -687,7 +688,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/experience?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedExpDet(true);
           } else setdataSavedExpDet(false);
         })
@@ -700,7 +701,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/identifications?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedIdenDet(true);
           } else setdataSavedIdenDet(false);
         })
@@ -713,7 +714,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/clinic/details?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedAddInfo(true);
           } else setdataSavedAddInfo(false);
         })
@@ -726,7 +727,7 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/pre/consultation/questions?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setdataSavedPreConsultationQuestionaire(true);
           } else setdataSavedPreConsultationQuestionaire(false);
         })
@@ -739,9 +740,9 @@ export default function DoctorRegistration2() {
       axios
         .get(`${apiConfig.baseUrl}/doctor/fees?doctorId=${doctorId}`)
         .then((response) => {
-          if (response.data === '') {
-            setdataSavedConsultFees(false);
-          } else setdataSavedConsultFees(true);
+          if (!isEmpty(response.data)) {
+            setdataSavedConsultFees(true);
+          } else setdataSavedConsultFees(false);
         })
         .catch(() => {
           setdataSavedConsultFees(false);
@@ -1209,34 +1210,33 @@ export default function DoctorRegistration2() {
         type: types.pdf,
       });
 
-      if (pickerResult.size > 2097152)
+      if (pickerResult.size > 2097152) {
         Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
-      else {
-        const ext = `.${pickerResult.name.split('.').pop()}`;
+        return;
+      }
 
-        pickerResult.name = `${doctorId}_MedicalRegistration${ext}`;
-        // console.log(pickerResult.name);
-        setMedRegDoc([pickerResult]);
+      const ext = `.${pickerResult.name.split('.').pop()}`;
 
-        const formData = new FormData();
-        formData.append('directoryNames', '  DOCTOR_MEDICAL_REGISTRATION');
-        formData.append('file', pickerResult);
-        formData.append('userId', doctorId);
-        const { error, response } = await fileUpload(formData);
+      pickerResult.name = `${doctorId}_MedicalRegistration${ext}`;
+      // console.log(pickerResult.name);
+      setMedRegDoc([pickerResult]);
 
-        if (error != null) {
-          // console.log('======error======');
-          // console.log(error);
-          Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
-        } else {
-          // console.log('======response======');
-          // console.log(response.fileToken);
-          if (response.fileToken != null) {
-            setcertificatePath(response.fileToken);
-            setRegCert(error == null ? pickerResult.name : '');
-          }
-          Alert.alert('Error', 'Please try again.');
-        }
+      const formData = new FormData();
+      formData.append('directoryNames', '  DOCTOR_MEDICAL_REGISTRATION');
+      formData.append('file', pickerResult);
+      formData.append('userId', doctorId);
+      const { error, response } = await fileUpload(formData);
+
+      if (error != null) {
+        // console.log('======error======');
+        // console.log(error);
+        Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
+        return;
+      }
+
+      if (response.fileToken != null) {
+        setcertificatePath(response.fileToken);
+        setRegCert(error == null ? pickerResult.name : '');
       }
     } catch (e) {
       handleError(e);
@@ -1254,30 +1254,30 @@ export default function DoctorRegistration2() {
         type: types.pdf,
       });
 
-      if (pickerResult.size > 2097152)
+      if (pickerResult.size > 2097152) {
         Alert.alert('Size Error', 'The size of the file should be less than 2MB.');
-      else {
-        const ext = `.${pickerResult.name.split('.').pop()}`;
-
-        pickerResult.name = `${doctorId}_DoctorEducation_${Degree}_${DegreePassingYear}${ext}`;
-        // console.log(pickerResult.name);
-
-        const formData = new FormData();
-        formData.append('directoryNames', 'DOCTOR_EDUCATION');
-        formData.append('file', pickerResult);
-        formData.append('userId', doctorId);
-        const { error, response } = await fileUpload(formData);
-        if (error != null) {
-          // console.log('======error======');
-          // console.log(error);
-          Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
-        } else {
-          // console.log('======response======');
-          // console.log(response.fileToken);
-          if (response.fileToken !== undefined) setdegreePath(response.fileToken);
-          Alert.alert('Error', 'Please try again.');
-        }
+        return;
       }
+
+      const ext = `.${pickerResult.name.split('.').pop()}`;
+
+      pickerResult.name = `${doctorId}_DoctorEducation_${Degree}_${DegreePassingYear}${ext}`;
+      // console.log(pickerResult.name);
+
+      const formData = new FormData();
+      formData.append('directoryNames', 'DOCTOR_EDUCATION');
+      formData.append('file', pickerResult);
+      formData.append('userId', doctorId);
+      const { error, response } = await fileUpload(formData);
+      if (error != null) {
+        // console.log('======error======');
+        // console.log(error);
+        Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
+        return;
+      }
+      // console.log('======response======');
+      // console.log(response.fileToken);
+      if (response.fileToken !== undefined) setdegreePath(response.fileToken);
     } catch (e) {
       handleError(e);
     }
@@ -1628,57 +1628,58 @@ export default function DoctorRegistration2() {
           }}
           showsVerticalScrollIndicator={false}
         >
-          <View>
+          <View style={{ alignItems: 'center' }}>
             {/* Doctor Image */}
             <View
               style={{
                 backgroundColor: 'white',
                 width: 100,
                 height: 100,
-                borderRadius: 150,
-                alignSelf: 'center',
+                borderRadius: 100,
                 marginVertical: 20,
+                justifyContent: 'center',
               }}
             >
               {photoPath == null || photoPath === 0 ? (
                 <Image
                   style={{
-                    alignSelf: 'center',
                     width: 75,
                     height: 75,
                     borderRadius: 100,
+                    alignSelf: 'center',
                   }}
                   source={gender === 'Male' ? doctor : doctorFemale}
                 />
               ) : (
                 <Image
                   style={{
-                    alignSelf: 'center',
                     width: 75,
                     height: 75,
                     borderRadius: 100,
+                    alignSelf: 'center',
                   }}
                   source={{
                     uri: `${apiConfig.baseUrl}/file/download?fileToken=${photoPath}&userId=${doctorId}`,
                   }}
                 />
               )}
-              <TouchableOpacity onPress={chooseProfileImage}>
-                <FAIcon
-                  name="camera"
-                  size={20}
-                  color="white"
-                  style={{
-                    top: -25,
-                    right: -30,
-                    padding: 10,
-                    backgroundColor: 'gray',
-                    borderRadius: 100,
-                    alignSelf: 'center',
-                  }}
-                />
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                left: 200,
+                top: 80,
+                backgroundColor: 'gray',
+                width: 40,
+                height: 40,
+                borderRadius: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={chooseProfileImage}
+            >
+              <FAIcon name="camera" size={20} color="white" />
+            </TouchableOpacity>
             {photoPath == null || photoPath === 0 ? (
               <Text style={{ fontSize: 12, alignSelf: 'center' }}>
                 Please add Profile photo to complete your profile
