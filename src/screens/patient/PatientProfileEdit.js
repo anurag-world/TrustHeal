@@ -285,7 +285,7 @@ export default function PatientProfileEdit() {
       .catch((error) => {
         setisLoading(false);
         console.log(error);
-        Alert.alert('Error', `${error}`);
+        // Alert.alert('Error', `${error}`);
       });
   };
 

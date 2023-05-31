@@ -20,7 +20,6 @@ export default function TCPatient() {
     >
       <SafeAreaView
         style={{
-          backgroundColor: '#2B8ADA',
           width: '100%',
         }}
       >

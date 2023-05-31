@@ -33,6 +33,7 @@ const Drawer = createDrawerNavigator();
 
 function CustomDrawerContentPatient({ patientObj }) {
   const navigation = useNavigation();
+
   return (
     <DrawerContentScrollView>
       <View style={{ flex: 1, marginTop: -5 }}>
@@ -270,6 +271,7 @@ export default function PatientDrawer() {
   const route = useRoute();
   const patientObj = get(route.params, 'patientObj', {});
   // console.log(doctorObj.doctorName + "------------------ My Drawer");
+  // console.log(JSON.stringify(patientObj, null, 2));
   return (
     <Drawer.Navigator
       // useLegacyImplementation

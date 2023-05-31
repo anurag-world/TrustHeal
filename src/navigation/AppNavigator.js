@@ -50,6 +50,15 @@ export default function AppNavigator() {
     getName();
   }, []);
 
+  // Temporary to check local storage
+  useEffect(() => {
+    const storage = async () => {
+      const a = await AsyncStorage.getAllKeys();
+      console.log(a);
+    };
+    storage();
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
