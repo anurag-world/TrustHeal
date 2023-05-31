@@ -21,10 +21,11 @@ import {
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import MIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Pdf from 'react-native-pdf';
-// import { CheckBox } from 'react-native-elements';
+import { Checkbox } from 'native-base';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
+import { isEmpty } from 'lodash';
 // icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -393,7 +394,7 @@ export default function DoctorProfileEdit() {
         .then((response) => {
           setisFetching(false);
 
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             setIdentificationDocs(response.data);
             // console.log(response.data);
           }
@@ -418,7 +419,7 @@ export default function DoctorProfileEdit() {
         .then((response) => {
           setisFetching(false);
 
-          if (response.data !== '') {
+          if (!isEmpty(response.data)) {
             // console.log('Fees\n\n', response.data);
             setDoctorFees(response.data);
 
@@ -3222,22 +3223,19 @@ export default function DoctorProfileEdit() {
                                 setEndExpDatePickerVisible(false);
                               }}
                             />
-                            {/* <CheckBox
-                              title={<Text style={{ fontSize: 10 }}>Present (Current)</Text>}
-                              containerStyle={{
-                                marginTop: 3,
-                                width: '100%',
-                                borderWidth: 0,
-                                padding: 0,
-                                backgroundColor: 'white',
-                              }}
-                              checkedColor="#2b8ada"
-                              checked={checkPresent}
-                              onPress={async () => {
+                            <Checkbox
+                              shadow={1}
+                              borderWidth={0}
+                              marginTop={3}
+                              isChecked={checkPresent}
+                              onChange={async () => {
                                 setcheckPresent(!checkPresent);
                                 await calculateExpPresent();
                               }}
-                            /> */}
+                              _checked={{ bg: '#2b8ada' }}
+                            >
+                              <Text style={{ fontSize: 10 }}>Present (Current)</Text>
+                            </Checkbox>
                           </View>
                         </View>
                         <Text style={styles.inputLabel}>Experience Certificate</Text>
