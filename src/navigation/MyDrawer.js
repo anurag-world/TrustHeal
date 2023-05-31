@@ -167,7 +167,7 @@ function CustomDrawerContent({ doctorObj }) {
         label="Check Earnings"
         labelStyle={styles.labelStyle}
         style={{ marginVertical: 0, paddingVertical: 0 }}
-        onPress={() => navigation.navigate('Check Earning')}
+        onPress={() => navigation.navigate('Earnings')}
         // eslint-disable-next-line no-unused-vars
         icon={({ focused, color, size }) => (
           <Image source={myearning} style={{ tintColor: '#033158' }} />
@@ -228,9 +228,7 @@ function CustomDrawerContent({ doctorObj }) {
         labelStyle={styles.labelStyle}
         style={{ marginVertical: 0, paddingVertical: 0 }}
         onPress={async () => {
-          // viewTermsConditions();
           await onShare();
-          // props.navigation.navigate('TCDoctor');
         }}
         // eslint-disable-next-line no-unused-vars
         icon={({ focused, color, size }) => (
