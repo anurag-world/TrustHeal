@@ -136,15 +136,6 @@ function CustomDrawerContentPatient({ patientObj }) {
       <View style={styles.Heading}>
         <Text style={styles.HeadingText}>Record</Text>
       </View>
-      {/* <DrawerItem
-          label="Notification"
-          labelStyle={styles.labelStyle}
-          style={{marginVertical: 0, paddingVertical: 0}}
-          //onPress={() => props.navigation.navigate('DoctorAllAppointments')}
-          icon={({focused, color, size}) => (
-            <Image source={bell} style={{tintColor: '#033158'}} />
-          )}
-        /> */}
       <DrawerItem
         label="My Consultations"
         labelStyle={styles.labelStyle}
@@ -165,24 +156,6 @@ function CustomDrawerContentPatient({ patientObj }) {
           <Image source={cancelconsultation} style={{ tintColor: '#033158' }} />
         )}
       />
-      {/* <DrawerItem
-          label="Profile"
-          labelStyle={styles.labelStyle}
-          style={{marginVertical: 0, paddingVertical: 0}}
-          onPress={() => props.navigation.navigate('PatientProfile')}
-          icon={({focused, color, size}) => (
-            <Image source={myprofile} style={{tintColor: '#033158'}} />
-          )}
-        /> */}
-      {/* <DrawerItem
-          label="Invoices"
-          labelStyle={styles.labelStyle}
-          style={{marginVertical: 0, paddingVertical: 0}}
-          //onPress={() => props.navigation.navigate('DoctorAllAppointments')}
-          icon={({focused, color, size}) => (
-            <Image source={myearning} style={{tintColor: '#033158'}} />
-          )}
-        /> */}
 
       <View style={styles.Heading}>
         <Text style={styles.HeadingText}>About</Text>

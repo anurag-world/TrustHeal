@@ -183,7 +183,6 @@ export default function DoctorHome() {
     };
     // console.log(p);
     await AsyncStorage.setItem('PrescriptionFor', JSON.stringify(p));
-    // navigation.navigate('CheifComplaints');
   };
 
   const downloadCache = async (fileToken, userId, fileName) => {

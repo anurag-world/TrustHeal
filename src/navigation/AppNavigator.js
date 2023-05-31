@@ -26,6 +26,14 @@ import MyDrawer from './MyDrawer';
 import OTPScreen from '../screens/login/OTPScreen';
 import RegisterDoctor from '../screens/register/RegisterDoctor';
 import DoctorRegistration2 from '../screens/register/DoctorRegistration2';
+import DoctorProfileEdit from '../screens/doctor/DoctorProfileEdit';
+import DoctorAllAppointments from '../screens/doctor/DoctorAllAppointments';
+import FaqDoctor from '../screens/doctor/FaqDoctor';
+import SupportDoctor from '../screens/doctor/SupportDoctor';
+import AboutDoctor from '../screens/doctor/AboutDoctor';
+import TCDoctor from '../screens/TCDoctor';
+import CheifComplaints from '../screens/doctor/CheifComplaints';
+import PreConsult from '../screens/patient/PreConsult';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); // Ignore all log notifications
@@ -153,6 +161,7 @@ export default function AppNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="CallAgora" component={CallAgora} options={{ headerShown: false }} />
+        <Stack.Screen name="PreConsult" component={PreConsult} options={{ headerShown: false }} />
 
         {/* Doctor Navigation */}
         <Stack.Screen
@@ -170,6 +179,56 @@ export default function AppNavigator() {
           name="DoctorRegistrationStep2"
           component={DoctorRegistration2}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DoctorProfileEdit"
+          component={DoctorProfileEdit}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DoctorAllAppointments"
+          component={DoctorAllAppointments}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FaqDoctor"
+          component={FaqDoctor}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="SupportDoctor"
+          component={SupportDoctor}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="AboutDoctor"
+          component={AboutDoctor}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="TCDoctor"
+          component={TCDoctor}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="CheifComplaints"
+          component={CheifComplaints}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
