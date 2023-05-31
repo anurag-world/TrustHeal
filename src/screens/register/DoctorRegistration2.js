@@ -1335,7 +1335,7 @@ export default function DoctorRegistration2() {
         registrationCouncil: RegCouncil,
         registrationNo: RegNo,
         registrationYear: Number(RegYear),
-        getDoctorId,
+        doctorId: getDoctorId,
       },
     ];
     // console.log(medArry);
@@ -1544,7 +1544,7 @@ export default function DoctorRegistration2() {
     const p = JSON.parse(await AsyncStorage.getItem('UserDoctorProfile'));
     const getDoctorId = Number(p.doctorId);
     const amp = {
-      getDoctorId,
+      doctorId: getDoctorId,
       econsulationFees: eConsulationFees,
       efollowUpFees,
       followUpDuration: Number(showFollowUp),
