@@ -5,7 +5,7 @@ import axios from 'axios';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CountDown from 'react-native-countdown-fix';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import { Box, Button, Pressable, theme } from 'native-base';
 import { isEmpty } from 'lodash';
 import apiConfig from '../../components/API/apiConfig';
@@ -75,7 +75,7 @@ export default function OTPModal({
             if (response.status === 204) {
               setModalVisible(false);
               reset();
-              navigation.navigate(nextScreen);
+              navigation.dispatch(StackActions.replace(nextScreen));
             } else if (response.status === 200) {
               setModalVisible(false);
               reset();
@@ -89,25 +89,25 @@ export default function OTPModal({
                   `Hey ${y.doctorName}`,
                   'Welcome to TrustHeal - Your Health Service Partner'
                 );
-                navigation.navigate('DoctorHome', { doctorObj: y });
+                navigation.dispatch(StackActions.replace('DoctorHome', { doctorObj: y }));
               } else if (y.profileStatus === 'INCOMPLETE') {
                 setModalVisible(false);
                 Alert.alert(
                   `Hey ${y.doctorName}`,
                   'Please complete your profile to continue your journey with TrustHeal.'
                 );
-                navigation.navigate('DoctorRegistrationStep2');
+                navigation.dispatch(StackActions.replace('DoctorRegistrationStep2'));
               } else if (y.profileStatus === 'UNDER_VERIFICATION') {
                 setModalVisible(false);
                 Alert.alert(
                   `Hey ${y.doctorName}`,
                   'Your profile is under verification. We will inform you when your account has been verified'
                 );
-                navigation.navigate('DoctorRegistrationStep2');
+                navigation.dispatch(StackActions.replace('DoctorRegistrationStep2'));
               } else if (y.profileStatus === 'IMPROPER') {
                 setModalVisible(false);
                 Alert.alert(`Hey ${y.doctorName}`, `${y.improperProfileReason}`);
-                navigation.navigate('DoctorRegistrationStep2');
+                navigation.dispatch(StackActions.replace('DoctorRegistrationStep2'));
               }
               // else if (y.profileStatus == 'DEACTIVATE') {
               //   setModalVisible(false);
@@ -150,18 +150,20 @@ export default function OTPModal({
                   `Hey ${response.data.patientName}`,
                   'Welcome to TrustHeal - Your Health Partner'
                 );
-                navigation.navigate('PatientHome', {
-                  patientObj: response.data,
-                });
+                navigation.dispatch(
+                  StackActions.replace('PatientHome', {
+                    patientObj: response.data,
+                  })
+                );
               } else {
                 Alert.alert('Important', 'Please complete your profile before continuing');
-                navigation.navigate('PatientRegistration');
+                navigation.dispatch(StackActions.replace('PatientRegistration'));
               }
             } else if (response.status === 204) {
               setModalVisible(false);
               console.log(response.data);
               Alert.alert('New User!', 'Please register yourself before continuing.');
-              navigation.navigate('PatientRegistration');
+              navigation.dispatch(StackActions.replace('PatientRegistration'));
             }
           })
           .catch((error) => {
