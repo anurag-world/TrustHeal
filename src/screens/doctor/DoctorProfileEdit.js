@@ -1261,15 +1261,15 @@ export default function DoctorProfileEdit() {
         >
           <Header showMenu={false} title="Edit Profile" />
           <View style={{ width: '90%', alignSelf: 'center' }}>
-            <View>
+            <View style={{ alignItems: 'center' }}>
               {/* Doctor Image */}
               <View
                 style={{
                   backgroundColor: 'white',
                   width: 100,
                   height: 100,
-                  borderRadius: 150,
-                  alignSelf: 'center',
+                  borderRadius: 100,
+                  justifyContent: 'center',
                   marginVertical: 20,
                 }}
               >
