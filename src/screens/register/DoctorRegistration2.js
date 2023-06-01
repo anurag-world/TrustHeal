@@ -30,7 +30,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DocumentPicker, { isInProgress, types } from 'react-native-document-picker';
 import dayjs from 'dayjs';
 import axios from 'axios';
-import { Checkbox } from 'native-base';
+import { Checkbox, FormControl, WarningOutlineIcon } from 'native-base';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import doctor from '../../../assets/doctor.png';
@@ -103,6 +103,12 @@ export default function DoctorRegistration2() {
   const [RegYear, setRegYear] = useState('');
   const [certificatePath, setcertificatePath] = useState(null);
   const [MedRegDoc, setMedRegDoc] = useState(null);
+  const [regNoError, setRegNoError] = useState(false);
+  const [regCouncilError, setRegCouncilError] = useState(false);
+  const [regYearError, setRegYearError] = useState(false);
+  const [certificatePathError, setcertificatePathError] = useState(false);
+  const [regNoMsg, setRegNoMsg] = useState('');
+  const [regCouncilMsg, setRegCouncilMsg] = useState('');
 
   // Educational Details Field
   const [showEduDet, setShowEduDet] = useState(false);
@@ -555,6 +561,46 @@ export default function DoctorRegistration2() {
     }
     await AsyncStorage.setItem('age', `${x}`);
     setAge(x);
+  };
+
+  // Medical Registration Validation
+  const medValidate = () => {
+    let temp = 0;
+    if (RegNo === '') {
+      setRegNoError(true);
+      setRegNoMsg('Please Fill Registration Number');
+    } else if (!checkAlphanumicOnly(RegNo)) {
+      setRegNoError(true);
+      setRegNoMsg('Please Enter Only Letters and Numbers');
+    } else {
+      setRegNoError(false);
+      temp += 1;
+    }
+    if (RegCouncil === '') {
+      setRegCouncilError(true);
+      setRegCouncilMsg('Please Fill Registration Council');
+    } else if (!checkAlphanumicOnly(RegCouncil)) {
+      setRegCouncilError(true);
+      setRegCouncilMsg('Please Enter Only Letters and Numbers');
+    } else {
+      setRegCouncilError(false);
+      temp += 1;
+    }
+    if (RegYear === '') {
+      setRegYearError(true);
+    } else {
+      setRegYearError(false);
+      temp += 1;
+    }
+    if (certificatePath === null) {
+      setcertificatePathError(true);
+    } else {
+      setcertificatePathError(false);
+      temp += 1;
+    }
+    if (temp === 4) {
+      postMedReg();
+    }
   };
 
   useEffect(() => {
@@ -2055,96 +2101,118 @@ export default function DoctorRegistration2() {
                     }}
                   >
                     {/* REgistration Number */}
-                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-                      <View style={{ flex: 1 }}>
-                        <Text style={[styles.inputLabel, { marginTop: 0 }]}>
-                          Registration Number
-                        </Text>
-                        <TextInput
-                          style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                          placeholderTextColor="black"
-                          onChangeText={(text) => setRegNo(text)}
-                          maxLength={20}
-                          value={RegNo}
-                        />
-                      </View>
-                    </View>
-                    {/* Registraion Concil */}
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.inputLabel]}>Registration Council</Text>
-                      <TextInput
-                        style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                        placeholderTextColor="black"
-                        onChangeText={(text) => setRegCouncil(text)}
-                        maxLength={20}
-                        value={RegCouncil}
-                      />
-                    </View>
-
-                    {/* Certificate and Year */}
-                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-                      <View style={{ flex: 1, marginRight: '5%' }}>
-                        <Text style={styles.inputLabel}>Reg. Certificate</Text>
-                        <View>
+                    <FormControl isRequired isInvalid={regNoError}>
+                      <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                        <View style={{ flex: 1 }}>
+                          <Text style={[styles.inputLabel, { marginTop: 0 }]}>
+                            Registration Number
+                          </Text>
                           <TextInput
                             style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
                             placeholderTextColor="black"
-                            value={RegCert}
-                            editable={false}
-                          />
-                          <FAIcon
-                            name="upload"
-                            color="gray"
-                            size={16}
-                            style={{
-                              position: 'absolute',
-                              right: 0,
-                              bottom: 0,
-                              paddingRight: '5%',
-                              marginBottom: '5%',
-                              backgroundColor: '#E8F0FE',
-                            }}
-                            onPress={() => {
-                              if (RegNo === '')
-                                Alert.alert(
-                                  'Incomplete Details!',
-                                  'Please Fill Registration Number'
-                                );
-                              else if (RegCouncil === '')
-                                Alert.alert(
-                                  'Incomplete Details!',
-                                  'Please Fill Registration Council Name'
-                                );
-                              else if (RegYear === '')
-                                Alert.alert(
-                                  'Incomplete Details!',
-                                  'Please enter Registration Year'
-                                );
-                              else {
-                                selectDocsMedReg();
-                              }
-                            }}
+                            onChangeText={(text) => setRegNo(text)}
+                            maxLength={20}
+                            value={RegNo}
                           />
                         </View>
                       </View>
-
+                      {regNoError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          {regNoMsg}
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
+                    {/* Registraion Council */}
+                    <FormControl isRequired isInvalid={regCouncilError}>
                       <View style={{ flex: 1 }}>
-                        <Text style={styles.inputLabel}>Reg. Year</Text>
-                        <SelectList
-                          placeholder={' '}
-                          boxStyles={{
-                            backgroundColor: '#e8f0fe',
-                            borderWidth: 0,
-                          }}
-                          dropdownTextStyles={{
-                            color: '#2b8ada',
-                            fontWeight: 'bold',
-                          }}
-                          setSelected={setRegYear}
-                          data={dataYear}
+                        <Text style={[styles.inputLabel]}>Registration Council</Text>
+                        <TextInput
+                          style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                          placeholderTextColor="black"
+                          onChangeText={(text) => setRegCouncil(text)}
+                          maxLength={20}
+                          value={RegCouncil}
                         />
                       </View>
-                    </View>
+                      {regCouncilError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          {regCouncilMsg}
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
+
+                    {/* Certificate and Year */}
+                    <FormControl isRequired isInvalid={regYearError}>
+                      <FormControl isRequired isInvalid={certificatePathError}>
+                        <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                          <View style={{ flex: 1, marginRight: '5%' }}>
+                            <Text style={styles.inputLabel}>Reg. Certificate</Text>
+                            <View>
+                              <TextInput
+                                style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                                placeholderTextColor="black"
+                                value={RegCert}
+                                editable={false}
+                              />
+                              <FAIcon
+                                name="upload"
+                                color="gray"
+                                size={16}
+                                style={{
+                                  position: 'absolute',
+                                  right: 0,
+                                  bottom: 0,
+                                  paddingRight: '5%',
+                                  marginBottom: '5%',
+                                  backgroundColor: '#E8F0FE',
+                                }}
+                                onPress={() => selectDocsMedReg()}
+                              />
+                            </View>
+                          </View>
+
+                          <View style={{ flex: 1 }}>
+                            <Text style={styles.inputLabel}>Reg. Year</Text>
+                            <SelectList
+                              placeholder={' '}
+                              boxStyles={{
+                                backgroundColor: '#e8f0fe',
+                                borderWidth: 0,
+                              }}
+                              dropdownTextStyles={{
+                                color: '#2b8ada',
+                                fontWeight: 'bold',
+                              }}
+                              setSelected={setRegYear}
+                              data={dataYear}
+                            />
+                          </View>
+                        </View>
+                        {certificatePathError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Upload Medical Reg. Certificate
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
+                      {regYearError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Select Reg. Year
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
+
                     <Text
                       style={{
                         marginVertical: 5,
@@ -2171,32 +2239,7 @@ export default function DoctorRegistration2() {
                           padding: 5,
                           borderRadius: 10,
                         }}
-                        onPress={() => {
-                          if (RegNo === '')
-                            Alert.alert('Incomplete Details!', 'Please Fill Registration Number');
-                          else if (RegCouncil === '')
-                            Alert.alert('Incomplete Details!', 'Please Fill Registration Council');
-                          else if (RegYear === '')
-                            Alert.alert('Incomplete Details!', 'Please Select Registration Year');
-                          else if (certificatePath == null)
-                            Alert.alert(
-                              'Incomplete Details!',
-                              'Please Upload Medical Registration Certificate'
-                            );
-                          else if (!checkAlphanumicOnly(RegNo)) {
-                            Alert.alert(
-                              'Invalid Input',
-                              'Please enter letters and numbers only in Registration Number.'
-                            );
-                            setRegNo('');
-                          } else if (!checkAlphanumicOnly(RegCouncil)) {
-                            Alert.alert(
-                              'Invalid Input',
-                              'Please enter letters and numbers only in Registration Number.'
-                            );
-                            setRegCouncil('');
-                          } else postMedReg();
-                        }}
+                        onPress={() => medValidate()}
                       />
                     </View>
                   </View>
