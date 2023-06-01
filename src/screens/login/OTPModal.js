@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity, Keyboard } 
 import axios from 'axios';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CountDown from 'react-native-countdown-fix';
+import Countdown from 'react-native-countdown-fixed';
 import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Pressable, theme } from 'native-base';
 import { isEmpty } from 'lodash';
@@ -407,7 +407,7 @@ export default function OTPModal({
                   Resend OTP after
                 </Text>
 
-                <CountDown
+                <Countdown
                   size={15}
                   until={val}
                   digitStyle={{
