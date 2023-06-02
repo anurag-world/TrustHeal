@@ -1,17 +1,26 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
-// import AgoraUIKit from 'agora-rn-uikit';
+// import RtcEngine, {IRtcEngine, StreamFallbackOptions} from 'react-native-agora';
+import AgoraUIKit from 'agora-rn-uikit';
 import axios from 'axios';
-// import { ClientRoleType, createAgoraRtcEngine, ChannelProfileType } from 'react-native-agora';
-import { useNavigation, useRoute } from '@react-navigation/native';
+
+import {
+  ClientRoleType,
+  createAgoraRtcEngine,
+  IRtcEngine,
+  ChannelProfileType,
+} from 'react-native-agora';
+import { useNavigation } from '@react-navigation/native';
 import apiConfig from '../../components/API/apiConfig';
 
-export default function CallAgora() {
-  const route = useRoute();
-  const navigation = useNavigation();
+export default function CallAgora(props) {
+  const { route } = props;
+  const { params } = route;
   const {
-    // consultationType,
+    consultationType,
     callID,
     doctorId,
     patientId,
@@ -19,11 +28,24 @@ export default function CallAgora() {
     slotId,
     userName,
     userType,
-    // userID,
-  } = route.params;
+    userID,
+  } = params;
+  const [videoCall, setVideoCall] = useState(false);
   const agoraEngineRef = useRef(); // Agora engine instance
   const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
   const [remoteUid, setRemoteUid] = useState(0); // Uid of the remote user
+  const [message, setMessage] = useState(''); // Message to the user
+
+  const navigation = useNavigation();
+
+  // useEffect(async () => {
+  //   // Initialize Agora engine when the app starts
+  //   if (consultationType == 'PHONE_CALL') {
+  //     await getPermission();
+  //     await setupVoiceSDKEngine();
+  //     await join();
+  //   }
+  // }, [consultationType]);
 
   const getPermission = async () => {
     if (Platform.OS === 'android') {
@@ -31,7 +53,7 @@ export default function CallAgora() {
     }
   };
 
-  /*  const setupVoiceSDKEngine = async () => {
+  const setupVoiceSDKEngine = async () => {
     try {
       // use the helper function to get permissions
       if (Platform.OS === 'android') {
@@ -59,9 +81,9 @@ export default function CallAgora() {
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
-  /* const join = async () => {
+  const join = async () => {
     if (isJoined) {
       return;
     }
@@ -73,9 +95,8 @@ export default function CallAgora() {
     } catch (e) {
       console.log(e);
     }
-  }; */
-
-  /* const leave = () => {
+  };
+  const leave = () => {
     try {
       agoraEngineRef.current?.leaveChannel();
       setRemoteUid(0);
@@ -84,7 +105,7 @@ export default function CallAgora() {
     } catch (e) {
       console.log(e);
     }
-  }; */
+  };
 
   // video call
   const rtcCallback = {
@@ -123,47 +144,45 @@ export default function CallAgora() {
       else if (userType === 'Patient') await statusUpdatePatient();
     },
   };
-
-  /* const statusUpdateDoctor = async () => {
-    Alert.alert('Start', 'Consultation Started');
-    let p = {
-      consultationId: callID,
-      doctorId: doctorId,
-      patientId: patientId,
-      patientName: patientName,
-      slotId: slotId,
-    };
-    axios
-      .post(
-        apiConfig.baseUrl +
-          '/doctor/consultation/join?consultationId=' +
-          callID,
-      )
-      .then(response => {
-        if (response.status == 200)
-          console.log('\n\n\nMeeting going on status updated doctor\n\n\n');
-      })
-      .catch(response => {
-        console.log(response);
-      });
-  };
-  const statusUpdatePatient = async () => {
-    Alert.alert('Start', 'Consultation Started');
-    axios
-      .post(
-        apiConfig.baseUrl +
-          '/patient/consultation/join?consultationId=' +
-          callID,
-      )
-      .then(response => {
-        if (response.status == 200)
-          console.log('\n\n\nMeeting going on status updated patient\n\n\n');
-      })
-      .catch(response => {
-        console.log(response);
-      });
-  }; */
-
+  // const statusUpdateDoctor = async () => {
+  //   Alert.alert('Start', 'Consultation Started');
+  //   let p = {
+  //     consultationId: callID,
+  //     doctorId: doctorId,
+  //     patientId: patientId,
+  //     patientName: patientName,
+  //     slotId: slotId,
+  //   };
+  //   axios
+  //     .post(
+  //       apiConfig.baseUrl +
+  //         '/doctor/consultation/join?consultationId=' +
+  //         callID,
+  //     )
+  //     .then(response => {
+  //       if (response.status == 200)
+  //         console.log('\n\n\nMeeting going on status updated doctor\n\n\n');
+  //     })
+  //     .catch(response => {
+  //       console.log(response);
+  //     });
+  // };
+  // const statusUpdatePatient = async () => {
+  //   Alert.alert('Start', 'Consultation Started');
+  //   axios
+  //     .post(
+  //       apiConfig.baseUrl +
+  //         '/patient/consultation/join?consultationId=' +
+  //         callID,
+  //     )
+  //     .then(response => {
+  //       if (response.status == 200)
+  //         console.log('\n\n\nMeeting going on status updated patient\n\n\n');
+  //     })
+  //     .catch(response => {
+  //       console.log(response);
+  //     });
+  // };
   const statusUpdatePatientDisconnect = async () => {
     axios
       .post(`${apiConfig.baseUrl}/patient/consultation/disconnect?consultationId=${callID}`)
@@ -175,7 +194,6 @@ export default function CallAgora() {
         console.log(response);
       });
   };
-
   const statusUpdateDoctorDisconnect = async () => {
     axios
       .post(`${apiConfig.baseUrl}/doctor/consultation/disconnect?consultationId=${callID}`)
@@ -191,9 +209,7 @@ export default function CallAgora() {
   useEffect(() => {
     if (userType === 'Doctor') statusUpdateDoctor();
     else if (userType === 'Patient') statusUpdatePatient();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userType]);
-
   const statusUpdateDoctor = async () => {
     Alert.alert('Consultation Started', 'You have successfully joined the consultation room.');
     const p = {
@@ -203,7 +219,7 @@ export default function CallAgora() {
       patientName,
       slotId,
     };
-    // console.log(p);
+    console.log(p);
     await axios
       .post(`${apiConfig.baseUrl}/doctor/consultation/join`, p)
       .then((response) => {
@@ -214,7 +230,6 @@ export default function CallAgora() {
         console.log(response);
       });
   };
-
   const statusUpdatePatient = async () => {
     Alert.alert('Consultation Started', 'You have successfully joined the consultation room.');
     const p = {
@@ -223,7 +238,7 @@ export default function CallAgora() {
       patientName,
       slotId,
     };
-    // console.log(p);
+    console.log(p);
     await axios
       .post(`${apiConfig.baseUrl}/patient/consultation/join`, p)
       .then((response) => {
@@ -235,8 +250,8 @@ export default function CallAgora() {
       });
   };
 
-  return {
-    /* <AgoraUIKit
+  return (
+    <AgoraUIKit
       connectionData={{
         appId: apiConfig.AgoraAppId,
         channel: callID,
@@ -246,6 +261,6 @@ export default function CallAgora() {
       settings={{
         displayUsername: true,
       }}
-    /> */
-  };
+    />
+  );
 }

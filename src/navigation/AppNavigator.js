@@ -34,6 +34,13 @@ import AboutDoctor from '../screens/doctor/AboutDoctor';
 import TCDoctor from '../screens/TCDoctor';
 import CheifComplaints from '../screens/doctor/CheifComplaints';
 import PreConsult from '../screens/patient/PreConsult';
+import BodyScan from '../screens/doctor/BodyScan';
+import Diagnosis from '../screens/doctor/Diagnosis';
+import Medication from '../screens/doctor/Medication';
+import Investigation from '../screens/doctor/Investigation';
+import Advice from '../screens/doctor/Advice';
+import FollowUp from '../screens/doctor/FollowUp';
+import PrescriptionPreview from '../screens/doctor/PrescriptionPreview';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); // Ignore all log notifications
@@ -234,6 +241,62 @@ export default function AppNavigator() {
         <Stack.Screen
           name="CheifComplaints"
           component={CheifComplaints}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="BodyScan"
+          component={BodyScan}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Diagnosis"
+          component={Diagnosis}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Medication"
+          component={Medication}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Investigation"
+          component={Investigation}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Advice"
+          component={Advice}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="FollowUp"
+          component={FollowUp}
+          options={{
+            headerShown: false,
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="PrescriptionPreview"
+          component={PrescriptionPreview}
           options={{
             headerShown: false,
             headerBackButtonMenuEnabled: false,
