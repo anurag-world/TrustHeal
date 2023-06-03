@@ -42,6 +42,7 @@ import uploadgif from '../../../assets/animations/upload.gif';
 import apiConfig, { fileUpload } from '../../components/API/apiConfig';
 import { checkAlphabetOnly, checkAlphanumicOnly } from '../../components/API/Validations';
 import CustomButton from '../../components/CustomButton';
+import theme from '../../styles/theme';
 
 const dataTitle = [
   { key: 'Dr.', value: 'Dr.' },
@@ -122,6 +123,12 @@ export default function DoctorRegistration2() {
   const [Specialization, setSpecialization] = useState('');
   const [University, setUniversity] = useState('');
   const [degreePath, setdegreePath] = useState(null);
+  const [degreeError, setDegreeError] = useState(false);
+  const [passingYearError, setPassingYearError] = useState(false);
+  const [specializationError, setSpecializationError] = useState(false);
+  const [universityError, setUniversityError] = useState(false);
+  const [fileError, setFileError] = useState(false);
+  const [otherSpecialityError, setOtherSpecialityError] = useState(false);
 
   const [Otherspeciality, setOtherSpeciality] = useState('');
   // Experience Details Field
@@ -138,6 +145,11 @@ export default function DoctorRegistration2() {
   const [FinalTotalMonths, setFinalTotalMonths] = useState(0);
   const [expPhotoPath, setexpPhotoPath] = useState(0);
   const [checkPresent, setcheckPresent] = useState(false);
+  const [practiceAtError, setPracticeAtError] = useState(false);
+  const [startExpDateError, setStartExpDateError] = useState(false);
+  const [endExpDateError, setEndExpDateError] = useState(false);
+  const [experienceCertificateError, setExperienceCertificateError] = useState(false);
+
   // Identification
   const [showIdenDet, setShowIdenDet] = useState(false);
   const [addMoreIdenDet, setaddMoreIdenDet] = useState(false);
@@ -146,6 +158,10 @@ export default function DoctorRegistration2() {
   const [identificationNumber, setidentificationNumber] = useState('');
   const [identificationType, setidentificationType] = useState('');
   const [identificationPath, setidentificationPath] = useState(null);
+  const [documentNameError, setDocumentNameError] = useState(false);
+  const [identificationNumberError, setIdentificationNumberError] = useState(false);
+  const [identityDocumentError, setIdentityDocumentError] = useState(false);
+
   // Additional Information
   const [showAddInfo, setShowAddInfo] = useState(false);
   const [addMoreAddInfo, setaddMoreAddInfo] = useState(false);
@@ -155,6 +171,9 @@ export default function DoctorRegistration2() {
   const [clinicAddress, setClinicAddress] = useState('');
   const [clinicPhoto, setClinicPhoto] = useState(null);
   const [specialInstruction, setSpecialInstruction] = useState('');
+  const [clinicNameError, setClinicNameError] = useState(false);
+  const [clinicAddressError, setClinicAddressError] = useState(false);
+  const [clinicProofError, setClinicProofError] = useState(false);
 
   // PreConsultation Questionnaire
   const [showPreConsultationQuestionaire, setShowPreConsultationQuestionaire] = useState(false);
@@ -178,6 +197,11 @@ export default function DoctorRegistration2() {
   const [isLoading, setisLoading] = useState(false);
   const [isSentForValidation, setisSentForValidation] = useState(false);
   const [isUploading, setisUploading] = useState(false);
+  const [eConsulationFeesError, setEConsulationFeesError] = useState(false);
+  const [efollowUpFeesError, setEfollowUpFeesError] = useState(false);
+  const [showFollowUpError, setShowFollowUpError] = useState(false);
+  const [physicalConsulationFeesError, setPhysicalConsulationFeesError] = useState(false);
+  const [physicalfollowUpFeesError, setPhysicalfollowUpFeesError] = useState(false);
 
   // viewing document
   const [docPath, setdocPath] = useState(null);
@@ -1358,10 +1382,10 @@ export default function DoctorRegistration2() {
           // console.log(error);
           Alert.alert('Error', 'There was a problem in selecting document. Please try again.');
         } else {
-          // console.log('======response======');
+          console.log('======response======');
           // console.log(response.fileToken);
           if (response.fileToken !== undefined) setidentificationPath(response.fileToken);
-          Alert.alert('Error', 'Please try again.');
+          else Alert.alert('Error', 'Please try again.');
         }
       }
     } catch (e) {
@@ -1849,6 +1873,7 @@ export default function DoctorRegistration2() {
                               color: '#2b8ada',
                               fontWeight: 'bold',
                             }}
+                            inputStyles={{ color: theme.colors.text.primary }}
                             badgeStyles={{ backgroundColor: '#2b8ada' }}
                           />
                         ) : (
@@ -1908,6 +1933,7 @@ export default function DoctorRegistration2() {
                               color: '#2b8ada',
                               fontWeight: 'bold',
                             }}
+                            inputStyles={{ color: theme.colors.text.primary }}
                             badgeStyles={{ backgroundColor: '#2b8ada' }}
                           />
                         ) : (
@@ -2189,6 +2215,7 @@ export default function DoctorRegistration2() {
                                 color: '#2b8ada',
                                 fontWeight: 'bold',
                               }}
+                              inputStyles={{ color: theme.colors.text.primary }}
                               setSelected={setRegYear}
                               data={dataYear}
                             />
@@ -2384,29 +2411,51 @@ export default function DoctorRegistration2() {
                           }}
                         >
                           <View style={{ flex: 0.475 }}>
-                            <Text style={styles.inputLabel}>Degree</Text>
-                            <TextInput
-                              style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                              onChangeText={(text) => setDegree(text)}
-                              maxLength={50}
-                              value={Degree}
-                            />
+                            <FormControl isRequired isInvalid={degreeError}>
+                              <Text style={styles.inputLabel}>Degree</Text>
+                              <TextInput
+                                style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                                onChangeText={(text) => setDegree(text)}
+                                maxLength={50}
+                                value={Degree}
+                              />
+                              {degreeError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="flex-start"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter Degree
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
+
                           <View style={{ flex: 0.475 }}>
-                            <Text style={styles.inputLabel}>Degree Passing Year</Text>
-                            <SelectList
-                              placeholder={' '}
-                              boxStyles={{
-                                backgroundColor: '#e8f0fe',
-                                borderWidth: 0,
-                              }}
-                              dropdownTextStyles={{
-                                color: '#2b8ada',
-                                fontWeight: 'bold',
-                              }}
-                              setSelected={setDegreePassingYear}
-                              data={dataYear}
-                            />
+                            <FormControl isRequired isInvalid={passingYearError}>
+                              <Text style={styles.inputLabel}>Degree Passing Year</Text>
+                              <SelectList
+                                placeholder={' '}
+                                boxStyles={{
+                                  backgroundColor: '#e8f0fe',
+                                  borderWidth: 0,
+                                }}
+                                dropdownTextStyles={{
+                                  color: '#2b8ada',
+                                  fontWeight: 'bold',
+                                }}
+                                inputStyles={{ color: theme.colors.text.primary }}
+                                setSelected={setDegreePassingYear}
+                                data={dataYear}
+                              />
+                              {passingYearError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="flex-start"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Choose Passing Year
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                         </View>
                         <View
@@ -2416,147 +2465,205 @@ export default function DoctorRegistration2() {
                           }}
                         >
                           <View style={{ flex: 1 }}>
-                            <Text style={[styles.inputLabel, { marginBottom: 10 }]}>
-                              Specialization
-                            </Text>
-                            <SelectList
-                              labelStyles={{ height: 0 }}
-                              placeholder={' '}
-                              setSelected={(val) => setSpecialization(val)}
-                              data={dataSpecialization}
-                              save="value"
-                              boxStyles={{
-                                backgroundColor: '#E8F0FE',
-                                borderWidth: 0,
-                              }}
-                              dropdownStyles={{ backgroundColor: 'white' }}
-                              dropdownTextStyles={{
-                                color: '#2b8ada',
-                                fontWeight: 'bold',
-                              }}
-                              badgeStyles={{ backgroundColor: '#2b8ada' }}
-                            />
+                            <FormControl isRequired isInvalid={specializationError}>
+                              <Text style={[styles.inputLabel, { marginBottom: 10 }]}>
+                                Specialization
+                              </Text>
+                              <SelectList
+                                labelStyles={{ height: 0 }}
+                                placeholder={' '}
+                                setSelected={(val) => setSpecialization(val)}
+                                data={dataSpecialization}
+                                save="value"
+                                boxStyles={{
+                                  backgroundColor: '#E8F0FE',
+                                  borderWidth: 0,
+                                }}
+                                inputStyles={{ color: theme.colors.text.primary }}
+                                dropdownStyles={{ backgroundColor: 'white' }}
+                                dropdownTextStyles={{
+                                  color: '#2b8ada',
+                                  fontWeight: 'bold',
+                                }}
+                                badgeStyles={{ backgroundColor: '#2b8ada' }}
+                              />
+                              {specializationError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="center"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Select Specialization
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                           {Specialization === 'Other' ? (
                             <View style={{ flex: 1 }}>
-                              <Text style={styles.inputLabel}>Other Speciality</Text>
-                              <TextInput
-                                style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                                onChangeText={(text) => setOtherSpeciality(text)}
-                                maxLength={50}
-                                value={Otherspeciality}
-                              />
+                              <FormControl isRequired isInvalid={otherSpecialityError}>
+                                <Text style={styles.inputLabel}>Other Speciality</Text>
+                                <TextInput
+                                  style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                                  onChangeText={(text) => setOtherSpeciality(text)}
+                                  maxLength={50}
+                                  value={Otherspeciality}
+                                />
+                                {otherSpecialityError && (
+                                  <FormControl.ErrorMessage
+                                    alignItems="center"
+                                    leftIcon={<WarningOutlineIcon size="xs" />}
+                                  >
+                                    Please Enter Specialization
+                                  </FormControl.ErrorMessage>
+                                )}
+                              </FormControl>
                             </View>
                           ) : null}
                           <View style={{ flex: 1 }}>
-                            <Text style={styles.inputLabel}>University</Text>
-                            <TextInput
-                              style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                              onChangeText={(text) => setUniversity(text)}
-                              maxLength={100}
-                              value={University}
-                            />
+                            <FormControl isRequired isInvalid={universityError}>
+                              <Text style={styles.inputLabel}>University</Text>
+                              <TextInput
+                                style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                                onChangeText={(text) => setUniversity(text)}
+                                maxLength={100}
+                                value={University}
+                              />
+                              {universityError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="center"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter University
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                         </View>
                       </View>
 
                       {/* Buttons */}
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginVertical: 5,
-                          flex: 1,
-                          marginBottom: 10,
-                        }}
-                      >
-                        <CustomButton
-                          text={degreePath == null ? 'Select File' : ' ✓ File Selected'}
-                          textstyle={{
-                            color: degreePath == null ? '#2b8ada' : '#21c47f',
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                          }}
+                      <FormControl isRequired isInvalid={fileError}>
+                        <View
                           style={{
-                            backgroundColor: 'white',
-                            borderRadius: 12,
-                            padding: 6,
-                            paddingHorizontal: 10,
-                            borderWidth: 2,
-                            borderColor: degreePath == null ? '#2b8ada' : '#21c47f',
+                            flexDirection: 'row',
+                            marginVertical: 5,
+                            flex: 1,
+                            marginBottom: 10,
                           }}
-                          onPress={() => {
-                            if (
-                              Degree === '' ||
-                              DegreePassingYear === '' ||
-                              Specialization === '' ||
-                              University === ''
-                            )
-                              Alert.alert(
-                                'Incomplete Details',
-                                'Before Uploading Document(s) please fill in details'
-                              );
-                            else selectDocsEdu();
-                          }}
-                        />
+                        >
+                          <CustomButton
+                            text={degreePath == null ? 'Select File' : ' ✓ File Selected'}
+                            textstyle={{
+                              color: degreePath == null ? '#2b8ada' : '#21c47f',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            }}
+                            style={{
+                              backgroundColor: 'white',
+                              borderRadius: 12,
+                              padding: 6,
+                              paddingHorizontal: 10,
+                              borderWidth: 2,
+                              borderColor: degreePath == null ? '#2b8ada' : '#21c47f',
+                            }}
+                            onPress={() => {
+                              if (
+                                Degree === '' ||
+                                DegreePassingYear === '' ||
+                                Specialization === '' ||
+                                University === ''
+                              )
+                                Alert.alert(
+                                  'Incomplete Details',
+                                  'Before Uploading Document(s) please fill in details'
+                                );
+                              else selectDocsEdu();
+                            }}
+                          />
 
-                        <CustomButton
-                          text="Add To List"
-                          textstyle={{ color: 'white', fontSize: 12 }}
-                          style={{
-                            backgroundColor: '#2b8ada',
-                            borderRadius: 5,
-                            padding: 6,
-                            paddingHorizontal: 10,
-                            position: 'absolute',
-                            right: 0,
-                          }}
-                          onPress={() => {
-                            if (Degree === '')
-                              Alert.alert('Incomplete Details!', 'Please fill Degree Name');
-                            else if (DegreePassingYear === '')
-                              Alert.alert('Incomplete Details!', 'Please fill Degree Passing Year');
-                            else if (Specialization === '')
-                              Alert.alert('Incomplete Details!', 'Please Select Specialization');
-                            else if (University === '')
-                              Alert.alert('Incomplete Details!', 'Please fill University Name');
-                            else if (degreePath === null)
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please select degree certificate file'
-                              );
-                            else if (Specialization === 'Other' && Otherspeciality === '')
-                              Alert.alert('Incomplete Details!', 'Please specify speciality name');
-                            else {
-                              // const totalexp = parseInt(TotalYear) * 12 + parseInt(TotalMonths);
+                          <CustomButton
+                            text="Add To List"
+                            textstyle={{ color: 'white', fontSize: 12 }}
+                            style={{
+                              backgroundColor: '#2b8ada',
+                              borderRadius: 5,
+                              padding: 6,
+                              paddingHorizontal: 10,
+                              position: 'absolute',
+                              right: 0,
+                            }}
+                            onPress={() => {
+                              if (Degree === '') setDegreeError(true);
+                              else if (DegreePassingYear === '') {
+                                setDegreeError(false);
+                                setPassingYearError(true);
+                              } else if (Specialization === '') {
+                                setDegreeError(false);
+                                setPassingYearError(false);
+                                setSpecializationError(true);
+                              } else if (University === '') {
+                                setDegreeError(false);
+                                setPassingYearError(false);
+                                setSpecializationError(false);
+                                setUniversityError(true);
+                              } else if (degreePath === null) {
+                                setDegreeError(false);
+                                setPassingYearError(false);
+                                setSpecializationError(false);
+                                setUniversityError(false);
+                                setFileError(true);
+                              } else if (Specialization === 'Other' && Otherspeciality === '') {
+                                setDegreeError(false);
+                                setPassingYearError(false);
+                                setSpecializationError(false);
+                                setUniversityError(false);
+                                setFileError(false);
+                                setOtherSpecialityError(true);
+                              } else {
+                                // const totalexp = parseInt(TotalYear) * 12 + parseInt(TotalMonths);
+                                setDegreeError(false);
+                                setPassingYearError(false);
+                                setSpecializationError(false);
+                                setUniversityError(false);
+                                setFileError(false);
+                                setOtherSpecialityError(true);
 
-                              const newArry = [];
-                              newArry.push({
-                                key: Specialization,
-                                value: Specialization,
-                              });
-                              setsplArray([...splArray, ...newArry]);
+                                const newArry = [];
+                                newArry.push({
+                                  key: Specialization,
+                                  value: Specialization,
+                                });
+                                setsplArray([...splArray, ...newArry]);
 
-                              const p = {
-                                degree: Degree,
-                                degreePath,
-                                passingYear: Number(DegreePassingYear),
-                                specialization:
-                                  Specialization === 'Other' ? Otherspeciality : Specialization,
-                                university: University,
-                              };
-                              const arr = [...Education];
-                              arr.push(p);
-                              setEducation(arr);
-                              setDegree('');
-                              setDegreePassingYear('');
-                              setSpecialization('');
-                              setdegreePath(null);
-                              setUniversity('');
-                              setaddMoreEduDet(false);
-                            }
-                          }}
-                        />
-                      </View>
+                                const p = {
+                                  degree: Degree,
+                                  degreePath,
+                                  passingYear: Number(DegreePassingYear),
+                                  specialization:
+                                    Specialization === 'Other' ? Otherspeciality : Specialization,
+                                  university: University,
+                                };
+                                const arr = [...Education];
+                                arr.push(p);
+                                setEducation(arr);
+                                setDegree('');
+                                setDegreePassingYear('');
+                                setSpecialization('');
+                                setdegreePath(null);
+                                setUniversity('');
+                                setaddMoreEduDet(false);
+                              }
+                            }}
+                          />
+                        </View>
+                        {fileError && (
+                          <FormControl.ErrorMessage
+                            alignItems="flex-start"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Upload Certificate File
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                       <Text
                         style={{
                           alignSelf: 'flex-start',
@@ -2760,13 +2867,23 @@ export default function DoctorRegistration2() {
                           }}
                         >
                           <View style={{ flex: 1 }}>
-                            <Text style={[styles.inputLabel, { marginTop: 0 }]}>Practice At</Text>
-                            <TextInput
-                              style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                              onChangeText={(text) => setPracticeAt(text)}
-                              maxLength={50}
-                              value={practiceAt}
-                            />
+                            <FormControl isRequired isInvalid={practiceAtError}>
+                              <Text style={[styles.inputLabel, { marginTop: 0 }]}>Practice At</Text>
+                              <TextInput
+                                style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                                onChangeText={(text) => setPracticeAt(text)}
+                                maxLength={50}
+                                value={practiceAt}
+                              />
+                              {practiceAtError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="center"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter Hospital/Clinic Name
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                         </View>
                         <View
@@ -2776,55 +2893,8 @@ export default function DoctorRegistration2() {
                           }}
                         >
                           <View style={{ flex: 0.475 }}>
-                            <Text style={styles.inputLabel}>Start Date</Text>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                width: '100%',
-                                alignItems: 'center',
-                                backgroundColor: '#E8F0FE',
-                                borderRadius: 10,
-                              }}
-                            >
-                              <Text style={[styles.textInput, { flex: 1 }]}>
-                                {dayjs(startExpDate).isValid()
-                                  ? dayjs(startExpDate).format('DD-MM-YYYY')
-                                  : 'DD-MM-YYYY'}
-                              </Text>
-                              <FAIcon
-                                name="calendar-alt"
-                                color="gray"
-                                size={20}
-                                style={{
-                                  marginHorizontal: 5,
-                                  position: 'absolute',
-                                  right: 0,
-                                }}
-                                onPress={() => {
-                                  setStartExpDatePickerVisible(true);
-                                }}
-                              />
-                            </View>
-                            <DateTimePickerModal
-                              isVisible={isStartExpDatePickerVisible}
-                              mode="date"
-                              display="spinner"
-                              date={
-                                dayjs(startExpDate).isValid()
-                                  ? dayjs(startExpDate).toDate()
-                                  : dayjs().toDate()
-                              }
-                              maximumDate={dayjs().toDate()}
-                              onConfirm={handleStartExpDate}
-                              onCancel={() => {
-                                setStartExpDatePickerVisible(false);
-                              }}
-                            />
-                          </View>
-                          <View style={{ flex: 0.475 }}>
-                            <Text style={styles.inputLabel}>End Date</Text>
-
-                            {!checkPresent ? (
+                            <FormControl isRequired isInvalid={startExpDateError}>
+                              <Text style={styles.inputLabel}>Start Date</Text>
                               <View
                                 style={{
                                   flexDirection: 'row',
@@ -2835,8 +2905,8 @@ export default function DoctorRegistration2() {
                                 }}
                               >
                                 <Text style={[styles.textInput, { flex: 1 }]}>
-                                  {dayjs(endExpDate).isValid()
-                                    ? dayjs(endExpDate).format('DD-MM-YYYY')
+                                  {dayjs(startExpDate).isValid()
+                                    ? dayjs(startExpDate).format('DD-MM-YYYY')
                                     : 'DD-MM-YYYY'}
                                 </Text>
                                 <FAIcon
@@ -2849,69 +2919,143 @@ export default function DoctorRegistration2() {
                                     right: 0,
                                   }}
                                   onPress={() => {
-                                    setEndExpDatePickerVisible(true);
+                                    setStartExpDatePickerVisible(true);
                                   }}
                                 />
                               </View>
-                            ) : null}
-                            <DateTimePickerModal
-                              isVisible={isEndExpDatePickerVisible}
-                              mode="date"
-                              display="spinner"
-                              date={
-                                dayjs(endExpDate).isValid()
-                                  ? dayjs(endExpDate).toDate()
-                                  : dayjs().toDate()
-                              }
-                              maximumDate={dayjs().toDate()}
-                              onConfirm={handleEndExpDate}
-                              onCancel={() => {
-                                setEndExpDatePickerVisible(false);
-                              }}
-                            />
-                            <Checkbox
-                              shadow={1}
-                              isChecked={checkPresent}
-                              onChange={async () => {
-                                setcheckPresent((prev) => !prev);
-                                await calculateExpPresent();
-                              }}
-                              marginTop={4}
-                              borderWidth={0}
-                              _checked={{ bg: '#2b8ada' }}
-                            >
-                              <Text style={{ fontSize: 12 }}>Present (Current)</Text>
-                            </Checkbox>
+                              <DateTimePickerModal
+                                isVisible={isStartExpDatePickerVisible}
+                                mode="date"
+                                display="spinner"
+                                date={
+                                  dayjs(startExpDate).isValid()
+                                    ? dayjs(startExpDate).toDate()
+                                    : dayjs().toDate()
+                                }
+                                maximumDate={dayjs().toDate()}
+                                onConfirm={handleStartExpDate}
+                                onCancel={() => {
+                                  setStartExpDatePickerVisible(false);
+                                }}
+                              />
+                              {startExpDateError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="flex-start"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter Start Date
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
+                          </View>
+                          <View style={{ flex: 0.475 }}>
+                            <FormControl isRequired isInvalid={endExpDateError}>
+                              <Text style={styles.inputLabel}>End Date</Text>
+
+                              {!checkPresent ? (
+                                <View
+                                  style={{
+                                    flexDirection: 'row',
+                                    width: '100%',
+                                    alignItems: 'center',
+                                    backgroundColor: '#E8F0FE',
+                                    borderRadius: 10,
+                                  }}
+                                >
+                                  <Text style={[styles.textInput, { flex: 1 }]}>
+                                    {dayjs(endExpDate).isValid()
+                                      ? dayjs(endExpDate).format('DD-MM-YYYY')
+                                      : 'DD-MM-YYYY'}
+                                  </Text>
+                                  <FAIcon
+                                    name="calendar-alt"
+                                    color="gray"
+                                    size={20}
+                                    style={{
+                                      marginHorizontal: 5,
+                                      position: 'absolute',
+                                      right: 0,
+                                    }}
+                                    onPress={() => {
+                                      setEndExpDatePickerVisible(true);
+                                    }}
+                                  />
+                                </View>
+                              ) : null}
+                              <DateTimePickerModal
+                                isVisible={isEndExpDatePickerVisible}
+                                mode="date"
+                                display="spinner"
+                                date={
+                                  dayjs(endExpDate).isValid()
+                                    ? dayjs(endExpDate).toDate()
+                                    : dayjs().toDate()
+                                }
+                                maximumDate={dayjs().toDate()}
+                                onConfirm={handleEndExpDate}
+                                onCancel={() => {
+                                  setEndExpDatePickerVisible(false);
+                                }}
+                              />
+                              <Checkbox
+                                shadow={1}
+                                isChecked={checkPresent}
+                                onChange={async () => {
+                                  setcheckPresent((prev) => !prev);
+                                  await calculateExpPresent();
+                                }}
+                                marginTop={4}
+                                borderWidth={0}
+                                _checked={{ bg: '#2b8ada' }}
+                              >
+                                <Text style={{ fontSize: 12 }}>Present (Current)</Text>
+                              </Checkbox>
+                              {endExpDateError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="flex-start"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter End Date
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                         </View>
-                        <Text style={styles.inputLabel}>Experience Certificate</Text>
-                        <CustomButton
-                          text={expPhotoPath === 0 ? 'Select Photo' : ' ✓ Photo Selected'}
-                          textstyle={{
-                            color: expPhotoPath === 0 ? '#2b8ada' : '#21c47f',
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                          }}
-                          style={{
-                            backgroundColor: 'white',
-                            borderRadius: 12,
-                            padding: 6,
-                            marginVertical: 3,
-                            paddingHorizontal: 10,
-                            borderWidth: 2,
-                            borderColor: expPhotoPath === 0 ? '#2b8ada' : '#21c47f',
-                          }}
-                          onPress={async () => {
-                            if (practiceAt === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please add Clinic/Hospital practice name'
-                              );
-                            else {
-                              await choosePhoto('Experience');
-                            }
-                          }}
-                        />
+                        <FormControl isRequired isInvalid={experienceCertificateError}>
+                          <Text style={styles.inputLabel}>Experience Certificate</Text>
+                          <CustomButton
+                            text={expPhotoPath === 0 ? 'Select Photo' : ' ✓ Photo Selected'}
+                            textstyle={{
+                              color: expPhotoPath === 0 ? '#2b8ada' : '#21c47f',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            }}
+                            style={{
+                              backgroundColor: 'white',
+                              borderRadius: 12,
+                              padding: 6,
+                              marginVertical: 3,
+                              paddingHorizontal: 10,
+                              borderWidth: 2,
+                              borderColor: expPhotoPath === 0 ? '#2b8ada' : '#21c47f',
+                            }}
+                            onPress={async () => {
+                              if (practiceAt === '') {
+                                setPracticeAtError(true);
+                              } else {
+                                await choosePhoto('Experience');
+                              }
+                            }}
+                          />
+                          {experienceCertificateError && (
+                            <FormControl.ErrorMessage
+                              alignItems="center"
+                              leftIcon={<WarningOutlineIcon size="xs" />}
+                            >
+                              Please Upload Experience Certificate
+                            </FormControl.ErrorMessage>
+                          )}
+                        </FormControl>
                         <Text
                           style={{
                             alignSelf: 'flex-start',
@@ -2961,19 +3105,25 @@ export default function DoctorRegistration2() {
                             right: 0,
                           }}
                           onPress={() => {
-                            if (practiceAt === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please add Clinic/Hospital practice name'
-                              );
-                            else if (startExpDate === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please select practice start date'
-                              );
-                            else if (endExpDate === '' && checkPresent === false)
-                              Alert.alert('Incomplete Details!', 'Please select practice end date');
-                            else {
+                            if (practiceAt === '') {
+                              setPracticeAtError(true);
+                            } else if (startExpDate === '') {
+                              setPracticeAtError(false);
+                              setStartExpDateError(true);
+                            } else if (endExpDate === '' && checkPresent === false) {
+                              setPracticeAtError(false);
+                              setStartExpDateError(false);
+                              setEndExpDateError(true);
+                            } else if (expPhotoPath === 0) {
+                              setPracticeAtError(false);
+                              setStartExpDateError(false);
+                              setEndExpDateError(false);
+                              setExperienceCertificateError(true);
+                            } else {
+                              setPracticeAtError(false);
+                              setStartExpDateError(false);
+                              setEndExpDateError(false);
+                              setExperienceCertificateError(false);
                               const p = {
                                 currentlyThere: checkPresent,
                                 endDate: endExpDate,
@@ -3201,143 +3351,179 @@ export default function DoctorRegistration2() {
                           }}
                         >
                           <View style={{ flexDirection: 'column', flex: 1 }}>
-                            <Text style={styles.inputLabel}>Document Name</Text>
+                            <FormControl isRequired isInvalid={documentNameError}>
+                              <Text style={styles.inputLabel}>Document Name</Text>
 
-                            <SelectList
-                              placeholder={identificationType}
-                              boxStyles={{
-                                backgroundColor: '#e8f0fe',
-                                borderWidth: 0,
-                              }}
-                              dropdownTextStyles={{
-                                color: '#2b8ada',
-                                fontWeight: 'bold',
-                              }}
-                              setSelected={setidentificationType}
-                              data={dataIdenDocs}
-                            />
+                              <SelectList
+                                placeholder={identificationType}
+                                boxStyles={{
+                                  backgroundColor: '#e8f0fe',
+                                  borderWidth: 0,
+                                }}
+                                dropdownTextStyles={{
+                                  color: '#2b8ada',
+                                  fontWeight: 'bold',
+                                }}
+                                inputStyles={{ color: theme.colors.text.primary }}
+                                setSelected={setidentificationType}
+                                data={dataIdenDocs}
+                              />
+                              {documentNameError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="center"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Select Document
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                           <View style={{ flexDirection: 'column', flex: 1 }}>
-                            <Text style={styles.inputLabel}>Identification No</Text>
-                            <View>
-                              <TextInput
-                                style={[styles.textInput]}
-                                onChangeText={(text) => setidentificationNumber(text)}
-                                value={identificationNumber}
-                                maxLength={20}
-                              />
-                            </View>
+                            <FormControl isRequired isInvalid={identificationNumberError}>
+                              <Text style={styles.inputLabel}>Identification No</Text>
+                              <View>
+                                <TextInput
+                                  style={[styles.textInput]}
+                                  onChangeText={(text) => setidentificationNumber(text)}
+                                  value={identificationNumber}
+                                  maxLength={20}
+                                />
+                              </View>
+                              {identificationNumberError && (
+                                <FormControl.ErrorMessage
+                                  alignItems="center"
+                                  leftIcon={<WarningOutlineIcon size="xs" />}
+                                >
+                                  Please Enter Identification Number
+                                </FormControl.ErrorMessage>
+                              )}
+                            </FormControl>
                           </View>
                         </View>
                       </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginVertical: 5,
-                          width: '95%',
-                          alignSelf: 'center',
-                          marginBottom: 15,
-                        }}
-                      >
-                        <CustomButton
-                          text={identificationPath == null ? 'Select File' : ' ✓ File Selected'}
-                          textstyle={{
-                            color: identificationPath == null ? '#2b8ada' : '#21c47f',
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                          }}
+                      <FormControl isRequired isInvalid={identityDocumentError}>
+                        <View
                           style={{
-                            backgroundColor: 'white',
-                            borderRadius: 12,
-                            padding: 6,
-                            paddingHorizontal: 10,
-                            borderWidth: 2,
-                            borderColor: identificationPath == null ? '#2b8ada' : '#21c47f',
+                            flexDirection: 'row',
+                            marginVertical: 5,
+                            width: '95%',
+                            alignSelf: 'center',
+                            marginBottom: 15,
                           }}
-                          onPress={() => {
-                            if (identificationType === '')
-                              Alert.alert('Incomplete Details!', 'Please select document name');
-                            else if (identificationNumber === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please fill identification number'
-                              );
-                            else selectDocsIden();
-                          }}
-                        />
-                        <CustomButton
-                          text="Add To List"
-                          textstyle={{ color: 'white', fontSize: 12 }}
-                          style={{
-                            backgroundColor: '#2b8ada',
-                            borderRadius: 5,
-                            padding: 6,
-                            paddingHorizontal: 10,
-                            position: 'absolute',
-                            right: 0,
-                          }}
-                          onPress={() => {
-                            if (
-                              identificationNumber !== '' &&
-                              identificationType !== '' &&
-                              identificationPath !== null
-                            ) {
-                              let flag = 1;
-                              if (IdentificationDocs.length > 0) {
-                                for (let i = 0; i < IdentificationDocs.length; i += 1) {
-                                  if (
-                                    IdentificationDocs[i].identificationType === identificationType
-                                  ) {
-                                    flag = 0;
-                                    break;
+                        >
+                          <CustomButton
+                            text={identificationPath == null ? 'Select File' : ' ✓ File Selected'}
+                            textstyle={{
+                              color: identificationPath == null ? '#2b8ada' : '#21c47f',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            }}
+                            style={{
+                              backgroundColor: 'white',
+                              borderRadius: 12,
+                              padding: 6,
+                              paddingHorizontal: 10,
+                              borderWidth: 2,
+                              borderColor: identificationPath == null ? '#2b8ada' : '#21c47f',
+                            }}
+                            onPress={() => {
+                              if (identificationType === '') {
+                                setDocumentNameError(true);
+                              } else if (identificationNumber === '') {
+                                setDocumentNameError(false);
+                                setIdentificationNumberError(true);
+                              } else {
+                                setDocumentNameError(false);
+                                setIdentificationNumberError(true);
+                                selectDocsIden();
+                              }
+                            }}
+                          />
+
+                          <CustomButton
+                            text="Add To List"
+                            textstyle={{ color: 'white', fontSize: 12 }}
+                            style={{
+                              backgroundColor: '#2b8ada',
+                              borderRadius: 5,
+                              padding: 6,
+                              paddingHorizontal: 10,
+                              position: 'absolute',
+                              right: 0,
+                            }}
+                            onPress={() => {
+                              if (
+                                identificationNumber !== '' &&
+                                identificationType !== '' &&
+                                identificationPath !== null
+                              ) {
+                                let flag = 1;
+                                if (IdentificationDocs.length > 0) {
+                                  for (let i = 0; i < IdentificationDocs.length; i += 1) {
+                                    if (
+                                      IdentificationDocs[i].identificationType ===
+                                      identificationType
+                                    ) {
+                                      flag = 0;
+                                      break;
+                                    }
+                                  }
+                                  if (flag === 0) {
+                                    Alert.alert(
+                                      'Duplicate Identification Found',
+                                      'This identification type has already been saved'
+                                    );
+                                    setidentificationNumber('');
+                                    setidentificationType('');
                                   }
                                 }
-                                if (flag === 0) {
-                                  Alert.alert(
-                                    'Duplicate Identification Found',
-                                    'This identification type has already been saved'
-                                  );
+
+                                if (flag === 1) {
+                                  setDocumentNameError(false);
+                                  setIdentificationNumberError(false);
+                                  setIdentityDocumentError(false);
+                                  const p = {
+                                    identificationNumber,
+
+                                    identificationType,
+                                    identificationPath,
+                                  };
+                                  // IdentificationDocs.push(p);
+                                  const arr = [...IdentificationDocs];
+                                  arr.push(p);
+                                  // console.log(arr);
+                                  setIdentificationDocs(arr);
                                   setidentificationNumber('');
                                   setidentificationType('');
+                                  setidentificationPath(null);
+                                  dataIdenDocs = dataIdenDocs.filter(
+                                    (item) => item.key !== identificationType
+                                  );
+                                  // console.log(IdentificationDocs);
+                                  setaddMoreIdenDet(false);
                                 }
+                              } else if (identificationType === '') {
+                                setDocumentNameError(true);
+                              } else if (identificationNumber === '') {
+                                setDocumentNameError(false);
+                                setIdentificationNumberError(true);
+                              } else if (identificationPath == null) {
+                                setDocumentNameError(false);
+                                setIdentificationNumberError(false);
+                                setIdentityDocumentError(true);
                               }
-
-                              if (flag === 1) {
-                                const p = {
-                                  identificationNumber,
-
-                                  identificationType,
-                                  identificationPath,
-                                };
-                                // IdentificationDocs.push(p);
-                                const arr = [...IdentificationDocs];
-                                arr.push(p);
-                                // console.log(arr);
-                                setIdentificationDocs(arr);
-                                setidentificationNumber('');
-                                setidentificationType('');
-                                setidentificationPath(null);
-                                dataIdenDocs = dataIdenDocs.filter(
-                                  (item) => item.key !== identificationType
-                                );
-                                // console.log(IdentificationDocs);
-                                setaddMoreIdenDet(false);
-                              }
-                            } else if (identificationNumber === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please fill Identification Number'
-                              );
-                            else if (identificationType === '')
-                              Alert.alert('Incomplete Details!', 'Please Select Document Name');
-                            else if (identificationPath == null)
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please Select Document before saving'
-                              );
-                          }}
-                        />
-                      </View>
+                            }}
+                          />
+                        </View>
+                        {identityDocumentError && (
+                          <FormControl.ErrorMessage
+                            alignItems="flex-start"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Upload Document
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                       <Text
                         style={{
                           alignSelf: 'flex-start',
@@ -3521,82 +3707,115 @@ export default function DoctorRegistration2() {
                       <View style={{ width: '95%', alignSelf: 'center' }}>
                         {/* Clinic Name */}
                         <View style={{ flexDirection: 'column' }}>
-                          <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.inputLabel}>Clinic Name</Text>
-                            <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
-                          </View>
-                          <TextInput
-                            style={styles.textInput}
-                            value={clinicName}
-                            maxLength={50}
-                            onChangeText={(text) => setClinicName(text)}
-                          />
+                          <FormControl isRequired isInvalid={clinicNameError}>
+                            <View style={{ flexDirection: 'row' }}>
+                              <Text style={styles.inputLabel}>Clinic Name</Text>
+                              <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
+                            </View>
+                            <TextInput
+                              style={styles.textInput}
+                              value={clinicName}
+                              maxLength={50}
+                              onChangeText={(text) => setClinicName(text)}
+                            />
+                            {clinicNameError && (
+                              <FormControl.ErrorMessage
+                                alignItems="center"
+                                leftIcon={<WarningOutlineIcon size="xs" />}
+                              >
+                                Please Enter Clinic Name
+                              </FormControl.ErrorMessage>
+                            )}
+                          </FormControl>
                         </View>
 
                         {/* Clinic Address */}
                         <View style={{ flexDirection: 'column' }}>
-                          <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.inputLabel}>Clinic Address</Text>
-                            <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
-                          </View>
-                          <TextInput
-                            style={styles.textInput}
-                            value={clinicAddress}
-                            maxLength={50}
-                            onChangeText={(text) => setClinicAddress(text)}
-                          />
+                          <FormControl isRequired isInvalid={clinicAddressError}>
+                            <View style={{ flexDirection: 'row' }}>
+                              <Text style={styles.inputLabel}>Clinic Address</Text>
+                              <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
+                            </View>
+                            <TextInput
+                              style={styles.textInput}
+                              value={clinicAddress}
+                              maxLength={50}
+                              onChangeText={(text) => setClinicAddress(text)}
+                            />
+                            {clinicAddressError && (
+                              <FormControl.ErrorMessage
+                                alignItems="center"
+                                leftIcon={<WarningOutlineIcon size="xs" />}
+                              >
+                                Please Enter Clinic Address
+                              </FormControl.ErrorMessage>
+                            )}
+                          </FormControl>
                         </View>
 
                         {/* Clinic Photo */}
                         <View style={{ flexDirection: 'column' }}>
-                          <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.inputLabel}>Clinic Proof</Text>
-                            <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
-                          </View>
+                          <FormControl isRequired isInvalid={clinicProofError}>
+                            <View style={{ flexDirection: 'row' }}>
+                              <Text style={styles.inputLabel}>Clinic Proof</Text>
+                              <Text style={[styles.inputLabel, { color: 'red' }]}>*</Text>
+                            </View>
 
-                          <TouchableOpacity
-                            style={[
-                              {
-                                backgroundColor: '#e8f0fe',
-                                padding: 10,
-                                justifyContent: 'center',
-                                borderRadius: 10,
-                                flexDirection: 'row',
-                              },
-                              clinicPhoto != null
-                                ? {
-                                    backgroundColor: 'white',
-                                    borderColor: '#21c47f',
-                                    borderWidth: 1,
-                                  }
-                                : null,
-                            ]}
-                            onPress={async () => {
-                              if (clinicName !== '') await choosePhoto('Clinic');
-                              else
-                                Alert.alert(
-                                  'Incomplete Details!',
-                                  'Please enter clinic name before uploading picture'
-                                );
-                            }}
-                          >
-                            {clinicPhoto == null ? (
-                              <FAIcon
-                                name="camera"
-                                color="gray"
-                                size={15}
-                                style={{ marginRight: 5, alignSelf: 'center' }}
-                              />
-                            ) : null}
-                            <Text
+                            <TouchableOpacity
                               style={[
-                                { alignSelf: 'center', fontSize: 12 },
-                                clinicPhoto != null ? { color: '#21c47f' } : null,
+                                {
+                                  backgroundColor: '#e8f0fe',
+                                  padding: 10,
+                                  justifyContent: 'center',
+                                  borderRadius: 10,
+                                  flexDirection: 'row',
+                                },
+                                clinicPhoto != null
+                                  ? {
+                                      backgroundColor: 'white',
+                                      borderColor: '#21c47f',
+                                      borderWidth: 1,
+                                    }
+                                  : null,
                               ]}
+                              onPress={async () => {
+                                if (clinicName === '') setClinicNameError(true);
+                                else if (clinicAddress === '') {
+                                  setClinicNameError(false);
+                                  setClinicAddressError(true);
+                                } else {
+                                  setClinicNameError(false);
+                                  setClinicAddressError(false);
+                                  await choosePhoto('Clinic');
+                                }
+                              }}
                             >
-                              {clinicPhoto == null ? 'Upload Photo' : '✓ File Selected'}
-                            </Text>
-                          </TouchableOpacity>
+                              {clinicPhoto == null ? (
+                                <FAIcon
+                                  name="camera"
+                                  color="gray"
+                                  size={15}
+                                  style={{ marginRight: 5, alignSelf: 'center' }}
+                                />
+                              ) : null}
+                              <Text
+                                style={[
+                                  { alignSelf: 'center', fontSize: 12 },
+                                  clinicPhoto != null ? { color: '#21c47f' } : null,
+                                ]}
+                              >
+                                {clinicPhoto == null ? 'Upload Photo' : '✓ File Selected'}
+                              </Text>
+                            </TouchableOpacity>
+                            {clinicProofError && (
+                              <FormControl.ErrorMessage
+                                alignItems="center"
+                                leftIcon={<WarningOutlineIcon size="xs" />}
+                              >
+                                Please Upload Clinic Proof
+                              </FormControl.ErrorMessage>
+                            )}
+                          </FormControl>
                           <Text
                             style={[
                               {
@@ -3635,22 +3854,16 @@ export default function DoctorRegistration2() {
                             margin: 5,
                           }}
                           onPress={() => {
-                            if (clinicAddress === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please fill Clinic Address before saving'
-                              );
-                            else if (clinicName === '')
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please fill Clinic Name before saving'
-                              );
-                            else if (clinicPhoto == null)
-                              Alert.alert(
-                                'Incomplete Details!',
-                                'Please add Clinic Photo before saving'
-                              );
-                            else if (!checkAlphabetOnly(clinicName)) {
+                            if (clinicName === '') {
+                              setClinicNameError(true);
+                            } else if (clinicAddress === '') {
+                              setClinicNameError(false);
+                              setClinicAddressError(true);
+                            } else if (clinicPhoto == null) {
+                              setClinicNameError(false);
+                              setClinicAddressError(false);
+                              setClinicProofError(true);
+                            } else if (!checkAlphabetOnly(clinicName)) {
                               Alert.alert('Inavlid Input', 'Enter letters only in Clinic Name.');
                               setClinicName('');
                             } else if (
@@ -3663,6 +3876,9 @@ export default function DoctorRegistration2() {
                               );
                               setSpecialInstruction('');
                             } else {
+                              setClinicNameError(false);
+                              setClinicAddressError(false);
+                              setClinicProofError(false);
                               const p = [
                                 {
                                   clinicName,
@@ -3857,6 +4073,7 @@ export default function DoctorRegistration2() {
                           backgroundColor: '#e8f0fe',
                           borderWidth: 0,
                         }}
+                        inputStyles={{ color: theme.colors.text.primary }}
                         dropdownTextStyles={{
                           color: '#2b8ada',
                           fontWeight: 'bold',
@@ -4137,110 +4354,160 @@ export default function DoctorRegistration2() {
                 >
                   {/* Physical Consulation Fees */}
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: '100%',
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>Physical Consultation Fees </Text>
-                        <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                    <FormControl isRequired isInvalid={physicalConsulationFeesError}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          width: '100%',
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>Physical Consultation Fees </Text>
+                          <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput]}
+                          maxLength={5}
+                          keyboardType="number-pad"
+                          onChangeText={(text) => setphysicalConsulationFees(text)}
+                          value={physicalConsulationFees.toString()}
+                        />
                       </View>
-                      <TextInput
-                        style={[styles.textInput]}
-                        maxLength={5}
-                        keyboardType="number-pad"
-                        onChangeText={(text) => setphysicalConsulationFees(text)}
-                        value={physicalConsulationFees.toString()}
-                      />
-                    </View>
+                      {physicalConsulationFeesError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Please Enter Physical Consultation Fees
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
                   </View>
                   {/* Physical Follow-Up Fees */}
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: '100%',
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>Physical Follow-Up Fees </Text>
-                        <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                    <FormControl isRequired isInvalid={physicalfollowUpFeesError}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          width: '100%',
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>Physical Follow-Up Fees </Text>
+                          <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput]}
+                          keyboardType="number-pad"
+                          maxLength={5}
+                          onChangeText={(text) => setphysicalfollowUpFees(text)}
+                          value={physicalfollowUpFees.toString()}
+                        />
                       </View>
-                      <TextInput
-                        style={[styles.textInput]}
-                        keyboardType="number-pad"
-                        maxLength={5}
-                        onChangeText={(text) => setphysicalfollowUpFees(text)}
-                        value={physicalfollowUpFees.toString()}
-                      />
-                    </View>
+                      {physicalfollowUpFeesError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Please Enter Physical Follow-Up Fees
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
                   </View>
                   {/* E-Consultation Fees */}
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: '100%',
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>E-Consultation Fees </Text>
-                        <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                    <FormControl isRequired isInvalid={eConsulationFeesError}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          width: '100%',
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>E-Consultation Fees </Text>
+                          <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput]}
+                          maxLength={5}
+                          keyboardType="number-pad"
+                          onChangeText={(text) => seteConsulationFees(text)}
+                          value={eConsulationFees.toString()}
+                        />
                       </View>
-                      <TextInput
-                        style={[styles.textInput]}
-                        maxLength={5}
-                        keyboardType="number-pad"
-                        onChangeText={(text) => seteConsulationFees(text)}
-                        value={eConsulationFees.toString()}
-                      />
-                    </View>
+                      {eConsulationFeesError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Please Enter E-Consultation Fees
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
                   </View>
 
                   {/* E-Consultation Follow-Up Fees */}
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: '100%',
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>E-Consultation Follow-Up Fees </Text>
-                        <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                    <FormControl isRequired isInvalid={efollowUpFeesError}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          width: '100%',
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>E-Consultation Follow-Up Fees </Text>
+                          <Text style={[styles.inputLabel, { color: 'red' }]}>( in ₹ )</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput]}
+                          keyboardType="number-pad"
+                          maxLength={5}
+                          onChangeText={(text) => setefollowUpFees(text)}
+                          value={efollowUpFees.toString()}
+                        />
                       </View>
-                      <TextInput
-                        style={[styles.textInput]}
-                        keyboardType="number-pad"
-                        maxLength={5}
-                        onChangeText={(text) => setefollowUpFees(text)}
-                        value={efollowUpFees.toString()}
-                      />
-                    </View>
+                      {efollowUpFeesError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Please Enter E-Consultation Follow-Up Fees
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
                   </View>
 
                   {/* Duration of Follow-Up */}
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        width: '100%',
-                      }}
-                    >
-                      <Text style={[styles.inputLabel, { marginBottom: 7 }]}>
-                        Duration of Follow-Up ( in days )
-                      </Text>
+                    <FormControl isRequired isInvalid={showFollowUpError}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          width: '100%',
+                        }}
+                      >
+                        <Text style={[styles.inputLabel, { marginBottom: 7 }]}>
+                          Duration of Follow-Up ( in days )
+                        </Text>
 
-                      <TextInput
-                        style={[styles.textInput]}
-                        keyboardType="number-pad"
-                        maxLength={2}
-                        onChangeText={(text) => setshowFollowUp(text)}
-                        value={showFollowUp}
-                      />
-                    </View>
+                        <TextInput
+                          style={[styles.textInput]}
+                          keyboardType="number-pad"
+                          maxLength={2}
+                          onChangeText={(text) => setshowFollowUp(text)}
+                          value={showFollowUp}
+                        />
+                      </View>
+                      {showFollowUpError && (
+                        <FormControl.ErrorMessage
+                          alignItems="center"
+                          leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                          Please Enter Duration of Follow-Up
+                        </FormControl.ErrorMessage>
+                      )}
+                    </FormControl>
                   </View>
                   <View
                     style={[
@@ -4263,32 +4530,32 @@ export default function DoctorRegistration2() {
                         borderRadius: 10,
                       }}
                       onPress={() => {
-                        if (physicalConsulationFees === '')
-                          Alert.alert(
-                            'Incomplete Details!',
-                            'Please fill p-consultation fees before saving'
-                          );
-                        else if (eConsulationFees === '')
-                          Alert.alert(
-                            'Incomplete Details!',
-                            'Please fill e-consultation fees before saving'
-                          );
-                        else if (physicalfollowUpFees === '')
-                          Alert.alert(
-                            'Incomplete Details!',
-                            'Please fill physical follow-up fees before saving'
-                          );
-                        else if (efollowUpFees === '')
-                          Alert.alert(
-                            'Incomplete Details!',
-                            'Please fill e-consultation follow-up fees before saving'
-                          );
-                        else if (showFollowUp === '')
-                          Alert.alert(
-                            'Incomplete Details!',
-                            'Please add follow-up duration before uploading'
-                          );
-                        else {
+                        if (physicalConsulationFees === '') {
+                          setPhysicalConsulationFeesError(true);
+                        } else if (physicalfollowUpFees === '') {
+                          setPhysicalConsulationFeesError(false);
+                          setPhysicalfollowUpFeesError(true);
+                        } else if (eConsulationFees === '') {
+                          setPhysicalConsulationFeesError(false);
+                          setPhysicalfollowUpFeesError(false);
+                          setEConsulationFeesError(true);
+                        } else if (efollowUpFees === '') {
+                          setPhysicalConsulationFeesError(false);
+                          setPhysicalfollowUpFeesError(false);
+                          setEConsulationFeesError(false);
+                          setEfollowUpFeesError(true);
+                        } else if (showFollowUp === '') {
+                          setPhysicalConsulationFeesError(false);
+                          setPhysicalfollowUpFeesError(false);
+                          setEConsulationFeesError(false);
+                          setEfollowUpFeesError(false);
+                          setShowFollowUpError(true);
+                        } else {
+                          setPhysicalConsulationFeesError(false);
+                          setPhysicalfollowUpFeesError(false);
+                          setEConsulationFeesError(false);
+                          setEfollowUpFeesError(false);
+                          setShowFollowUpError(false);
                           postConsultFees();
                         }
                       }}
@@ -5003,6 +5270,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     fontWeight: 'bold',
     marginTop: 10,
+    color: theme.colors.text.primary,
   },
   label: {
     alignSelf: 'center',

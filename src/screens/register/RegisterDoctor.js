@@ -33,6 +33,7 @@ import waiting from '../../../assets/animations/waiting1.gif';
 import doctor from '../../../assets/doctor.png';
 import CustomButton from '../../components/CustomButton';
 import { checkAlphabetOnly } from '../../components/API/Validations';
+import theme from '../../styles/theme';
 
 export default function RegisterDoctor() {
   const [availableLanguages, setavailableLanguages] = useState([]);
@@ -421,6 +422,7 @@ export default function RegisterDoctor() {
                   dropdownStyles={{ backgroundColor: 'white' }}
                   dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
                   badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
                 />
               </View>
               {titleError && (
@@ -562,6 +564,7 @@ export default function RegisterDoctor() {
                   dropdownStyles={{ backgroundColor: 'white' }}
                   dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
                   badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
                 />
               </View>
               {genderError && (
@@ -634,6 +637,7 @@ export default function RegisterDoctor() {
                   dropdownStyles={{ backgroundColor: 'white' }}
                   dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
                   badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
                 />
               </View>
               {languageError && (
@@ -785,7 +789,7 @@ export default function RegisterDoctor() {
                     fontWeight: 'bold',
                   }}
                 >
-                  <Text>
+                  <Text style={{ color: theme.colors.text.primary }}>
                     I agree to the{' '}
                     <Text
                       style={[styles.textLink]}
@@ -2289,6 +2293,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     fontSize: 16,
+    color: theme.colors.text.primary,
   },
   label: {
     width: '70%',
