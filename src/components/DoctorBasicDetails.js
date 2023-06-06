@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import apiConfig from './API/apiConfig';
 import defaultDoctor from '../../assets/doctor3x.png';
+import totalExperience from './functions';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -147,8 +148,7 @@ export default function DoctorBasicDetails({ DocDet }) {
           paddingHorizontal: 15,
         }}
       >
-        {DocDet != null ? Math.floor(DocDet.totalExperienceInMonths / 12) : null}
-        {' years of experience'}
+        {DocDet != null ? totalExperience(DocDet.totalExperienceInMonths) : null}
       </Text>
       {/* Specialization */}
       <Text

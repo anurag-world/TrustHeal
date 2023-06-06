@@ -17,6 +17,7 @@ import FAIcons from 'react-native-vector-icons/FontAwesome5';
 import apiConfig from './API/apiConfig';
 import defaultDoctor from '../../assets/doctor3x.png';
 import CustomButton from './CustomButton';
+import totalExperience from './functions';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -320,8 +321,7 @@ export default function DoctorCard({ DoctorsList }) {
               flex: 1,
             }}
           >
-            {Math.floor(item.totalExperienceInMonths / 12)}
-            {' years of experience'}
+            {totalExperience(item.totalExperienceInMonths)}
           </Text>
           {/* City */}
           <View
