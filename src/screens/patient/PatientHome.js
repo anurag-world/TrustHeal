@@ -28,6 +28,7 @@ import apiConfig from '../../components/API/apiConfig';
 import defaultDoctor from '../../../assets/doctor3x.png';
 import waiting from '../../../assets/animations/waiting1.gif';
 import theme from '../../styles/theme';
+import totalExperience from '../../components/functions';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -398,12 +399,13 @@ function PatientHome() {
             textAlign: 'left',
             color: 'black',
             fontSize: 12,
+            marginTop: 4,
           }}
         >
-          {Math.floor(item.totalExperienceInMonths / 12)}
-          {' years of experience'}
+          {totalExperience(item.totalExperienceInMonths)}
         </Text>
       </View>
+
       {/* View Profile Button */}
       <CustomButton
         text="View Profile"
