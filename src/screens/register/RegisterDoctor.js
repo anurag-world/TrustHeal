@@ -19,7 +19,7 @@ import {
 import { SelectList, MultipleSelectList } from 'react-native-dropdown-select-list';
 
 // icons
-import { Checkbox } from 'native-base';
+import { Checkbox, FormControl, WarningOutlineIcon } from 'native-base';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -33,6 +33,7 @@ import waiting from '../../../assets/animations/waiting1.gif';
 import doctor from '../../../assets/doctor.png';
 import CustomButton from '../../components/CustomButton';
 import { checkAlphabetOnly } from '../../components/API/Validations';
+import theme from '../../styles/theme';
 
 export default function RegisterDoctor() {
   const [availableLanguages, setavailableLanguages] = useState([]);
@@ -53,6 +54,16 @@ export default function RegisterDoctor() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [complete, setcomplete] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [dobError, setDoBError] = useState(false);
+  const [genderError, setGenderError] = useState(false);
+  const [languageError, setLanguageError] = useState(false);
+  const [cityError, setCityError] = useState(false);
+  const [pinError, setPinError] = useState(false);
+  const [checkError, setCheckError] = useState(false);
+  const [emailMsg, setEmailMsg] = useState('');
 
   const [zoom, setZoom] = useState(1);
 
@@ -189,6 +200,72 @@ export default function RegisterDoctor() {
         navigation.push('DoctorRegistrationStep2');
       }
     }
+  };
+
+  const validate = () => {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let temp = 0;
+    if (title === '') {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+      temp += 1;
+    }
+    if (name === '') {
+      setNameError(true);
+    } else {
+      setNameError(false);
+      temp += 1;
+    }
+    if (email === '') {
+      setEmailError(true);
+      setEmailMsg('Please Enter Email');
+    } else if (!email.match(validRegex)) {
+      setEmailError(true);
+      setEmailMsg('Please Enter Valid Email');
+    } else {
+      setEmailError(false);
+      temp += 1;
+    }
+    if (dob === '') {
+      setDoBError(true);
+    } else {
+      setDoBError(false);
+      temp += 1;
+    }
+    if (gender === '') {
+      setGenderError(true);
+    } else {
+      setGenderError(false);
+      temp += 1;
+    }
+    if (Language.length === 0) {
+      setLanguageError(true);
+    } else {
+      setLanguageError(false);
+      temp += 1;
+    }
+    if (city === '') {
+      setCityError(true);
+    } else {
+      setCityError(false);
+      temp += 1;
+    }
+    if (PIN === '') {
+      setPinError(true);
+    } else {
+      setPinError(false);
+      temp += 1;
+    }
+    if (!checkTerms) {
+      setCheckError(true);
+    } else {
+      setCheckError(false);
+      temp += 1;
+    }
+    if (temp === 9) {
+      PostData();
+    } 
   };
 
   useEffect(() => {
@@ -328,92 +405,133 @@ export default function RegisterDoctor() {
 
           <View style={{ width: '95%', alignSelf: 'center' }}>
             {/* Title Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>Title</Text>
-                <Text style={{ color: 'red' }}>*</Text>
-              </View>
+            <FormControl isRequired isInvalid={titleError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>Title</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
 
-              <SelectList
-                defaultOption="Mr."
-                placeholder={' '}
-                setSelected={(val) => setTitle(val)}
-                data={dataTitle}
-                save="value"
-                boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
-                dropdownStyles={{ backgroundColor: 'white' }}
-                dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
-                badgeStyles={{ backgroundColor: '#2b8ada' }}
-              />
-            </View>
-            {/* Full Name Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>Full Name</Text>
-                <Text style={{ color: 'red' }}>*</Text>
-              </View>
-              <TextInput
-                returnKeyType="done"
-                style={styles.textInput}
-                placeholderTextColor="gray"
-                keyboardType="default"
-                onChangeText={(text) => setName(text)}
-                maxLength={50}
-                value={name}
-                onSubmitEditing={() => {
-                  if (!checkAlphabetOnly(name)) {
-                    Alert.alert('Invalid Input', 'Please enter letters and numbers only.');
-                    setName('');
-                  }
-                }}
-              />
-            </View>
-            {/* Email Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>Email</Text>
-                <Text style={{ color: 'red' }}>*</Text>
-              </View>
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor="gray"
-                onChangeText={(text) => setEmail(text)}
-                keyboardType="email-address"
-                maxLength={50}
-                value={email}
-              />
-            </View>
-            {/* Date of Birth Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>Date of Birth</Text>
-                <Text style={{ color: 'red' }}>*</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: '100%',
-                  alignItems: 'center',
-                  backgroundColor: 'white',
-                  borderRadius: 10,
-                }}
-              >
-                <Text style={[styles.textInput, { backgroundColor: 'white', padding: 10 }]}>
-                  {dateformatter(dob)}
-                </Text>
-                <FAIcon
-                  name="calendar-alt"
-                  color="gray"
-                  size={20}
-                  style={{
-                    marginHorizontal: 20,
-                    position: 'absolute',
-                    right: 0,
-                  }}
-                  onPress={showDatePicker}
+                <SelectList
+                  defaultOption="Mr."
+                  placeholder={' '}
+                  setSelected={(val) => setTitle(val)}
+                  data={dataTitle}
+                  save="value"
+                  boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
+                  dropdownStyles={{ backgroundColor: 'white' }}
+                  dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
+                  badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
                 />
               </View>
-            </View>
+              {titleError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Select Title
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
+            {/* Full Name Label */}
+            <FormControl isRequired isInvalid={nameError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>Full Name</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <TextInput
+                  returnKeyType="done"
+                  style={styles.textInput}
+                  placeholderTextColor="gray"
+                  keyboardType="default"
+                  onChangeText={(text) => setName(text)}
+                  maxLength={50}
+                  value={name}
+                  onSubmitEditing={() => {
+                    if (!checkAlphabetOnly(name)) {
+                      Alert.alert('Invalid Input', 'Please enter letters and numbers only.');
+                      setName('');
+                    }
+                  }}
+                />
+              </View>
+              {nameError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Enter Name
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
+            {/* Email Label */}
+            <FormControl isRequired isInvalid={emailError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>Email</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor="gray"
+                  onChangeText={(text) => setEmail(text)}
+                  keyboardType="email-address"
+                  maxLength={50}
+                  value={email}
+                />
+              </View>
+              {emailError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  {emailMsg}
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
+            {/* Date of Birth Label */}
+            <FormControl isRequired isInvalid={dobError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>Date of Birth</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    width: '100%',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text style={[styles.textInput, { backgroundColor: 'white', padding: 10 }]}>
+                    {dateformatter(dob)}
+                  </Text>
+                  <FAIcon
+                    name="calendar-alt"
+                    color="gray"
+                    size={20}
+                    style={{
+                      marginHorizontal: 20,
+                      position: 'absolute',
+                      right: 0,
+                    }}
+                    onPress={showDatePicker}
+                  />
+                </View>
+              </View>
+              {dobError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Select Date of Birth
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
@@ -424,29 +542,40 @@ export default function RegisterDoctor() {
               minimumDate={new Date('1940-01-01')}
             />
             {/* Gender Label */}
-            <View
-              style={{
-                width: '100%',
-                alignSelf: 'center',
-                marginVertical: 10,
-              }}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.inputLabel]}>Gender</Text>
-                <Text style={{ color: 'red' }}>*</Text>
+            <FormControl isRequired isInvalid={genderError}>
+              <View
+                style={{
+                  width: '100%',
+                  alignSelf: 'center',
+                  marginVertical: 10,
+                }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={[styles.inputLabel]}>Gender</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <SelectList
+                  labelStyles={{ height: 0 }}
+                  placeholder={' '}
+                  setSelected={(val) => setGender(val)}
+                  data={dataGender}
+                  save="value"
+                  boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
+                  dropdownStyles={{ backgroundColor: 'white' }}
+                  dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
+                  badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
+                />
               </View>
-              <SelectList
-                labelStyles={{ height: 0 }}
-                placeholder={' '}
-                setSelected={(val) => setGender(val)}
-                data={dataGender}
-                save="value"
-                boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
-                dropdownStyles={{ backgroundColor: 'white' }}
-                dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
-                badgeStyles={{ backgroundColor: '#2b8ada' }}
-              />
-            </View>
+              {genderError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Select Gender
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
             {/* Speciality Label */}
             {/* <View
               style={{
@@ -486,69 +615,100 @@ export default function RegisterDoctor() {
               </View>
             ) : null} */}
             {/* Language Label */}
-            <View
-              style={{
-                width: '100%',
-                alignSelf: 'center',
-                marginVertical: 10,
-              }}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.inputLabel]}>Language</Text>
-                <Text style={{ color: 'red' }}>*</Text>
+            <FormControl isRequired isInvalid={languageError}>
+              <View
+                style={{
+                  width: '100%',
+                  alignSelf: 'center',
+                  marginVertical: 10,
+                }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={[styles.inputLabel]}>Language</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <MultipleSelectList
+                  labelStyles={{ height: 0 }}
+                  placeholder={' '}
+                  setSelected={(val) => setLanguage(val)}
+                  data={availableLanguages}
+                  save="value"
+                  boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
+                  dropdownStyles={{ backgroundColor: 'white' }}
+                  dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
+                  badgeStyles={{ backgroundColor: '#2b8ada' }}
+                  inputStyles={{ color: theme.colors.text.primary }}
+                />
               </View>
-              <MultipleSelectList
-                labelStyles={{ height: 0 }}
-                placeholder={' '}
-                setSelected={(val) => setLanguage(val)}
-                data={availableLanguages}
-                save="value"
-                boxStyles={{ backgroundColor: 'white', borderWidth: 0 }}
-                dropdownStyles={{ backgroundColor: 'white' }}
-                dropdownTextStyles={{ color: '#2b8ada', fontWeight: 'bold' }}
-                badgeStyles={{ backgroundColor: '#2b8ada' }}
-              />
-            </View>
+              {languageError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Select Language
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
             {/* City Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>City</Text>
-                <Text style={{ color: 'red' }}>*</Text>
+            <FormControl isRequired isInvalid={cityError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>City</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <TextInput
+                  style={[styles.textInput]}
+                  maxLength={50}
+                  onChangeText={(text) => {
+                    setCity(text);
+                  }}
+                  value={city}
+                  onSubmitEditing={() => {
+                    if (!checkAlphabetOnly(name)) {
+                      Alert.alert('Invalid Input', 'Please enter letters and numbers only.');
+                      setName('');
+                    }
+                  }}
+                />
               </View>
-              <TextInput
-                style={[styles.textInput]}
-                maxLength={50}
-                onChangeText={(text) => {
-                  setCity(text);
-                }}
-                value={city}
-                onSubmitEditing={() => {
-                  if (!checkAlphabetOnly(name)) {
-                    Alert.alert('Invalid Input', 'Please enter letters and numbers only.');
-                    setName('');
-                  }
-                }}
-              />
-            </View>
+              {cityError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Enter City Name
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
             {/* Pin Code Label */}
-            <View style={{ marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.inputLabel}>Pin Code</Text>
-                <Text style={{ color: 'red' }}>*</Text>
+            <FormControl isRequired isInvalid={pinError}>
+              <View style={{ marginVertical: 10 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.inputLabel}>Pin Code</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
+                </View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor="gray"
+                  maxLength={6}
+                  keyboardType="number-pad"
+                  onChangeText={(text) => {
+                    setPIN(text);
+                  }}
+                  value={PIN}
+                />
               </View>
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor="gray"
-                maxLength={6}
-                keyboardType="number-pad"
-                onChangeText={(text) => {
-                  setPIN(text);
-                }}
-                value={PIN}
-              />
-            </View>
+              {pinError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Enter Pin Code
+                </FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
             {/* <View style={{marginVertical: 10}}>
               <View style={{flexDirection: 'row'}}>
@@ -607,6 +767,7 @@ export default function RegisterDoctor() {
                 </Text>{' '}
                 All the fields are mandatory
               </Text>
+            <FormControl isRequired isInvalid={checkError}>
               <View
                 style={{
                   width: '90%',
@@ -628,7 +789,7 @@ export default function RegisterDoctor() {
                     fontWeight: 'bold',
                   }}
                 >
-                  <Text>
+                  <Text style={{ color: theme.colors.text.primary }}>
                     I agree to the{' '}
                     <Text
                       style={[styles.textLink]}
@@ -641,6 +802,15 @@ export default function RegisterDoctor() {
                   </Text>
                 </Checkbox>
               </View>
+              {checkError && (
+                <FormControl.ErrorMessage
+                  alignItems="center"
+                  leftIcon={<WarningOutlineIcon size="xs" />}
+                >
+                  Please Agree to the Terms and Conditions
+                </FormControl.ErrorMessage>
+              )}
+              </FormControl>
             </View>
 
             <View
@@ -668,30 +838,7 @@ export default function RegisterDoctor() {
                   padding: 10,
                   borderRadius: 10,
                 }}
-                onPress={async () => {
-                  if (
-                    email === '' ||
-                    name === '' ||
-                    gender === '' ||
-                    Language === '' ||
-                    PIN === '' ||
-                    title === '' ||
-                    dob === '' ||
-                    city === ''
-                  )
-                    Alert.alert(
-                      'Profile Incomplete',
-                      'Please fill in all the details before continuing!'
-                    );
-                  else {
-                    const validRegex =
-                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-                    if (email.match(validRegex)) {
-                      // await postpfp(pfpFile);
-                      PostData();
-                    } else Alert.alert('Invalid Email', 'Please enter valid e-mail ID!');
-                  }
-                }}
+                onPress={() => validate()}
               />
               <CustomButton
                 text="Back"
@@ -2146,6 +2293,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     fontSize: 16,
+    color: theme.colors.text.primary,
   },
   label: {
     width: '70%',

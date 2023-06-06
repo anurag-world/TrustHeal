@@ -16,12 +16,12 @@ import {
   LogBox,
   StyleSheet,
   Platform,
+  TextInput,
 } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TextInput } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import CustomButton from '../../components/CustomButton';
@@ -571,6 +571,7 @@ export default function SupportDoctor() {
                 style={[addQuery ? { color: '#2B8ADA' } : { color: 'black' }]}
               />
             </TouchableOpacity>
+
             {addQuery ? (
               <View
                 style={{
@@ -614,6 +615,7 @@ export default function SupportDoctor() {
                     badgeStyles={{ backgroundColor: '#2b8ada' }}
                   />
                 </View>
+
                 {/* Support Message */}
                 <View style={{ flex: 1, padding: 10 }}>
                   <Text style={styles.inputLabel}>Type your concern here</Text>
@@ -633,6 +635,7 @@ export default function SupportDoctor() {
                     multiline
                   />
                 </View>
+
                 {/* Attatchments */}
                 <View style={{ flex: 1, padding: 10 }}>
                   <Text style={styles.inputLabel}>Attach screenshot if any</Text>
@@ -667,6 +670,7 @@ export default function SupportDoctor() {
                     />
                   </View>
                 </View>
+
                 {/* Submit Button */}
                 <View style={{ flex: 1, padding: 10 }}>
                   <CustomButton

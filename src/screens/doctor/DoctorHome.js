@@ -140,8 +140,8 @@ export default function DoctorHome() {
     navigation.navigate('CallAgora', {
       consultationType,
       callID,
-      getDoctorId,
-      getPatientId,
+      doctorId: getDoctorId,
+      patientId: getPatientId,
       patientName,
       slotId,
       userName,

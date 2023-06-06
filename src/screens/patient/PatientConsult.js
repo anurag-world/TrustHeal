@@ -30,6 +30,7 @@ import defaultDoctor from '../../../assets/doctor3x.png';
 
 import waiting from '../../../assets/animations/waiting1.gif';
 import DoctorCard from '../../components/DoctorCard';
+import totalExperience from '../../components/functions';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -315,8 +316,7 @@ export default function PatientConsult() {
               flex: 1,
             }}
           >
-            {Math.floor(item.totalExprienceInMonths / 12)}
-            {' years of experience'}
+            {totalExperience(item.totalExperienceInMonths)}
           </Text>
           {/* City */}
           <View
