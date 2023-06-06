@@ -12,6 +12,7 @@ import totalExperience from './functions';
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 export default function DoctorBasicDetails({ DocDet }) {
+  // console.log('DocDet', DocDet);
   const [favDocList, setfavDocList] = useState(null);
   const [isFav, setisFav] = useState(false);
 
@@ -23,10 +24,10 @@ export default function DoctorBasicDetails({ DocDet }) {
       axios
         .get(`${apiConfig.baseUrl}/patient/favourite/doctor?patientId=${x.patientId}`)
         .then((response) => {
-          console.log(
+          /* console.log(
             '\n=========================== FAVOURITE DOCTORS ====================================\n'
-          );
-          console.log(response.data);
+          ); */
+          // console.log(response.data);
           if (response.status === 200) {
             // setisLoading(false);
             // setdoctorDataList(response.data);

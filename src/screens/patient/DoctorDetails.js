@@ -202,9 +202,6 @@ export default function DoctorDetails() {
 
       setDocDet(x);
       setpatientDet(y);
-      /* console.log(
-        `${apiConfig.baseUrl}/patient/doctor/details?doctorId=${x.doctorId}&patientId=${y.patientId}`
-      ); */
       axios
         .get(
           `${apiConfig.baseUrl}/patient/doctor/details?doctorId=${x.doctorId}&patientId=${y.patientId}`
@@ -848,7 +845,7 @@ export default function DoctorDetails() {
                         setclinicName(val);
                         for (let i = 0; i < ClinicsDropDown.length; i += 1) {
                           if (val === ClinicsDropDown[i].value) {
-                            console.log(ClinicsDropDown[i].key);
+                            // console.log(ClinicsDropDown[i].key);
                             setclinicId(ClinicsDropDown[i].key);
                             break;
                           }
@@ -1401,17 +1398,13 @@ export default function DoctorDetails() {
                       <View style={styles.cellHeading}>
                         <Text style={styles.cellHeadingText}>Practice </Text>
                       </View>
-                      {/* <View style={styles.cellHeading}>
-                        <Text style={styles.cellHeadingText}>Start Date</Text>
-                      </View>
-                      <View style={styles.cellHeading}>
-                        <Text style={styles.cellHeadingText}>End Date</Text>
-                      </View> */}
+
                       <View style={styles.cellHeading}>
                         <Text style={styles.cellHeadingText}>Experience</Text>
                       </View>
                     </View>
                   </View>
+                  {/* Body */}
                   <ViewExperience />
                 </View>
               </View>
@@ -1605,7 +1598,7 @@ export default function DoctorDetails() {
               }}
               onPress={async () => {
                 // slot prebook
-                console.log(mode, selectedPSlotId, selectedSlotId, patientDet.patientId);
+                // console.log(mode, selectedPSlotId, selectedSlotId, patientDet.patientId);
                 const slotId = mode === 'E_CONSULTATION' ? selectedSlotId : selectedPSlotId;
                 let flag = 0;
                 await axios
