@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 import com.rnfs.RNFSPackage;
 import com.razorpay.rn.RazorpayPackage;
+import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           new RNFSPackage();
           new RazorpayPackage();
+          new RNHTMLtoPDFPackage();
           return packages;
         }
 
