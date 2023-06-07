@@ -58,15 +58,15 @@ export default function LoginScreen() {
 
   const navigation = useNavigation();
 
-  // const getPermission = async () => {
-  //   if (Platform.OS === 'android') {
-  //     await PermissionsAndroid.requestMultiple([
-  //       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-  //       PermissionsAndroid.PERMISSIONS.CAMERA,
-  //       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-  //     ]);
-  //   }
-  // };
+  const getPermission = async () => {
+    if (Platform.OS === 'android') {
+      await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ]);
+    }
+  };
 
   // const isFocused = useIsFocused();
 
@@ -85,13 +85,13 @@ export default function LoginScreen() {
   //     getFCM();
   //   }, [isFocused]);
 
-  //   useEffect(() => {
-  //     const onLoad = async () => {
-  //       await getPermission();
-  //       NotificationListner();
-  //     };
-  //     onLoad();
-  //   }, []);
+  useEffect(() => {
+    const onLoad = async () => {
+      await getPermission();
+      // NotificationListner();
+    };
+    onLoad();
+  }, []);
 
   useEffect(() => {
     const onLoadSetData = async () => {
