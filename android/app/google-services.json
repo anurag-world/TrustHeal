@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687959980958",
+    "project_id": "trustheal-dff30",
+    "storage_bucket": "trustheal-dff30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687959980958:android:8eef46a22e5c053a49b48f",
+        "android_client_info": {
+          "package_name": "com.trusthealapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687959980958-ofhhs3sacpca8fmib828ar71r9m70rla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMDDlKKwnIQhenu9wngqnE8pdniVEFkps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687959980958-ofhhs3sacpca8fmib828ar71r9m70rla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
