@@ -25,7 +25,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
-import { Button, Checkbox, HStack } from 'native-base';
+import { Button, Checkbox, HStack, FormControl, WarningOutlineIcon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import patientFemale from '../../../assets/patient_female.png';
 import patientImg from '../../../assets/patient.png';
@@ -48,6 +48,14 @@ export default function PatientRegistration() {
   const [isLoading, setisLoading] = useState(false);
   const [complete, setcomplete] = useState(0);
   const [patientId, setpatientId] = useState(null);
+  const [titleError, setTitleError] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [dobError, setDoBError] = useState(false);
+  const [genderError, setGenderError] = useState(false);
+  const [cityError, setCityError] = useState(false);
+  const [pinError, setPinError] = useState(false);
+  const [termsError, setTermsError] = useState(false);
 
   const [checkTerms, setCheckTerms] = useState(false);
 
@@ -221,21 +229,54 @@ export default function PatientRegistration() {
 
   const onSubmit = () => {
     if (complete === 1) {
-      if (checkTerms) postData();
-      else
-        Alert.alert(
-          'Terms and Condition',
-          'Please check Terms and Conditions and Privacy Policy before continuing'
-        );
-    } else if (title === '')
-      Alert.alert('Incomplete Details', 'Please select title before continuing.');
-    else if (name === '') Alert.alert('Incomplete Details', 'Please enter name before continuing.');
-    else if (gender === '')
-      Alert.alert('Incomplete Details', 'Please select gender before continuing.');
-    else if (city === '')
-      Alert.alert('Incomplete Details', 'Please enter city name before continuing.');
-    else if (dob === '')
-      Alert.alert('Incomplete Details', 'Please select date of birth before continuing.');
+      if (checkTerms) {
+        setPinError(false);
+        setTermsError(false);
+        postData();
+      } else {
+        setTitleError(false);
+        setNameError(false);
+        setDoBError(false);
+        setGenderError(false);
+        setCityError(false);
+        setPinError(false);
+        setTermsError(true);
+      }
+    } else if (title === '') {
+      setTitleError(true);
+    } else if (name === '') {
+      setTitleError(false);
+      setNameError(true);
+    } else if (dob === '') {
+      setTitleError(false);
+      setNameError(false);
+      setDoBError(true);
+    } else if (gender === '') {
+      setTitleError(false);
+      setNameError(false);
+      setDoBError(false);
+      setGenderError(true);
+    } else if (city === '') {
+      setTitleError(false);
+      setNameError(false);
+      setDoBError(false);
+      setGenderError(false);
+      setCityError(true);
+    } else if (pincode === '') {
+      setTitleError(false);
+      setNameError(false);
+      setDoBError(false);
+      setGenderError(false);
+      setCityError(false);
+      setPinError(true);
+    } else {
+      setTitleError(false);
+      setNameError(false);
+      setDoBError(false);
+      setGenderError(false);
+      setCityError(false);
+      setPinError(false);
+    }
   };
 
   const onLogout = async () => {
@@ -402,55 +443,77 @@ export default function PatientRegistration() {
                     }}
                   >
                     {/* Title Sub-Label */}
-                    <View style={{ flex: 0.3, marginRight: '5%', justifyContent: 'center' }}>
-                      <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                        <Text style={styles.inputLabel}>Title</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
 
-                      <SelectList
-                        search={false}
-                        placeholder={' '}
-                        setSelected={(val) => setTitle(val)}
-                        data={dataTitle}
-                        save="value"
-                        boxStyles={[
-                          {
-                            padding: 0,
-                            borderWidth: 0,
-                            backgroundColor: '#E8F0FE',
-                          },
-                        ]}
-                        dropdownStyles={{
-                          backgroundColor: 'white',
-                        }}
-                        dropdownTextStyles={{
-                          color: '#2b8ada',
-                          fontWeight: 'bold',
-                        }}
-                        badgeStyles={{ backgroundColor: '#2b8ada' }}
-                      />
+                    <View style={{ flex: 0.3, marginRight: '5%', justifyContent: 'center' }}>
+                      <FormControl isRequired isInvalid={titleError}>
+                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                          <Text style={styles.inputLabel}>Title</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+
+                        <SelectList
+                          search={false}
+                          placeholder={' '}
+                          setSelected={(val) => setTitle(val)}
+                          data={dataTitle}
+                          save="value"
+                          boxStyles={[
+                            {
+                              padding: 0,
+                              borderWidth: 0,
+                              backgroundColor: '#E8F0FE',
+                            },
+                          ]}
+                          dropdownStyles={{
+                            backgroundColor: 'white',
+                          }}
+                          dropdownTextStyles={{
+                            color: '#2b8ada',
+                            fontWeight: 'bold',
+                          }}
+                          badgeStyles={{ backgroundColor: '#2b8ada' }}
+                          inputStyles={{ color: theme.colors.text.primary }}
+                        />
+                        {titleError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Select Title
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
 
                     {/* Full Name Sub-Label */}
                     <View style={{ flex: 0.6 }}>
-                      <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                        <Text style={styles.inputLabel}>Full Name</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
-                      <TextInput
-                        style={[
-                          styles.textInput,
-                          editName
-                            ? { backgroundColor: '#E8F0FE' }
-                            : { backgroundColor: '#d0e0fc' },
-                        ]}
-                        placeholderTextColor="black"
-                        maxLength={50}
-                        editable={editName}
-                        onChangeText={(text) => setName(text)}
-                        value={name}
-                      />
+                      <FormControl isRequired isInvalid={nameError}>
+                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                          <Text style={styles.inputLabel}>Full Name</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+                        <TextInput
+                          style={[
+                            styles.textInput,
+                            editName
+                              ? { backgroundColor: '#E8F0FE' }
+                              : { backgroundColor: '#d0e0fc' },
+                          ]}
+                          placeholderTextColor="black"
+                          maxLength={50}
+                          editable={editName}
+                          onChangeText={(text) => setName(text)}
+                          value={name}
+                        />
+                        {nameError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Enter Name
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
                   </View>
 
@@ -486,67 +549,88 @@ export default function PatientRegistration() {
                     }}
                   >
                     <View style={{ flex: 0.45, marginRight: '5%' }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>Date Of Birth</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
-                      <View style={{ flexDirection: 'row' }}>
-                        <TextInput
-                          style={[styles.textInput, { backgroundColor: '#E8F0FE', flex: 1 }]}
-                          placeholderTextColor="black"
-                          value={dob !== '' ? dayjs(dob).format('DD-MM-YYYY') : ''}
-                          editable={false}
-                        />
-                        <FAIcon
-                          name="calendar-alt"
-                          color="gray"
-                          size={16}
-                          style={{
-                            position: 'absolute',
-                            right: '5%',
-                            alignSelf: 'center',
-                          }}
-                          onPress={() => {
-                            showDatePicker();
-                          }}
-                        />
-                        <DateTimePickerModal
-                          isVisible={isDatePickerVisible}
-                          mode="date"
-                          display="spinner"
-                          onConfirm={handleConfirm}
-                          onCancel={hideDatePicker}
-                          maximumDate={new Date()}
-                          minimumDate={new Date('1940-01-01')}
-                        />
-                      </View>
+                      <FormControl isRequired isInvalid={dobError}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>Date Of Birth</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                          <TextInput
+                            style={[styles.textInput, { backgroundColor: '#E8F0FE', flex: 1 }]}
+                            placeholderTextColor="black"
+                            value={dob !== '' ? dayjs(dob).format('DD-MM-YYYY') : ''}
+                            editable={false}
+                          />
+                          <FAIcon
+                            name="calendar-alt"
+                            color="gray"
+                            size={16}
+                            style={{
+                              position: 'absolute',
+                              right: '5%',
+                              alignSelf: 'center',
+                            }}
+                            onPress={() => {
+                              showDatePicker();
+                            }}
+                          />
+                          <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            display="spinner"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
+                            maximumDate={new Date()}
+                            minimumDate={new Date('1940-01-01')}
+                          />
+                        </View>
+                        {dobError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Select DOB
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
 
                     <View style={{ flex: 0.45 }}>
-                      <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                        <Text style={styles.inputLabel}>Gender</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
-                      <SelectList
-                        setSelected={(val) => setGender(val)}
-                        data={dataGender}
-                        placeholder={' '}
-                        defaultOption={gender}
-                        save="value"
-                        boxStyles={[
-                          {
-                            backgroundColor: 'white',
-                            borderWidth: 0,
-                          },
-                          { backgroundColor: '#E8F0FE' },
-                        ]}
-                        dropdownStyles={{ backgroundColor: 'white' }}
-                        dropdownTextStyles={{
-                          color: '#2b8ada',
-                          fontWeight: 'bold',
-                        }}
-                        badgeStyles={{ backgroundColor: '#2b8ada' }}
-                      />
+                      <FormControl isRequired isInvalid={genderError}>
+                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                          <Text style={styles.inputLabel}>Gender</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+                        <SelectList
+                          setSelected={(val) => setGender(val)}
+                          data={dataGender}
+                          placeholder={' '}
+                          defaultOption={gender}
+                          save="value"
+                          boxStyles={[
+                            {
+                              backgroundColor: 'white',
+                              borderWidth: 0,
+                            },
+                            { backgroundColor: '#E8F0FE' },
+                          ]}
+                          dropdownStyles={{ backgroundColor: 'white' }}
+                          dropdownTextStyles={{
+                            color: '#2b8ada',
+                            fontWeight: 'bold',
+                          }}
+                          badgeStyles={{ backgroundColor: '#2b8ada' }}
+                          inputStyles={{ color: theme.colors.text.primary }}
+                        />
+                        {genderError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Select Gender
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
                   </View>
 
@@ -559,31 +643,51 @@ export default function PatientRegistration() {
                     }}
                   >
                     <View style={{ flex: 0.45, marginRight: '5%' }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>City</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
-                      <TextInput
-                        style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                        placeholderTextColor="black"
-                        onChangeText={(text) => setCity(text)}
-                        maxLength={50}
-                        value={city}
-                      />
+                      <FormControl isRequired isInvalid={cityError}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>City</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                          placeholderTextColor="black"
+                          onChangeText={(text) => setCity(text)}
+                          maxLength={50}
+                          value={city}
+                        />
+                        {cityError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Enter City
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
                     <View style={{ flex: 0.45 }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.inputLabel}>Pin Code</Text>
-                        <Text style={{ color: 'red' }}>*</Text>
-                      </View>
-                      <TextInput
-                        style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
-                        placeholderTextColor="black"
-                        maxLength={6}
-                        keyboardType="number-pad"
-                        onChangeText={(text) => setpincode(text)}
-                        value={pincode}
-                      />
+                      <FormControl isRequired isInvalid={pinError}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={styles.inputLabel}>Pin Code</Text>
+                          <Text style={{ color: 'red' }}>*</Text>
+                        </View>
+                        <TextInput
+                          style={[styles.textInput, { backgroundColor: '#E8F0FE' }]}
+                          placeholderTextColor="black"
+                          maxLength={6}
+                          keyboardType="number-pad"
+                          onChangeText={(text) => setpincode(text)}
+                          value={pincode}
+                        />
+                        {pinError && (
+                          <FormControl.ErrorMessage
+                            alignItems="center"
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                          >
+                            Please Enter Pin Code
+                          </FormControl.ErrorMessage>
+                        )}
+                      </FormControl>
                     </View>
                   </View>
                 </View>
@@ -639,7 +743,7 @@ export default function PatientRegistration() {
                   style={[
                     styles.label,
                     { width: '85%' },
-                    showOtherInfo ? { color: '#2B8ADA' } : null,
+                    showOtherInfo ? { color: '#2B8ADA' } : theme.colors.text.primary,
                   ]}
                 >
                   Other Details (Optional)
@@ -694,6 +798,7 @@ export default function PatientRegistration() {
                           fontWeight: 'bold',
                         }}
                         badgeStyles={{ backgroundColor: '#2b8ada' }}
+                        inputStyles={{ color: theme.colors.text.primary }}
                       />
                     </View>
                     <View style={{ flex: 0.45 }}>
@@ -743,23 +848,33 @@ export default function PatientRegistration() {
           )}
 
           {/* Accept Privacy Policy */}
-          <HStack space={2} py={4} ml={2} alignSelf="center">
-            <Checkbox
-              value="agree"
-              accessibilityLabel="I Agree to Privacy Policy"
-              isChecked={checkTerms}
-              onChange={() => setCheckTerms((prev) => !prev)}
-              _checked={{ bg: '#2b8ada', borderColor: '#2b8ada' }}
-              _text={{ color: 'text.primary', fontWeight: 500 }}
-              bg="#e8f0fe"
-            />
-            <Text fontSize={12} fontWeight={600} color="#636464">
-              I Agree to{' '}
-              <Text style={[styles.textLink]} onPress={() => setTermsView(true)}>
-                Privacy Policy
+          <FormControl isRequired isInvalid={termsError}>
+            <HStack space={2} py={4} ml={2} alignSelf="center">
+              <Checkbox
+                value="agree"
+                accessibilityLabel="I Agree to Privacy Policy"
+                isChecked={checkTerms}
+                onChange={() => setCheckTerms((prev) => !prev)}
+                _checked={{ bg: '#2b8ada', borderColor: '#2b8ada' }}
+                _text={{ color: 'text.primary', fontWeight: 500 }}
+                bg="#e8f0fe"
+              />
+              <Text fontSize={12} fontWeight={600} color= '#000000' >
+                I Agree to{' '}
+                <Text style={[styles.textLink]} onPress={() => setTermsView(true)}>
+                  Privacy Policy
+                </Text>
               </Text>
-            </Text>
-          </HStack>
+            </HStack>
+            {termsError && (
+              <FormControl.ErrorMessage
+                alignItems="center"
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                Please Agree to Privacy Policy
+              </FormControl.ErrorMessage>
+            )}
+          </FormControl>
 
           {/* Buttons */}
           <View
