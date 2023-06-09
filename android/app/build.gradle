@@ -94,9 +94,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.trusthealui"
+    namespace "com.trusthealapp"
     defaultConfig {
-        applicationId "com.trusthealui"
+        applicationId "com.trusthealapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 6

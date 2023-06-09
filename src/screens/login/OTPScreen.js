@@ -23,6 +23,7 @@ import apiConfig from '../../components/API/apiConfig';
 import waiting from '../../../assets/animations/waiting1.gif';
 import logo from '../../../assets/TH_trans1.png';
 import OTPModal from './OTPModal';
+import theme from '../../styles/theme';
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreLogs(["EventEmitter.removeListener('appStateDidChange', ...) ..."]);
@@ -70,8 +71,7 @@ export default function OTPScreen() {
         if (response.status === 200) {
           setModalVisible(true);
           setShow(true);
-          // TODO: fix
-          // setResend(true);
+          setResend(true);
         }
       })
       .catch((error) => {
@@ -131,7 +131,9 @@ export default function OTPScreen() {
                   backgroundColor: 'white',
                   width: '80%',
                   fontSize: 15,
+                  color: theme.colors.text.primary,
                 }}
+                placeholderTextColor={theme.colors.text.primary}
                 onChangeText={(text) => setMob(text)}
                 value={mob}
                 keyboardType="number-pad"
