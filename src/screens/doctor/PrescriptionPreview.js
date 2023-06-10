@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
-  PermissionsAndroid,
   ScrollView,
   Alert,
   View,
@@ -213,7 +212,7 @@ function PrescriptionPreview({ navigation }) {
     loadData();
   }, []);
 
-  const requestFilePermission = async () => {
+  /* const requestFilePermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
@@ -233,7 +232,7 @@ function PrescriptionPreview({ navigation }) {
     } catch (err) {
       console.warn(err);
     }
-  };
+  }; */
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -448,6 +447,46 @@ th{
 </html>`;
 
   useEffect(() => {
+    // pdf  generator
+    const stackOverflowPDF = async () => {
+      setisLoading(true);
+      const options = {
+        html,
+        fileName: `${patientNumber}_prescription_${dayjs().format('YYYYMMDDHHmmss')}`,
+        directory: 'docs',
+      };
+
+      const file = await RNHTMLtoPDF.convert(options);
+      const destinationPath = RNFS.CachesDirectoryPath;
+      console.log('\n\n++++++   DEstination Path   ++++\n', destinationPath);
+      const FileName = file.filePath.split('/').pop();
+      file.name = FileName;
+      const destinationFile = `${destinationPath}/${FileName}`;
+      // file.uri = destinationFile;
+      file.uri = `file://${destinationFile}`;
+
+      await RNFS.copyFile(file.filePath, destinationFile)
+        .then(() =>
+          // Delete a file on the project path using RNFS.unlink
+          RNFS.unlink(file.filePath)
+            .then(() => {
+              console.log('FILE DELETED');
+            })
+            // `unlink` will throw an error, if the item to unlink does not exist
+            .catch((err) => {
+              console.log(err.message);
+            })
+        )
+        .catch((err) => {
+          console.log('err', err);
+        });
+      console.log('\n\n=============== FILE CREATED ======================\n\n', file);
+      setfilePdf(file);
+      setshowPdf(true);
+      setisLoading(false);
+      Alert.alert('Done', 'Prescription file has been created!');
+    };
+
     if (
       cheifComplaints != null &&
       Diagnosis != null &&
@@ -457,8 +496,7 @@ th{
       doctorName != null &&
       doctorEducationDisp != null
     ) {
-      // stackOverflowPDF();
-      if (Platform.OS === 'android') requestFilePermission();
+      stackOverflowPDF();
     }
   }, [
     cheifComplaints,
@@ -468,47 +506,9 @@ th{
     FollowUpDate,
     doctorName,
     doctorEducationDisp,
+    html,
+    patientNumber,
   ]);
-
-  // pdf  generator
-  let stackOverflowPDF = async () => {
-    setisLoading(true);
-    const options = {
-      html,
-      fileName: `${patientNumber}_prescription_${dayjs().format('YYYYMMDDHHmmss')}`,
-      directory: 'docs',
-    };
-
-    const file = await RNHTMLtoPDF.convert(options);
-    const destinationPath = RNFS.CachesDirectoryPath;
-    console.log('\n\n++++++   DEstination Path   ++++\n', destinationPath);
-    const FileName = file.filePath.split('/').pop();
-    file.name = FileName;
-    const destinationFile = `${destinationPath}/${FileName}`;
-    // file.uri = destinationFile;
-    file.uri = `file://${destinationFile}`;
-
-    await RNFS.copyFile(file.filePath, destinationFile)
-      .then(() =>
-        // Delete a file on the project path using RNFS.unlink
-        RNFS.unlink(file.filePath)
-          .then(() => {
-            console.log('FILE DELETED');
-          })
-          // `unlink` will throw an error, if the item to unlink does not exist
-          .catch((err) => {
-            console.log(err.message);
-          })
-      )
-      .catch((err) => {
-        console.log('err', err);
-      });
-    console.log('\n\n=============== FILE CREATED ======================\n\n', file);
-    setfilePdf(file);
-    setshowPdf(true);
-    setisLoading(false);
-    Alert.alert('Done', 'Prescription file has been created!');
-  };
 
   const uploadPres = async () => {
     try {
