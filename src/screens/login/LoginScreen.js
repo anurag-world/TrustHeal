@@ -22,6 +22,7 @@ import {
   PermissionsAndroid,
   Platform,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -133,8 +134,7 @@ export default function LoginScreen() {
         setIsLoading(false);
         if (response.status === 200) {
           setModalVisible(true);
-          // TODO: fix
-          // setResend(true);
+          setResend(true);
         }
       })
       .catch((err) => {
@@ -173,7 +173,7 @@ export default function LoginScreen() {
     <Pressable flex="1" onPress={Keyboard.dismiss}>
       <SafeAreaView style={{ flex: 1 }}>
         {/* <ForegroundHandler /> */}
-        <Center flex="1" bg="primary.default" p={4}>
+        <Center bg="primary.default" p={4}>
           <Box
             w="full"
             h="full"
@@ -271,7 +271,6 @@ export default function LoginScreen() {
                   </FormControl.ErrorMessage>
                 )}
               </FormControl>
-
               {/* Login action button */}
               <Button
                 onPress={() => onContinuePressed()}
